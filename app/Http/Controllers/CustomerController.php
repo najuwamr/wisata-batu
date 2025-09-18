@@ -9,6 +9,7 @@ use Zxing\QrReader;
 
 class CustomerController extends Controller
 {
+    // Data Customer, 
     public function create()
     {
         return view('admin.create-customer');
