@@ -4,13 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class TransactionDetail extends Model
 {
     use HasFactory;
 
     protected $table = 'transaction_detail';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = ['transaction_id','ticket_id', 'quantity', 'price', 'subtotal'];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 
     public function ticket()
     {

@@ -45,7 +45,7 @@
                     <div class="w-full h-1/2 flex justify-around">
 
                         <div
-                            class="absolute top-1/2 transform translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-selecta-blue">
+                            class="absolute top-1/2 transform translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-blue-700">
                         </div>
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" alt="Selecta tahun 1930-an"
                             class="shadow-xl rounded-md">

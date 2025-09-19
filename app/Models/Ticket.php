@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Testing\Fluent\Concerns\Has;
+use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
     use HasFactory;
 
     protected $table = 'ticket';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'name',
@@ -23,5 +25,14 @@ class Ticket extends Model
     public function transactionDetails()
     {
         return $this->hasMany(TransactionDetail::class, 'ticket_id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
     }
 }

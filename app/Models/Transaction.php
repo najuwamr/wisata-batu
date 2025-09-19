@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Transaction extends Model
 {
     use HasFactory;
 
     protected $table = 'transaction';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'code',
         'midtrans_order_id',
@@ -19,6 +23,15 @@ class Transaction extends Model
         'status_transaction_id',
         'total_price',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 
     public function customer()
     {
