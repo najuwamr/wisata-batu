@@ -9,7 +9,7 @@ use Zxing\QrReader;
 
 class CustomerController extends Controller
 {
-    // Data Customer, 
+    // Membuat data customer, generate QR code (sisi admin)
     public function create()
     {
         return view('admin.create-customer');

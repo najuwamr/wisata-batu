@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class StatusTransaction extends Model
 {
     use HasFactory;
 
-    protected $table = 'customers';
-    protected $fillable = ['name', 'email', 'telephone'];
+    protected $table = 'status_transaction';
+    protected $fillable = ['name'];
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'customer_id');
+        return $this->hasMany(Transaction::class, 'status_transaction_id');
     }
 }
-

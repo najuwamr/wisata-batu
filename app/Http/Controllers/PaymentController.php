@@ -7,10 +7,11 @@ use midtrans\CoreApi;
 
 class PaymentController extends Controller
 {
+    // Mengatur konfigurasi Midtrans
     public function charge(Request $request)
     {
         $orderId = uniqid();
-        $grossAmount = 100000; 
+        $grossAmount = 100000;
 
         $customer = [
             'first_name' => 'Budi',

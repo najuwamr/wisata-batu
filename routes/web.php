@@ -1,29 +1,42 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\QRController;
+use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.dashboard');
 });
 
-// middleware
-
+// ----- GUEST -----
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {
     Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
     Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
     Route::get('/{id}/qr', [CustomerController::class, 'showQr'])->name('customer.qr');
-    Route::view('/scan', 'admin.scan')->name('customer.scan.page');
-    Route::post('/decode-scan', [CustomerController::class, 'decode'])->name('customer.decode.scan');
-    Route::post('/decode-from-image', [CustomerController::class, 'decodeFromImage'])->name('customer.decode.from.image');
+});
+// ----- PAYMENT -----
+Route::prefix('pembayaran')->group(function () {
+
 });
 
+
+
+// ----- ADMIN -----
+Route::prefix('admin')->group(function () {
+    // ----- CRUD TIKET & PROMO -----
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/tiket', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
+    Route::get('/promo', [TiketController::class, 'get_Promo'])->name('admin.get.promo');
+
+});
 // ----- SCAN QR CODE -----
 Route::prefix('scan')->group(function () {
-    Route::get('/', [CustomerController::class, 'scanIndex'])->name('scan.index');
-    Route::post('/decode', [CustomerController::class, 'decode'])->name('scan.decode');
+    Route::get('/', [QRController::class, 'index'])->name('scan.index');
+    Route::post('/decode', [QRController::class, 'decode'])->name('scan.decode');
+    Route::post('/decode-from-image', [QRController::class, 'decodeFromImage'])->name('scan.decode.from.image');
 });
 
 // ----- LAPORAN -----

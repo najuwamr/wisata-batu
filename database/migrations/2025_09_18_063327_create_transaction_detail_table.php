@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket', function (Blueprint $table) {
+        Schema::create('transaction_detail', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->foreignId('transaction_id')->nullable()->constrained('transaction')->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained('ticket')->onDelete('cascade');
+            $table->integer('quantity');
             $table->integer('price');
-            $table->string('image')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket');
+        Schema::dropIfExists('transaction_detail');
     }
 };
