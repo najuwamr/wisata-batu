@@ -4,7 +4,7 @@
         <div class="flex items-center space-x-8">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <img src="{{ asset('assets/customer/selecta-logo.png') }}" alt="Selecta Logo" class="h-12">
+                <img src="{{ asset('assets/customer/selecta-logo1.png') }}" alt="Selecta Logo" class="h-12">
             </div>
 
             <!-- Menu -->
