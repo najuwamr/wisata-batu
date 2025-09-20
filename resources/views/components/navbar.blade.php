@@ -1,4 +1,4 @@
-<nav class="fixed z-[9999] bg-white shadow-md w-full">
+<nav class="fixed z-[9999] bg-white shadow-xl w-full">
     <div class="flex items-center justify-between px-6 py-3">
         <!-- Kiri: Logo + Menu -->
         <div class="flex items-center space-x-8">
