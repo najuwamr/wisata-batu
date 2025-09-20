@@ -21,7 +21,7 @@
     {{-- =================== HERO VIDEO =================== --}}
     <section class="relative w-full h-screen overflow-hidden">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4">
+            <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4" loading="lazy">
             Browser Anda tidak mendukung video.
         </video>
 
@@ -57,13 +57,13 @@
                 <h1 class="text-2xl md:text-3xl font-light text-gray-800">since 1930</h1>
             </div>
 
-            <div class="relative max-w-5xl mx-auto">
+            <div class="relative h-full max-w-5xl mx-auto">
                 {{-- Garis timeline --}}
-                <div class="absolute left-6 top-0 bottom-0 w-1 bg-selecta-blue"></div>
-
+                <div class="absolute -left-8 top-0 bottom-0 w-1 bg-blue-600"></div>
 
                 {{-- Item Timeline --}}
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
+                    <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
                             alt="Selecta tahun 1930-an">
@@ -80,6 +80,7 @@
                     </div>
                 </div>
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
+                    <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
                             alt="Selecta tahun 1930-an">
@@ -95,6 +96,7 @@
                     </div>
                 </div>
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
+                    <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
                             alt="Selecta tahun 1930-an">
@@ -110,6 +112,7 @@
                     </div>
                 </div>
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
+                    <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
                             alt="Selecta tahun 1930-an">
@@ -125,6 +128,7 @@
                     </div>
                 </div>
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
+                    <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
                             alt="Selecta tahun 1930-an">
@@ -139,8 +143,6 @@
                         </p>
                     </div>
                 </div>
-
-
 
                 {{-- Tambahkan item timeline berikutnya --}}
 
@@ -150,7 +152,7 @@
 
     {{-- =================== PETA SELECTA =================== --}}
     <section class="w-full min-h-[600px]">
-        <img src="{{ asset('assets/customer/peta-selecta.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover">
+        <img src="{{ asset('assets/customer/peta-selecta.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover" loading="lazy">
     </section>
 
     {{-- =================== GOOGLE REVIEW =================== --}}

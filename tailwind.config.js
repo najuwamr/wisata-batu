@@ -8,7 +8,10 @@ export default {
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
-        sofia: ["Sofia Sans", "sans-serif"], // <- pakai nama sesuai Google Fonts
+        sofia: ["Sofia Sans", "sans-serif"],
+      },
+      colors: {
+        'selecta-blue': '#373C90',
       },
     },
   },
