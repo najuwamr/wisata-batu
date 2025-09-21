@@ -34,7 +34,7 @@
                 <span class="text-[#6ECCFF] font-light text-8xl">Picnic</span>
             </h1>
 
-            <p class="text-white/70 font-light text-left text-[0.9rem] w-1/3">Selamat datang di Taman Rekreasi dengan
+            <p class="text-white font-reguler text-left text-[0.9rem] w-full md:w-1/2">Selamat datang di Taman Rekreasi dengan
                 perpaduan pemandangan alam terindah nomer 1 di Kota Batu. Tempat paling nyaman untuk keluarga melihat
                 bunga-bunga indah dengan suasana dingin di lembah Gunung Panderman</p>
 
@@ -63,7 +63,7 @@
 
             <div class="relative h-full max-w-5xl mx-auto">
                 {{-- Garis timeline --}}
-                <div class="sejarah absolute -left-8 top-0 bottom-0 w-1 bg-blue-600"></div>
+                <div class="absolute -left-8 top-0 bottom-0 w-1 bg-blue-800"></div>
 
                 {{-- Item Timeline --}}
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </div>
-        </section> {{-- END TIMELINE --}}
+    </section> {{-- END TIMELINE --}}
 
     {{-- =================== PETA SELECTA =================== --}}
     <section class="w-full min-h-[600px]">
@@ -149,8 +149,76 @@
     </section>
 
     {{-- =================== SECTION TERAKHIR =================== --}}
-    <section class="bg-black h-[1000px]">
+    <section class="bg-white py-20 w-full flex items-center h-[700px]">
+        <div class="container mx-auto px-4">
+            <h1 class="text-center font-semibold text-3xl md:text-5xl">Mitra Kami</h1>
+
+            <div class="marquee-container overflow-hidden relative w-full mt-20">
+                <div class="flex whitespace-nowrap animate-marquee">
+                    <!-- Daftar logo asli -->
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PHRI.png')}}" alt="Logo PHRI"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-Pemkot.svg')}}" alt="Logo Pemkot"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PesonaInd.png')}}"
+                            alt="Logo Pesona Indonesia" class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-hotelselecta.webp')}}" alt="Logo Hotel Selecta"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PHRI.png')}}" alt="Logo Partner 5"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-Pemkot.svg')}}" alt="Logo Partner 6"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+
+                    <!-- Duplikat daftar logo untuk efek seamless -->
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PHRI.png')}}" alt="Logo PHRI"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-Pemkot.svg')}}" alt="Logo Pemkot"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PesonaInd.png')}}"
+                            alt="Logo Pesona Indonesia" class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-hotelselecta.webp')}}" alt="Logo Hotel Selecta"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PHRI.png')}}" alt="Logo Partner 5"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-Pemkot.svg')}}" alt="Logo Partner 6"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-PHRI.png')}}" alt="Logo Partner 5"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                    <div class="logo-item mx-8">
+                        <img src="{{asset('assets/customer/Logo-Pemkot.svg')}}" alt="Logo Partner 6"
+                            class="h-16 md:h-20 object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+
 
 
 
