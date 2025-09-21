@@ -27,6 +27,11 @@ class Ticket extends Model
         return $this->hasMany(TransactionDetail::class, 'ticket_id');
     }
 
+    public function getShortNameAttribute()
+    {
+        return str_replace('Tiket ', '', $this->name);
+    }
+
     protected static function booted()
     {
         static::creating(function ($model) {

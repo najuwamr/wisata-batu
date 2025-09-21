@@ -7,15 +7,19 @@
     <link rel="icon" type="image/png" href="{{ asset('img/reponik-icon.png') }}">
     <title>Selecta @yield('title')</title>
     @vite('resources/css/app.css')
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('assets/customer/selecta-logo1.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="flex">
-        @include('sidebar')
-        <div class="flex-1 p-6 min-h-screen">
+        @include('components.sidebar')
+        <main class="flex-1 min-h-screen ml-64 p-6">
             @yield('content')
-        </div>
+        </main>
     </div>
 </body>
 </html>

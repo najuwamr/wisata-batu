@@ -61,14 +61,14 @@
 
             <div class="relative h-full max-w-5xl mx-auto">
                 {{-- Garis timeline --}}
-                <div class="absolute -left-8 top-0 bottom-0 w-1 bg-blue-600"></div>
+                <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[#373C90]"></div>
 
                 {{-- Item Timeline --}}
                 <div class="sejarah flex flex-col md:flex-row items-center gap-8 mb-10">
                     <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
-                            alt="Selecta tahun 1930-an">
+                            alt="Selecta tahun 1930-an" loading="lazy">
                     </div>
                     <div class="w-full md:w-3/5">
 
@@ -85,7 +85,7 @@
                     <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
-                            alt="Selecta tahun 1930-an">
+                            alt="Selecta tahun 1930-an" loading="lazy">
                     </div>
                     <div class="w-full md:w-3/5">
                         <p class="text-gray-700 leading-relaxed">
@@ -100,7 +100,7 @@
                     <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
-                            alt="Selecta tahun 1930-an">
+                            alt="Selecta tahun 1930-an" loading="lazy">
                     </div>
                     <div class="w-full md:w-3/5">
                         <p class="text-gray-700 leading-relaxed">
@@ -114,7 +114,7 @@
                     <div class="absolute -left-7.5 -translate-x-1/2 w-4 h-4 bg-blue-900 shadow-lg"></div>
                     <div class="w-full md:w-2/5">
                         <img src="{{ asset('assets/customer/Selecta1930.jpg') }}" class="rounded-md w-full shadow-lg"
-                            alt="Selecta tahun 1930-an">
+                            alt="Selecta tahun 1930-an" loading="lazy">
                     </div>
                     <div class="w-full md:w-3/5">
                         <p class="text-gray-700 leading-relaxed">
@@ -130,8 +130,7 @@
 
     {{-- =================== PETA SELECTA =================== --}}
     <section class="w-full min-h-[600px]">
-        <img src="{{ asset('assets/customer/peta-selecta.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover" loading="lazy">
-        <img src="{{ asset('assets/customer/peta-selecta1.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover">
+        <img src="{{ asset('assets/customer/peta-selecta1.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover" loading=lazy>
     </section>
 
     {{-- =================== GOOGLE REVIEW =================== --}}

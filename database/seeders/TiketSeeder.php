@@ -1,0 +1,61 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class TiketSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $tickets = [
+            [
+                'id' => Str::uuid(),
+                'name' => 'Tiket Reguler',
+                'description' => 'Tiket masuk reguler untuk pengunjung.',
+                'price' => 25000,
+                'image' => null,
+                'is_active' => true,
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Tiket Paket Wahana',
+                'description' => 'Tiket paket termasuk beberapa wahana.',
+                'price' => 50000,
+                'image' => null,
+                'is_active' => true,
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Mobil',
+                'description' => 'Tiket parkir untuk mobil.',
+                'price' => 10000,
+                'image' => null,
+                'is_active' => true,
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Motor',
+                'description' => 'Tiket parkir untuk motor.',
+                'price' => 5000,
+                'image' => null,
+                'is_active' => true,
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Bus',
+                'description' => 'Tiket parkir untuk bus.',
+                'price' => 20000,
+                'image' => null,
+                'is_active' => true,
+            ],
+        ];
+
+        DB::table('ticket')->insert($tickets);
+    }
+}

@@ -1,16 +1,29 @@
-<aside class="w-64 bg-white text-black rounded-3xl shadow-lg  relative">
+<button id="menu-toggle"
+    class="md:hidden fixed top-4 left-4 z-50 p-2 text-black rounded-sm bg-gray-100">
+    <svg xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+</button>
+
+<aside id="sidebar"
+    class="fixed top-0 left-0 h-screen w-64 bg-white text-black shadow-lg
+           transform -translate-x-full transition-transform duration-300 ease-in-out
+           md:translate-x-0 md:rounded-r-3xl z-40 overflow-y-auto">
     <div class="p-6">
-        <img src="{{ asset('assets/customer/selecta-logo.png') }}" alt="Logo Selecta" class="mx-auto mb-6 w-32 h-auto">
+        <img src="{{ asset('assets/customer/selecta-logo.png') }}" alt="Logo Selecta" class="mx-auto mb-6 w-32 h-auto" loading="lazy">
         <nav>
             <ul class="space-y-4 text-lg">
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
+                <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
                     <a href="#"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.557 2.75H4.682A1.932 1.932 0 0 0 2.75 4.682v3.875a1.942 1.942 0 0 0 1.932 1.942h3.875a1.942 1.942 0 0 0 1.942-1.942V4.682A1.942 1.942 0 0 0 8.557 2.75m10.761 0h-3.875a1.942 1.942 0 0 0-1.942 1.932v3.875a1.943 1.943 0 0 0 1.942 1.942h3.875a1.942 1.942 0 0 0 1.932-1.942V4.682a1.932 1.932 0 0 0-1.932-1.932m0 10.75h-3.875a1.942 1.942 0 0 0-1.942 1.933v3.875a1.942 1.942 0 0 0 1.942 1.942h3.875a1.942 1.942 0 0 0 1.932-1.942v-3.875a1.932 1.932 0 0 0-1.932-1.932M8.557 13.5H4.682a1.943 1.943 0 0 0-1.932 1.943v3.875a1.932 1.932 0 0 0 1.932 1.932h3.875a1.942 1.942 0 0 0 1.942-1.932v-3.875a1.942 1.942 0 0 0-1.942-1.942"/></svg>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
+
+                <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
                     <a href="#"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -23,7 +36,8 @@
                         <span>Tiket & Promo</span>
                     </a>
                 </li>
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
+
+                <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
                     <a href="#"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -32,7 +46,8 @@
                         <span>Informasi</span>
                     </a>
                 </li>
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
+
+                <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
                     <a href="#"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
@@ -41,16 +56,39 @@
                         <span>Laporan</span>
                     </a>
                 </li>
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
-                    <a href="#"
-                        class="flex items-center space-x-3 font-semibold">
+
+                <li class="border-b border-gray-600 pb-4">
+                    <button onclick="toggleDropdown('resto-menu')"
+                        class="flex items-center space-x-3 font-semibold w-full hover:text-blue-700">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M7.5 21.5v-9.035q-1.16-.177-1.964-1.063q-.805-.887-.805-2.171V2.5h1v6.73H7.5V2.5h1v6.73h1.77V2.5h1v6.73q0 1.285-.806 2.172T8.5 12.465V21.5h-1Zm9.23 0v-8h-2.46V7q0-1.671.943-2.96t2.518-1.502V21.5h-1Z"/>
+                            <path fill="currentColor"
+                                d="M7.5 21.5v-9.035q-1.16-.177-1.964-1.063q-.805-.887-.805-2.171V2.5h1v6.73H7.5V2.5h1v6.73h1.77V2.5h1v6.73q0 1.285-.806 2.172T8.5 12.465V21.5h-1Zm9.23 0v-8h-2.46V7q0-1.671.943-2.96t2.518-1.502V21.5h-1Z" />
                         </svg>
                         <span>Restoran</span>
-                    </a>
+                        <svg class="ml-auto w-4 h-4 transition-transform duration-300" id="icon-resto-menu"
+                            xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <ul id="resto-menu" class="hidden ml-6 mt-2 space-y-2">
+                        <li><a href="#asri" class="block hover:text-blue-700">Restoran Asri</a></li>
+                        <li><a href="#bahagia" class="block hover:text-blue-700">Restoran Bahagia</a></li>
+                        <li><a href="#cantik" class="block hover:text-blue-700">Restoran Cantik</a></li>
+                    </ul>
                 </li>
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
+                {{-- SCRIPT RESTO --}}
+                <script>
+                    function toggleDropdown(id) {
+                        const menu = document.getElementById(id);
+                        const icon = document.getElementById("icon-" + id);
+                        menu.classList.toggle("hidden");
+                        icon.classList.toggle("rotate-180");
+                    }
+                </script>
+
+                <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
                     <a href="#"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -59,7 +97,8 @@
                         <span>Selecta 360</span>
                     </a>
                 </li>
-                <li class="border-b border-gray-600 pb-4 hover:text-blue-400">
+
+                <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
                     <a href="#"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
@@ -72,3 +111,11 @@
         </nav>
     </div>
 </aside>
+<script>
+    const toggleBtn = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+    });
+</script>

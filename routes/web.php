@@ -2,15 +2,13 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('customer.landing');
-});
-Route::get('/admin', function () {
-    return view('admin.dashboard');
 });
 
 // ----- GUEST -----
@@ -28,21 +26,25 @@ Route::prefix('pembayaran')->group(function () {
 
 
 // ----- ADMIN -----
-// Route::prefix('admin')->group(function () {
-//     // ----- CRUD TIKET & PROMO -----
-//     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-//     Route::get('/tiket', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
-//     Route::get('/promo', [TiketController::class, 'get_Promo'])->name('admin.get.promo');
+Route::prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    // ----- CRUD TIKET & PROMO -----
+    Route::get('/tiket-promo', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
+    Route::get('/tiket-promo', [PromoController::class, 'get_Promo'])->name('admin.get.promo');
+    // ----- CRUD INFORMASI -----
 
-// });
+    // ----- CRUD LAPORAN -----
+
+    // ----- CRUD RESTORAN -----
+
+    // ----- CRUD SELECTA 360 -----
+
+    // ----- SCAN QR CODE -----
+    Route::prefix('scan')->group(function () {
+        Route::get('/', [QRController::class, 'index'])->name('scan.index');
+        Route::post('/decode', [QRController::class, 'decode'])->name('scan.decode');
+        Route::post('/decode-from-image', [QRController::class, 'decodeFromImage'])->name('scan.decode.from.image');
+    });
+});
 // ----- SCAN QR CODE -----
-Route::prefix('scan')->group(function () {
-    Route::get('/', [QRController::class, 'index'])->name('scan.index');
-    Route::post('/decode', [QRController::class, 'decode'])->name('scan.decode');
-    Route::post('/decode-from-image', [QRController::class, 'decodeFromImage'])->name('scan.decode.from.image');
-});
 
-// ----- LAPORAN -----
-Route::prefix('laporan')->group(function () {
-
-});
