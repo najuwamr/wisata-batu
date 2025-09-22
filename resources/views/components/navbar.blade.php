@@ -8,8 +8,8 @@
             </div>
 
             <!-- Menu -->
-            <ul class="hidden lg:flex items-center space-x-6 font-poppins font-medium text-[#373C90]">
-                <li><a href="/" class="hover:text-blue-700">Tiket & Promo</a></li>
+            <ul class="hidden lg:flex items-center space-x-6 font-poppins font-medium text-blue-700">
+                <li><a href="/" class="text-[#ED3500] hover:text-blue-700">Tiket & Promo</a></li>
                 <li><a href="/" class="hover:text-blue-700">Hotel</a></li>
                 <li><a href="/" class="hover:text-blue-700">Restoran</a></li>
                 <li><a href="/" class="hover:text-blue-700">Informasi</a></li>
