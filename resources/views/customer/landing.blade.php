@@ -133,7 +133,6 @@
     {{-- =================== PETA SELECTA =================== --}}
     <section class="w-full min-h-[600px]">
         <img src="{{ asset('assets/customer/peta-selecta1.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover" loading=lazy>
-        <img src="{{ asset('assets/customer/peta-selecta1.jpg') }}" alt="Peta Selecta" class="w-full h-full object-cover">
     </section>
 
     {{-- =================== GOOGLE REVIEW =================== --}}

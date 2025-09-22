@@ -17,9 +17,9 @@
 <body>
     <div class="flex">
         @include('components.sidebar')
-        <main class="flex-1 min-h-screen ml-64 p-6">
+        <div class="flex-1 min-h-screen p-6">
             @yield('content')
-        </main>
+        </div>
     </div>
 </body>
 </html>
