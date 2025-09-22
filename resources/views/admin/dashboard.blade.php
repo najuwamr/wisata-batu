@@ -3,8 +3,9 @@
 @section('title', '| Dashboard')
 
 @section('content')
+<div class="md:ml-64">
     <div class="sticky top-0 bg-white">
-        <h1 class="pt-10 text-3xl font-bold mb-2">
+        <h1 class="pt-10 ml-2 text-3xl font-bold mb-2">
             {{ now()->translatedFormat('l, d F Y') }}
         </h1>
 
@@ -21,13 +22,13 @@
             }
         @endphp
 
-        <p class="underline">Selamat {{ $greeting }} admin Selecta!</p>
+        <p class="underline ml-2">Selamat {{ $greeting }} admin Selecta!</p>
         <div class="w-full h-2 rounded-lg bg-gray-200 my-4"></div>
     </div>
 
     <h1 class="text-3xl font-bold mb-6">Transaksi Tiket Hari ini</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-20">
         @foreach ($jenisTiket as $ticket)
             @php
                 $bgColors = [
@@ -60,50 +61,32 @@
 
         const tiketChart = new Chart(ctx, {
             type: 'bar',
-            data: {
-                labels: [
-                    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
-                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
-                ],
-                datasets: [
+                data: {
+                        labels: @json($labels),
+                        datasets: [
                     {
-                        label: 'Tiket Reguler',
-                        data: [120, 150, 180, 200, 250, 300, 280, 260, 230, 210, 190, 170], 
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // biru
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
+                        label: 'Paket Wahana',
+                        data: @json($paket),
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
                     },
                     {
-                        label: 'Tiket Paket Wahana',
-                        data: [80, 90, 100, 120, 160, 180, 170, 150, 140, 130, 120, 110], 
-                        backgroundColor: 'rgba(255, 99, 132, 0.7)', // merah
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
+                        label: 'Tiket Reguler',
+                        data: @json($reguler),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
                     }
                 ]
             },
             options: {
                 responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                },
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 50
-                        },
-                        title: {
-                            display: true,
-                            text: 'Jumlah Tiket'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Bulan'
-                        }
-                    }
+                    x: { title: { display: true, text: 'Bulan' } },
+                    y: { title: { display: true, text: 'Jumlah Tiket Terjual' }, beginAtZero: true }
                 }
             }
         });
-        </script>
-    
+    </script>
+</div>
 @endsection

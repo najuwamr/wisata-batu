@@ -15,9 +15,4 @@ class TiketController extends Controller
             'tickets' => $data
         ]);
     }
-
-    public function get_Promo()
-    {
-        return view('admin.tiket-and-promo');
-    }
 }
