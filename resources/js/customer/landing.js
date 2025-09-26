@@ -18,3 +18,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+  document.addEventListener("DOMContentLoaded", function() {
+        const revealElements = document.querySelectorAll(".reveal-on-scroll, .reveal-item");
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    // Opsional: Hentikan pengamatan setelah elemen terlihat
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1 // Elemen dianggap terlihat jika 10% areanya masuk viewport
+        });
+
+        revealElements.forEach(element => {
+            observer.observe(element);
+        });
+    });
+
+
+
