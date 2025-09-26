@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code')->unique();
+            $table->dateTime('tanggal_kedatangan');
             $table->string('midtrans_order_id');
             $table->string('midtrans_tr_id')->nullable();
             $table->integer('total_price');

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\TiketController;
@@ -29,22 +30,22 @@ Route::prefix('pembayaran')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     // ----- CRUD TIKET & PROMO -----
-    Route::get('/tiket-promo', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
-    Route::get('/tiket-promo', [PromoController::class, 'get_Promo'])->name('admin.get.promo');
+    Route::get('/tiket-promo/tiket', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
+    Route::get('/tiket-promo/promo', [PromoController::class, 'get_Promo'])->name('admin.get.promo');
     // ----- CRUD INFORMASI -----
 
     // ----- CRUD LAPORAN -----
-
+    Route::get('/laporan', [LaporanController::class, 'klik_laporan'])->name('admin.laporan');
     // ----- CRUD RESTORAN -----
 
     // ----- CRUD SELECTA 360 -----
 
-    // ----- SCAN QR CODE -----
-    Route::prefix('scan')->group(function () {
-        Route::get('/', [QRController::class, 'index'])->name('scan.index');
-        Route::post('/decode', [QRController::class, 'decode'])->name('scan.decode');
-        Route::post('/decode-from-image', [QRController::class, 'decodeFromImage'])->name('scan.decode.from.image');
-    });
 });
-// ----- SCAN QR CODE -----
 
+Route::prefix('loket')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('loket.dashboard');
+    // ----- SCAN QR CODE -----
+    Route::get('/scan', [QRController::class, 'index'])->name('loket.scan.index');
+    Route::post('/scan/decode', [QRController::class, 'decode'])->name('loket.scan.decode');
+    // ----- CRUD LAPORAN -----
+});

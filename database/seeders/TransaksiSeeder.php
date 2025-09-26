@@ -41,7 +41,6 @@ class TransaksiSeeder extends Seeder
             Customer::create($cust);
         }
 
-        // Ambil id payment methode dan status transaction pertama
         $paymentMethodeId = DB::table('payment_methode')->first()->id ?? 1;
         $statusTransactionId = DB::table('status_transaction')->first()->id ?? 1;
         $ticket = DB::table('ticket')->first();
@@ -51,14 +50,14 @@ class TransaksiSeeder extends Seeder
             return;
         }
 
-        // Buat transaksi untuk setiap customer
         foreach (Customer::all() as $customer) {
             $transaction = Transaction::create([
                 'id' => Str::uuid(),
                 'code' => 'TRX-' . strtoupper(Str::random(6)),
+                'tanggal_kedatangan' => now()->addDays(rand(1, 30)),
                 'midtrans_order_id' => 'ORDER-' . strtoupper(Str::random(8)),
                 'midtrans_tr_id' => null,
-                'total_price' => $ticket->price * 2, // contoh beli 2 tiket
+                'total_price' => $ticket->price * 2,
                 'customer_id' => $customer->id,
                 'payment_methode_id' => $paymentMethodeId,
                 'status_transaction_id' => $statusTransactionId,

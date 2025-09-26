@@ -10,9 +10,8 @@ class TiketController extends Controller
     public function get_Tiket()
     {
         $data = Ticket::all();
-        return view('admin.tiket-and-promo)', [
-            'type' => 'tiket',
-            'tickets' => $data
-        ]);
+        $promos = collect(); 
+        $tab = 'tiket'; 
+        return view('admin.tiket-and-promo', compact('data', 'promos', 'tab'));
     }
 }

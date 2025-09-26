@@ -24,7 +24,7 @@
                 </li>
 
                 <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
-                    <a href="{{ route('admin.get.promo') }}"
+                    <a href="{{ route('admin.get.tiket') }}"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <g fill="none">
@@ -48,7 +48,7 @@
                 </li>
 
                 <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
-                    <a href="#"
+                    <a href="{{ route('admin.laporan') }}"
                         class="flex items-center space-x-3 font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M13.5 6.5v6a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h4.01m-.01 0l5 5h-4a1 1 0 0 1-1-1z"/>
