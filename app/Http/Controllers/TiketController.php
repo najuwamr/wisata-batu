@@ -66,14 +66,12 @@ class TiketController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ],
-        [
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
             'name.required' => 'Nama tiket wajib diisi.',
             'price.required' => 'Harga tiket wajib diisi.',
             'price.numeric' => 'Harga tiket harus berupa angka.',
             'price.min' => 'Harga tiket tidak boleh negatif.',
-            'image.required' => 'Gambar tiket wajib diunggah.',
             'image.image' => 'File harus berupa gambar.',
             'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',

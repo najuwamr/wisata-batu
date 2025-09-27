@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/tiket-promo/tiket/{id}/restore', [TiketController::class, 'restore'])->name('admin.tiket.restore');
 
     Route::get('/tiket-promo/promo', [PromoController::class, 'get_Promo'])->name('admin.get.promo');
+    Route::get('/tiket-promo/promo/{id}/edit', [PromoController::class, 'edit_tiket'])->name('admin.edit.promo');
+    Route::put('/tiket-promo/promo/{id}', [PromoController::class, 'update_tiket'])->name('admin.update.promo');
     Route::post('/tiket-promo/promo/{id}/delete', [PromoController::class, 'delete'])->name('admin.promo.delete');
     Route::post('/tiket-promo/promo/{id}/restore', [PromoController::class, 'restore'])->name('admin.promo.restore');
     // ----- CRUD INFORMASI -----
