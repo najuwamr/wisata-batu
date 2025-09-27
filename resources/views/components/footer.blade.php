@@ -1,5 +1,6 @@
 <footer class="bg-[#0B0040] text-white">
     <div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+
         {{-- Kontak --}}
         <div>
             <h2 class="font-semibold text-lg mb-4">Kontak Kami</h2>
@@ -34,11 +35,14 @@
         </div>
 
         {{-- Maps --}}
-        <div>
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.7192835952587!2d112.52364667535596!3d-7.81950899220118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e787e762e0d9487%3A0xb8804cabf1c12b40!2sTaman%20Rekreasi%20Selecta!5e0!3m2!1sid!2sid!4v1758425142803!5m2!1sid!2sid"
-                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="w-full">
+            <div class="w-full h-[300px] md:h-[250px] rounded-lg overflow-hidden shadow-lg">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.7192835952587!2d112.52364667535596!3d-7.81950899220118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e787e762e0d9487%3A0xb8804cabf1c12b40!2sTaman%20Rekreasi%20Selecta!5e0!3m2!1sid!2sid!4v1758425142803!5m2!1sid!2sid"
+                    class="w-full h-full border-0"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
         </div>
     </div>
 

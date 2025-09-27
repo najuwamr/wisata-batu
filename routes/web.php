@@ -31,7 +31,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     // ----- CRUD TIKET & PROMO -----
     Route::get('/tiket-promo/tiket', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
+    Route::get('/tiket-promo/tiket/{id}/edit', [TiketController::class, 'edit_tiket'])->name('admin.edit.tiket');
+    Route::put('/tiket-promo/tiket/{id}', [TiketController::class, 'update_tiket'])->name('admin.update.tiket');
+    Route::post('/tiket-promo/tiket/{id}/delete', [TiketController::class, 'delete'])->name('admin.tiket.delete');
+    Route::post('/tiket-promo/tiket/{id}/restore', [TiketController::class, 'restore'])->name('admin.tiket.restore');
+
     Route::get('/tiket-promo/promo', [PromoController::class, 'get_Promo'])->name('admin.get.promo');
+    Route::post('/tiket-promo/promo/{id}/delete', [PromoController::class, 'delete'])->name('admin.promo.delete');
+    Route::post('/tiket-promo/promo/{id}/restore', [PromoController::class, 'restore'])->name('admin.promo.restore');
     // ----- CRUD INFORMASI -----
 
     // ----- CRUD LAPORAN -----

@@ -12,7 +12,7 @@
            transform -translate-x-full transition-transform duration-300 ease-in-out
            md:translate-x-0 md:rounded-r-3xl z-40 overflow-y-auto">
     <div class="p-6">
-        <img src="{{ asset('assets/customer/selecta-logo.png') }}" alt="Logo Selecta" class="mx-auto mb-6 w-32 h-auto" loading="lazy">
+        <img src="{{ asset('assets/customer/selecta-logo1.png') }}" alt="Logo Selecta" class="mx-auto mb-6 w-32 h-auto" loading="lazy">
         <nav>
             <ul class="space-y-4 text-lg">
                 <li class="border-b border-gray-600 pb-4 hover:text-blue-700">
