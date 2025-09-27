@@ -5,8 +5,6 @@
 {{-- Tambahan style --}}
 @push('styles')
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
         .text-selecta-blue {
             color: #373C90;
         }
@@ -21,6 +19,22 @@
             /* fallback */
             background-image: linear-gradient(to bottom right, #1a202c, #0f172a);
         }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
     </style>
 @endpush
 
@@ -33,9 +47,12 @@
         </video>
 
         <div class="absolute inset-0 bg-black/20"></div>
+        <div class="flex-col justify-center items-center">
+            <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic"
+                class="absolute top-1/2 left-1/2 w-1/2 md:w-1/3 transform -translate-x-1/2 -translate-y-1/2 z-20">
+            <a href="" class="bg-white"></a>
+        </div>
 
-        <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic"
-            class="absolute top-1/2 left-1/2 w-1/2 md:w-1/3 transform -translate-x-1/2 -translate-y-1/2 z-20">
 
         <!-- Wave -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
@@ -47,114 +64,524 @@
     </section>
 
     {{-- =================== TIKET =================== --}}
-    <section class="bg-[#FFFCFB] py-10 md:min-h-[700px] h-[500px] text-center relative rounded-b-9xl overflow-x-hidden">
+    <section class="w-full bg-[#FFFCFB] py-10 md:min-h-[700px] h-[500px] text-center relative overflow-x-hidden">
         <h1 class="text-4xl md:text-7xl mx-5 font-semibold text-[#093FB4] font-poppins">
             Pilihan <span class="text-[#ED3500]">Tiket</span>
         </h1>
     </section>
 
     {{-- =================== PETA INTERAKTIF =================== --}}
-    <section class="relative w-full bg-amber-50 overflow-hidden py-16 md:py-24 reveal-on-scroll">
-        <div class="flex flex-col md:flex-row w-full max-w-7xl mx-auto">
+    <section class="w-full bg-gradient-to-br from-green-100 via-blue-100 to-blue-200 md:rounded-t-[4rem]">
+        <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
 
-            <div class="relative w-full md:w-2/3 flex justify-center items-center px-4 md:px-0">
-                <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana"
-                    class="w-full rounded-2xl shadow-2xl shadow-amber-900/20">
+            <!-- Bagian Peta -->
+            <div class="relative w-full md:w-full flex justify-end items-end ">
+                <!-- Container Peta dengan Efek 3D Ringan -->
+                <div class="relative w-full">
+                    <!-- Background Peta dengan Efek Kedalaman -->
 
-                {{-- Marker: Kolam Renang --}}
-                <div class="absolute top-[40%] left-[25%]" x-data="{ open: false }" @mouseenter="open = true"
-                    @mouseleave="open = false">
-                    <div class="group relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
-                            class="cursor-pointer drop-shadow-lg transition-transform duration-300 group-hover:scale-125">
-                            <path fill="#ED3500" fill-rule="evenodd"
-                                d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
-                        </svg>
-                        <div
-                            class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none
-                           opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100
-                           transition-all duration-300 ease-in-out transform-gpu
-                           bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl p-4 border border-amber-300/50 z-50
-                           origin-bottom">
-                            <div
-                                class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0
-                                    border-x-8 border-x-transparent
-                                    border-t-8 border-t-white/70">
+
+                    <!-- Peta Utama -->
+                    <div class="relative transform transition-transform duration-500 hover:scale-[1.02]">
+                        <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
+                            class="w-full h-auto object-cover" loading="lazy">
+
+                        <!-- Overlay dengan Grid Transparan untuk Efek Interaktif -->
+
+                    </div>
+
+                    <!-- Marker hanya ditampilkan di desktop -->
+                    <div class="hidden lg:block">
+                        <!-- Marker: Kolam Renang -->
+                        <div class="absolute top-[40%] left-[43%] animate-float">
+                            <div class="group relative">
+                                <!-- Marker dengan animasi pulsa -->
+                                <div
+                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                    class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
+                                    <path fill="#ED3500"
+                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                </svg>
+                                <!-- Tooltip -->
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800">Kolam Renang</h3>
+                                    <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <p class="mt-3 text-sm text-slate-700">
+                                        3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
+                                        air di sini dingin sekali!
+                                    </p>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-800">Kolam Renang</h3>
-                            <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
-                                class="w-full h-36 object-cover rounded-lg mt-2 shadow-md">
-                            <p class="mt-3 text-sm text-slate-700">
-                                Kami memiliki 3 kolam renang dengan tinggi mulai 0.5 meter hingga 3 meter.
-                            </p>
                         </div>
+
+                        <!-- Marker: Bianglala -->
+                        <div class="absolute top-[51%] left-[36%] animate-float" style="animation-delay: 0.5s;">
+                            <div class="group relative">
+                                <!-- Marker dengan animasi pulsa -->
+                                <div
+                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                    class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
+                                    <path fill="#ED3500"
+                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                </svg>
+                                <!-- Tooltip -->
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800">Bianglala</h3>
+                                    <img src="{{ asset('assets/customer/bianglala.jpg') }}" alt="Bianglala"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <p class="mt-3 text-sm text-slate-700">
+                                        Nikmati pemandangan kota Batu dari ketinggian 30 meter di atas Bianglala.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Dinosaurus --}}
+                        <div class="absolute top-[35%] left-[45%] animate-float" style="animation-delay: 0.5s;">
+                            <div class="group relative">
+                                <!-- Marker dengan animasi pulsa -->
+                                <div
+                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                    class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
+                                    <path fill="#ED3500"
+                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                </svg>
+                                <!-- Tooltip -->
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800">Dinosaurus</h3>
+                                    <img src="{{ asset('assets/customer/dinosaurus.png') }}" alt="Dinosaurus"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <p class="mt-3 text-sm text-slate-700">
+                                        Kumpulan replika hewan prasejarah dengan ukuran hampir menyerupai aslinya dengan
+                                        pemandangan taman indah.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Sky Bike --}}
+                        <div class="absolute top-[34%] left-[16%] animate-float" style="animation-delay: 0.5s;">
+                            <div class="group relative">
+                                <!-- Marker dengan animasi pulsa -->
+                                <div
+                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                    class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
+                                    <path fill="#ED3500"
+                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                </svg>
+                                <!-- Tooltip -->
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800">Sky Bike</h3>
+                                    <img src="{{ asset('assets/customer/skybike.jpg') }}" alt="Sky Bike"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <p class="mt-3 text-sm text-slate-700">
+                                        Bersepeda sembari melihat Taman Selecta yang indah.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Roller Coaster --}}
+                        <div class="absolute top-[45%] left-[28%] animate-float" style="animation-delay: 0.5s;">
+                            <div class="group relative">
+                                <!-- Marker dengan animasi pulsa -->
+                                <div
+                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                    viewBox="0 0 16 16"
+                                    class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
+                                    <path fill="#ED3500"
+                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                </svg>
+                                <!-- Tooltip -->
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800">Roller Coaster</h3>
+                                    <img src="{{ asset('assets/customer/skybike.jpg') }}" alt="Roller Coaster"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <p class="mt-3 text-sm text-slate-700">
+                                        Roller Coaster memiliki 10 baris dengan tiap baris maksimal 2 penumpang. Cukup bikin
+                                        deg-degan!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Akoirium --}}
+                        <div class="absolute top-[39%] left-[53%] animate-float" style="animation-delay: 0.5s;">
+                            <div class="group relative">
+                                <!-- Marker dengan animasi pulsa -->
+                                <div
+                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                    viewBox="0 0 16 16"
+                                    class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
+                                    <path fill="#ED3500"
+                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                </svg>
+                                <!-- Tooltip -->
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800">Akoirium</h3>
+                                    <img src="{{ asset('assets/customer/akoirium.jpeg') }}" alt="Akoirium"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <p class="mt-3 text-sm text-slate-700">
+                                        Roller Coaster memiliki 10 baris dengan tiap baris maksimal 2 penumpang. Cukup bikin
+                                        deg-degan!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {{--  --}}
+
                     </div>
                 </div>
-
-                {{-- Marker: Bianglala --}}
-                <div class="absolute top-[55%] left-[15%]" x-data="{ open: false }" @mouseenter="open = true"
-                    @mouseleave="open = false">
-                    <div class="group relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
-                            class="cursor-pointer drop-shadow-lg transition-transform duration-300 group-hover:scale-125">
-                            <path fill="#ED3500" fill-rule="evenodd"
-                                d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
-                        </svg>
-                        <div
-                            class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none
-                           opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100
-                           transition-all duration-300 ease-in-out transform-gpu
-                           bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl p-4 border border-amber-300/50 z-50
-                           origin-bottom">
-                            <div
-                                class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0
-                                    border-x-8 border-x-transparent
-                                    border-t-8 border-t-white/70">
-                            </div>
-                            <h3 class="text-lg font-bold text-slate-800">Bianglala</h3>
-                            <img src="{{ asset('assets/customer/bianglala.jpg') }}" alt="Bianglala"
-                                class="w-full h-36 object-cover rounded-lg mt-2 shadow-md">
-                            <p class="mt-3 text-sm text-slate-700">
-                                Nikmati pemandangan kota Batu dari ketinggian 30 meter di atas Bianglala.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <div class="w-full md:w-1/3 flex flex-col justify-center text-white p-8 md:p-12 mt-8 md:mt-0">
+            <!-- Bagian Informasi -->
+            <div
+                class="w-full md:w-1/2 bg-gradient-to-br from-blue-900 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-3xl">
                 <div class="text-center md:text-left">
-                    <h1 class="font-black text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-amber-200 to-amber-500 reveal-item"
-                        style="--delay: 100ms;">
-                        Peta Selecta
+                    <h1
+                        class="font-black text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-700 mb-2">
+                        Peta <span class="text-transparent bg-clip-text bg-gradient-to-br from-amber-400 to-amber-600">Selecta</span>
                     </h1>
-                    <p class="text-lg text-amber-400 mt-4 max-w-sm mx-auto md:mx-0 reveal-item" style="--delay: 200ms;">
+                    <div class="w-24 h-1 bg-gradient-to-r from-green-100 via-blue-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
+                    </div>
+                    <p class="text-lg text-blue-100/80 mt-4 max-w-sm mx-auto md:mx-0">
                         Jelajahi setiap sudut dan temukan semua wahana seru yang kami tawarkan.
                     </p>
                 </div>
 
-                {{-- Grid Fasilitas --}}
-                <div class="grid grid-cols-2 gap-x-6 gap-y-5 w-full mt-12">
-                    <div class="flex items-center space-x-3 group cursor-pointer reveal-item" style="--delay: 300ms;">
+                <!-- Grid Fasilitas -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6 w-full mt-8">
+                    <!-- Security -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
-                            class="bg-amber-400/20 p-2 rounded-lg transition-all duration-300 group-hover:bg-amber-400/40 group-hover:scale-110">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                                class="size-6 text-amber-300">
-                                <path fill-rule="evenodd"
-                                    d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                                    clip-rule="evenodd" />
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M12 2L4 5v6c0 5.55 3.58 10.74 8 12c4.42-1.26 8-6.45 8-12V5l-8-3zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V13H5V6.3l7-3.11v9.8z" />
                             </svg>
                         </div>
-                        <span class="transition-colors duration-300 group-hover:text-amber-300 text-amber-500">Security</span>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Security</span>
                     </div>
-                    <div class="flex items-center space-x-3 group cursor-pointer reveal-item" style="--delay: 400ms;">
+
+                    <!-- Toilet -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
-                            class="bg-amber-400/20 p-2 rounded-lg transition-all duration-300 group-hover:bg-amber-400/40 group-hover:scale-110">
-                            <img src="{{ asset('assets/icons/toilet.png') }}" class="w-6 h-6 filter invert brightness-200">
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 17 16">
+                                <path fill="currentColor" class="text-blue-300"
+                                    d="M11.777 15.974h-6.29s3.013-5.98-1.474-5.98V8.001h11.966s.087 1.217-2.112 2.686c-3.387 2.26-2.09 5.287-2.09 5.287zM8 6h7.979v.979H8zM3.012.009v6.974H7V.009H3.012zM6 3.036H5V1h1v2.036z" />
+                            </svg>
                         </div>
-                        <span class="transition-colors duration-300 group-hover:text-amber-300">Toilet</span>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Toilet</span>
                     </div>
+
+                    <!-- Mushola -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M4 22V8a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1h10v-1a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v14h-2v-7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v7H4zm-2-14l10-6l10 6" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Mushola</span>
+                    </div>
+
+                    <!-- Informasi -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Informasi</span>
+                    </div>
+
+                    <!-- Kedai -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Kedai</span>
+                    </div>
+
+                    <!-- Paseban -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M7 2h10v3h3v4h2v2h-1v9h1v2H2v-2h1v-9H2V9h2V5h3V2Zm2 3h6V4H9v1Zm-4 6v9h3v-6h8v6h3v-9H5Zm13-2V7H6v2h12Zm-4 11v-4h-4v4h4Z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Paseban</span>
+                    </div>
+
+                    <!-- Souvenir -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"
+                                fill="currentColor" class="text-blue-300">
+                                <g fill="none">
+                                    <path d="M39 32H13L8 12h36l-5 20Z" />
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20H8Z" />
+                                    <circle cx="13" cy="39" r="3" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+                                    <circle cx="39" cy="39" r="3" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+                                </g>
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Souvenir</span>
+                    </div>
+
+                    <!-- Kamar Mandi Air Panas -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2">
+                                    <path d="M9 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 10h14" />
+                                    <path
+                                        d="M3 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2m-4 8h.01M14 14h.01M18 14h.01M9 18h.01M14 18h.01M19 18h.01M8 22h.01M14 22h.01M20 22h.01" />
+                                </g>
+                            </svg>
+                        </div>
+                        <span
+                            class="text-xs transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Kamar
+                            Mandi Air Panas</span>
+                    </div>
+
+                    <!-- Pasar Wisata -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 650 800">
+                                <path fill="currentColor" class="text-blue-300"
+                                    d="M648 256q0 2 1 3t0 3v20q0 10-7 17t-17 7h-46v324q0 10-6 16t-17 7H93q-10 0-17-7t-7-16V306H23q-10 0-16-7t-7-17v-20q0-4 1-6L60 39q5-16 17-25t28-9h439q16 0 28 9t16 25zm-138 50H139v127q0 5 4 8t8 4h347q5 0 9-4t3-8V306z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-amber-300 group-hover:font-medium">Pasar
+                            Wisata</span>
+                    </div>
+
+                    <!-- Kamar Bilas -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2">
+                                    <path d="M9 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 10h14" />
+                                    <path
+                                        d="M3 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2m-4 8h.01M14 14h.01M18 14h.01M9 18h.01M14 18h.01M19 18h.01M8 22h.01M14 22h.01M20 22h.01" />
+                                </g>
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Kamar
+                            Bilas</span>
+                    </div>
+
+                    <!-- P3K & Laktasi -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 1024 1024">
+                                <path fill="currentColor" class="text-blue-300"
+                                    d="M839.2 278.1a32 32 0 0 0-30.4-22.1H736V144c0-17.7-14.3-32-32-32H320c-17.7 0-32 14.3-32 32v112h-72.8a31.9 31.9 0 0 0-30.4 22.1L112 502v378c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V502l-72.8-223.9zM360 184h304v72H360v-72zm480 656H184V513.4L244.3 328h535.4L840 513.4V840zM652 572H544V464c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v108H372c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h108v108c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V636h108c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-xs transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">P3K
+                            & Laktasi</span>
+                    </div>
+
+                    <!-- Parkir -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M18.92 5.01C18.72 4.42 18.16 4 17.5 4h-11c-.66 0-1.21.42-1.42 1.01L3 11v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 15c-.83 0-1.5-.67-1.5-1.5S5.67 12 6.5 12s1.5.67 1.5 1.5S7.33 15 6.5 15zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5s1.5.67 1.5 1.5s-.67 1.5-1.5 1.5zM5 10l1.5-4.5h11L19 10H5z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Parkir</span>
+                    </div>
+
+                    <!-- Resto -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Resto</span>
+                    </div>
+
+                    <!-- Penitipan Barang -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path fill="currentColor" class="text-blue-300"
+                                    d="M19 6h-3V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1H5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3Zm-9-1h4v1h-4Zm10 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-5.61L8.68 14A1.19 1.19 0 0 0 9 14h6a1.19 1.19 0 0 0 .32-.05L20 12.39Zm0-7.72L14.84 12H9.16L4 10.28V9a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1Z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-xs transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Penitipan
+                            Barang</span>
+                    </div>
+
+                    <!-- Area Terbuka -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Area
+                            Terbuka</span>
+                    </div>
+
+                    <!-- Gazebo -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+                                <path fill="currentColor" class="text-blue-300"
+                                    d="M15.5 14.69h-1.25V7.78a.62.62 0 0 0-.25-.47L8.4 2.7a.65.65 0 0 0-.81 0L2 7.31a.62.62 0 0 0-.22.47v6.91H.5V7.78a1.87 1.87 0 0 1 .68-1.44l5.62-4.6a1.88 1.88 0 0 1 2.39 0l5.63 4.6a1.87 1.87 0 0 1 .68 1.44z" />
+                                <path fill="currentColor" class="text-blue-300"
+                                    d="M11.05 12.11H9.8A1.72 1.72 0 0 0 8 10.49a1.72 1.72 0 0 0-1.8 1.62H5a3 3 0 0 1 3-2.87a3 3 0 0 1 3.05 2.87zm-6.1 0H6.2v2.58H4.95zm4.85 0h1.25v2.58H9.8z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Gazebo</span>
+                    </div>
+
+                    <!-- Live Music -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M12 3v10.55c-.59-.34-1.27-.55-2-.55c-2.21 0-4 1.79-4 4s1.79 4 4 4s4-1.79 4-4V7h4V3h-6z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Live
+                            Music</span>
+                    </div>
+
+                    <!-- Foto -->
+                    <div
+                        class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
+                        <div
+                            class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-2 rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" class="text-blue-300">
+                                <path
+                                    d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Foto</span>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi -->
+                <div class="mt-12 text-center md:text-left">
+                    <button
+                        class="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95">
+                        Lihat Peta Lengkap
+                    </button>
                 </div>
             </div>
         </div>
@@ -163,13 +590,15 @@
 
 
     {{-- =================== BERITA =================== --}}
-    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-t-[4rem]">
+    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-t-[3rem]">
         <div class="flex justify-between items-center p-7">
             <h1 class="text-left p-5 text-4xl md:text-7xl font-bold text-blue-800">Berita <span
                     class="text-amber-500">Selecta!</span></h1>
-            <a href="" class="md:text-md text-center font-reguler text-black underline p-4 flex items-center gap-2">
+            <a href=""
+                class="md:text-md text-center font-reguler text-black underline p-4 flex items-center gap-2">
                 Selengkapnya
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="">
                     <g fill="none" stroke="#FFFFFF" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-miterlimit="10" d="m15.813 8.187l-7.626 7.626" />
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -206,4 +635,13 @@
             </div>
         </div>
     </section>
+    <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-10 -mt-20 z-0 overflow-hidden rounded-t-[3rem]">
+    <div class="container mx-auto pt-10 ">
+        <h2 class="text-2xl sm:text-4xl md:text-5xl font-poppins font-semibold text-left text-blue-700 mb-8 md:mb-12 leading-snug">
+            Apa kata mereka tentang <span class="text-[#6ECCFF]">Selecta?</span>
+        </h2>
+        <div class="tagembed-widget" style="width:100%;height:100%;overflow:auto;" data-widget-id="301186" data-website="1"></div>
+        <script src="https://widget.tagembed.com/embed.min.js" type="text/javascript"></script>
+    </div>
+</section>
 @endsection
