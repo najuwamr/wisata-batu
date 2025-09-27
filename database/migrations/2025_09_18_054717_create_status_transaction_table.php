@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('status_transaction', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['pending', 'paid', 'failed', 'expired', 'cancelled'])->default('pending');
+            $table->enum('name', ['pending', 'paid', 'failed', 'redeemed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

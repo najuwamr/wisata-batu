@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="{{ asset('img/reponik-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/customer/selecta-logo1.png') }}">
     <title>Selecta @yield('title')</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('assets/customer/selecta-logo1.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="flex">
         @include('components.sidebar')
-        <main class="flex-1 min-h-screen ml-64 p-6">
+        <div class="flex-1 min-h-screen p-6">
             @yield('content')
-        </main>
+        </div>
     </div>
 </body>
 </html>
