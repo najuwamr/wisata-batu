@@ -15,6 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('code')->unique();
+            $table->integer('discount_percent');
+            $table->integer('qty');
+            $table->datetime('valid_until'); //periode promo sampai tanggal ...
             $table->text('description');
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);

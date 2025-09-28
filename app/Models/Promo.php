@@ -13,7 +13,7 @@ class Promo extends Model
     protected $table = 'promo';
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['name', 'code', 'description', 'image', 'is_active'];
+    protected $fillable = ['name', 'code', 'discount_percent', 'qty', 'valid_until', 'description', 'image', 'is_active'];
 
     public function transactions()
     {

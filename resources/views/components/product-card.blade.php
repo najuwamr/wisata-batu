@@ -108,6 +108,16 @@
                         class="w-full border rounded px-3 py-2"
                         required>
                 </div>
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Kategori</label>
+                    <select name="category"
+                        id="editCategory-{{ $product->id }}"
+                        class="w-full border rounded px-3 py-2"
+                        required>
+                        <option value="tiket" {{ $product->category === 'tiket' ? 'selected' : '' }}>Tiket</option>
+                        <option value="parkir" {{ $product->category === 'parkir' ? 'selected' : '' }}>Parkir</option>
+                    </select>
+                </div>
             @elseif (isset($product->code))
                 <div class="mb-4">
                     <label class="block mb-1 font-semibold">Kode Promo</label>
@@ -115,6 +125,35 @@
                         name="code"
                         id="editCode-{{ $product->id }}"
                         value="{{ $product->code }}"
+                        class="w-full border rounded px-3 py-2"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Besar Diskon (%)</label>
+                    <input type="number"
+                        name="discount_percent"
+                        id="editDiscountPercent-{{ $product->id }}"
+                        value="{{ $product->discount_percent }}"
+                        class="w-full border rounded px-3 py-2"
+                        min="0" max="100"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Jumlah Kuota</label>
+                    <input type="number"
+                        name="qty"
+                        id="editQty-{{ $product->id }}"
+                        value="{{ $product->qty }}"
+                        class="w-full border rounded px-3 py-2"
+                        min="1"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Periode Promo</label>
+                    <input type="date"
+                        name="valid_until"
+                        id="editValidUntil-{{ $product->id }}"
+                        value="{{ \Carbon\Carbon::parse($product->valid_until)->format('Y-m-d') }}"
                         class="w-full border rounded px-3 py-2"
                         required>
                 </div>
@@ -193,8 +232,12 @@
 
         @if (isset($product->price))
             <p><strong>Harga:</strong> Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+            <p><strong>Kategori:</strong> {{ ucfirst($product->category) }}</p>
         @elseif (isset($product->code))
             <p><strong>Kode Promo:</strong> {{ $product->code }}</p>
+            <p><strong>Besar Diskon:</strong> {{ $product->discount_percent }}%</p>
+            <p><strong>Jumlah Kuota:</strong> {{ $product->qty }}</p>
+            <p><strong>Periode Promo:</strong> {{ \Carbon\Carbon::parse($product->valid_until)->format('d M Y') }}</p>
         @endif
 
         <p><strong>Deskripsi:</strong></p>
