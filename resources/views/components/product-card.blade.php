@@ -108,6 +108,16 @@
                         class="w-full border rounded px-3 py-2"
                         required>
                 </div>
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Kategori</label>
+                    <select name="category"
+                        id="editCategory-{{ $product->id }}"
+                        class="w-full border rounded px-3 py-2"
+                        required>
+                        <option value="tiket" {{ $product->category === 'tiket' ? 'selected' : '' }}>Tiket</option>
+                        <option value="parkir" {{ $product->category === 'parkir' ? 'selected' : '' }}>Parkir</option>
+                    </select>
+                </div>
             @elseif (isset($product->code))
                 <div class="mb-4">
                     <label class="block mb-1 font-semibold">Kode Promo</label>
@@ -222,6 +232,7 @@
 
         @if (isset($product->price))
             <p><strong>Harga:</strong> Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+            <p><strong>Kategori:</strong> {{ ucfirst($product->category) }}</p>
         @elseif (isset($product->code))
             <p><strong>Kode Promo:</strong> {{ $product->code }}</p>
             <p><strong>Besar Diskon:</strong> {{ $product->discount_percent }}%</p>
