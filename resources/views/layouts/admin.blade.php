@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="{{ asset('assets/customer/selecta-logo1.png') }}">
     <title>Selecta @yield('title')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('assets/customer/selecta-logo1.png') }}">
@@ -22,5 +23,39 @@
             @yield('content')
         </div>
     </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            html: `{!! implode('<br>', $errors->all()) !!}`,
+        });
+    </script>
+@endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+@endif
+
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: "{{ session('error') }}",
+        });
+    </script>
+@endif
 </body>
 </html>

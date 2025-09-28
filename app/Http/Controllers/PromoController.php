@@ -19,7 +19,7 @@ class PromoController extends Controller
 
     public function tambah_Promo()
     {
-        return view('admin.tambah-tiket');
+        return view('admin.tambah-promo');
     }
 
     public function insert_Promo(Request $request)
@@ -27,7 +27,7 @@ class PromoController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'code' => 'required|string|unique:tickets,code',
+            'code' => 'required|string|unique:promo,code',
             'discount_percent' => 'required|integer|min:0|max:100',
             'qty' => 'required|integer|min:1',
             'valid_until' => 'required|date|after:today',
@@ -49,7 +49,7 @@ class PromoController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('storage/images'), $filename);
+            $file->move(public_path('images'), $filename);
             $validated['image'] = $filename;
         }
 
@@ -69,11 +69,11 @@ class PromoController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'code' => 'required|string|unique:tickets,code',
+            'code' => 'required|string|unique:promo,code,' . $id,
             'discount_percent' => 'required|integer|min:0|max:100',
             'qty' => 'required|integer|min:1',
             'valid_until' => 'required|date|after:today',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
             'name.required' => 'Nama tiket wajib diisi.',
             'description.required' => 'Deskripsi tiket wajib diisi.',
@@ -82,11 +82,11 @@ class PromoController extends Controller
             'qty' => 'Jumlah kuota harus minimal 1.',
             'valid_until' => 'Periode promo harus berupa tanggal setelah hari ini.',
             'code.unique' => 'Kode tiket sudah digunakan.',
-            'image.required' => 'Gambar tiket wajib diunggah.',
             'image.image' => 'File harus berupa gambar.',
             'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
+
 
         $promo = Promo::findOrFail($id);
         if ($request->hasFile('image')) {
