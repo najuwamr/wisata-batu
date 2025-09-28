@@ -5,12 +5,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\QRController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('customer.landing');
-});
+Route::get('/', [LandingPageController::class, 'index_Tiket'])->name('landing');
+
+
 
 // ----- GUEST -----
 // ----- PEMESANAN TIKET -----

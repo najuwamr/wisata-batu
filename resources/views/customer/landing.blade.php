@@ -1,42 +1,8 @@
 @extends('layouts.guest')
 
-@section('title', 'Beranda')
+@section('title', '| Taman Rekreasi, Hotel, & Resto')
 
-{{-- Tambahan style --}}
-@push('styles')
-    <style>
-        .text-selecta-blue {
-            color: #373C90;
-        }
 
-        .bg-selecta-blue {
-            background-color: #373C90;
-        }
-
-        body {
-            /* Menggunakan gradien gelap yang lebih modern daripada warna solid */
-            background-color: #1a202c;
-            /* fallback */
-            background-image: linear-gradient(to bottom right, #1a202c, #0f172a);
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-    </style>
-@endpush
 
 @section('content')
     {{-- =================== HERO VIDEO =================== --}}
@@ -58,20 +24,100 @@
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
             <svg class="block w-full h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100"
                 preserveAspectRatio="none">
-                <path fill="#FFFCFB" d="M0,30 C360,90 1080,-30 1440,60 L1440,100 L0,100Z"></path>
+                <path fill="currentColor" class="text-blue-50" d="M0,30 C360,90 1080,-30 1440,60 L1440,100 L0,100Z"></path>
             </svg>
         </div>
     </section>
 
     {{-- =================== TIKET =================== --}}
-    <section class="w-full bg-[#FFFCFB] py-10 md:min-h-[700px] h-[500px] text-center relative overflow-x-hidden">
-        <h1 class="text-4xl md:text-7xl mx-5 font-semibold text-[#093FB4] font-poppins">
-            Pilihan <span class="text-[#ED3500]">Tiket</span>
-        </h1>
-    </section>
+   <section class="w-full bg-blue-50 py-20">
+    <div class="max-w-7xl mx-auto bg-blue-50 rounded-3xl p-8 md:p-12 lg:p-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Bagian Teks -->
+            <div>
+                <h2 class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4">
+                    Pilihan Tiket
+                </h2>
+                <p class="text-gray-600 text-lg max-w-md mb-8">
+                    Geser untuk melihat semua tiket yang tersedia dan pilih yang terbaik untuk Anda.
+                </p>
+
+                <!-- Tombol Lihat Tiket lainnya -->
+                <a href="#"
+                   class="md:w-1/3 w-1/2 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700">
+                   Lihat Tiket lainnya
+                </a>
+
+                <!-- Tombol Navigasi di bawah -->
+                <div class="flex space-x-3 mt-6">
+                    <button
+                        class="swiper-button-prev-features w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button
+                        class="swiper-button-next-features w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bagian Slider -->
+            <div class="w-full overflow-hidden">
+                <div class="swiper mySwiperFeatures">
+                    <div class="swiper-wrapper py-4">
+
+                        @forelse($tiketAktif as $tiket)
+                            <div class="swiper-slide flex justify-center">
+                                <div class="bg-white shadow-lg rounded-2xl overflow-hidden w-full">
+                                    <img src="{{ asset('images/' . $tiket->image) }}" alt="{{ $tiket->name }}"
+                                        class="w-full h-40 object-cover">
+
+                                    <div class="p-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">{{ $tiket->name }}</h3>
+                                        <p class="text-gray-600 text-sm mt-1">{{ $tiket->description }}</p>
+                                        <p class="mt-3 text-xl font-bold text-blue-600">
+                                            Rp {{ number_format($tiket->price, 0, ',', '.') }}
+                                        </p>
+
+                                        <a href="/"
+                                            class="w-full md:w-1/2 flex justify-center items-center mt-4 bg-gradient-to-r from-red-500 to-red-400 text-white px-4 py-2 rounded-lg hover:from-red-600 hover:to-red-500 gap-2">
+                                            Lihat Detail
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                                                    <path fill="#ffffff"
+                                                        d="M9 10a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1Zm12 1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1a1 1 0 0 1 0-2Zm-1-1.82a3 3 0 0 0 0 5.64V17H10a1 1 0 0 0-2 0H4v-2.18a3 3 0 0 0 0-5.64V7h4a1 1 0 0 0 2 0h10Z" />
+                                                </svg>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="swiper-slide">
+                                <p class="text-center text-gray-500">Belum ada tiket tersedia.</p>
+                            </div>
+                        @endforelse
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 
     {{-- =================== PETA INTERAKTIF =================== --}}
-    <section class="w-full bg-gradient-to-br from-green-100 via-blue-100 to-blue-200 md:rounded-t-[4rem]">
+    <section class="w-full bg-gradient-to-tr from-green-100 via-blue-100 to-lime-100">
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
 
             <!-- Bagian Peta -->
@@ -82,9 +128,9 @@
 
 
                     <!-- Peta Utama -->
-                    <div class="relative transform transition-transform duration-500 hover:scale-[1.02]">
+                    <div class="relative">
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
-                            class="w-full h-auto object-cover" loading="lazy">
+                            class="w-full h-auto object-cover shadow-2xl" loading="lazy">
 
                         <!-- Overlay dengan Grid Transparan untuk Efek Interaktif -->
 
@@ -97,11 +143,11 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="#ED3500"
+                                    <path fill="currentColor" class="bg-blue-"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
                                 <!-- Tooltip -->
@@ -126,7 +172,7 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
@@ -154,9 +200,10 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                    viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
                                     <path fill="#ED3500"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
@@ -182,9 +229,10 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                    viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
                                     <path fill="#ED3500"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
@@ -209,7 +257,7 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                     viewBox="0 0 16 16"
@@ -238,12 +286,12 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-red-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                     viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="#ED3500"
+                                    <path fill="currentColor" class="text-gradient-to-b from-blue-500 to-blue-700"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
                                 <!-- Tooltip -->
@@ -270,13 +318,15 @@
 
             <!-- Bagian Informasi -->
             <div
-                class="w-full md:w-1/2 bg-gradient-to-br from-blue-900 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-3xl">
+                class="w-full md:w-1/2 bg-gradient-to-br from-blue-900 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-[2rem] ">
                 <div class="text-center md:text-left">
                     <h1
-                        class="font-black text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-700 mb-2">
-                        Peta <span class="text-transparent bg-clip-text bg-gradient-to-br from-amber-400 to-amber-600">Selecta</span>
+                        class="font-black text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-green-100 via-blue-100 to-lime-200  mb-2">
+                        Peta <span
+                            class="text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600">Selecta</span>
                     </h1>
-                    <div class="w-24 h-1 bg-gradient-to-r from-green-100 via-blue-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
+                    <div
+                        class="w-full h-1 bg-gradient-to-r from-green-100 via-blue-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
                     </div>
                     <p class="text-lg text-blue-100/80 mt-4 max-w-sm mx-auto md:mx-0">
                         Jelajahi setiap sudut dan temukan semua wahana seru yang kami tawarkan.
@@ -590,16 +640,24 @@
 
 
     {{-- =================== BERITA =================== --}}
-    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-t-[3rem]">
+    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-[3rem] shadow-lg">
         <div class="flex justify-between items-center p-7">
-            <h1 class="text-left p-5 text-4xl md:text-7xl font-bold text-blue-800">Berita <span
-                    class="text-amber-500">Selecta!</span></h1>
+            <div class="flex-col items-center">
+                <h1
+                    class="text-left p-5 text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-green-500 via-blue-400 to-lime-500">
+                    Berita <span
+                        class="text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600">Selecta!</span>
+                </h1>
+                <div
+                    class="w-full h-1 bg-gradient-to-r from-blue-300 via-green-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
+                </div>
+            </div>
             <a href=""
-                class="md:text-md text-center font-reguler text-black underline p-4 flex items-center gap-2">
+                class="md:text-md text-center font-reguler text-blue-700 underline p-4 flex items-center gap-2">
                 Selengkapnya
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                    fill="">
-                    <g fill="none" stroke="#FFFFFF" stroke-width="1.5">
+                    fill="currentColor" class="text-blue-700">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-miterlimit="10" d="m15.813 8.187l-7.626 7.626" />
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16.111 15.155V8.917a1.028 1.028 0 0 0-1.028-1.028H8.845" />
@@ -609,7 +667,8 @@
             </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-10"> <!-- Card Besar -->
-            <div class="md:col-span-2 md:row-span-2 bg-[#FFFCFB] rounded-2xl shadow-lg flex flex-row overflow-hidden">
+            <div
+                class="md:col-span-2 md:row-span-2 bg-[#FFFCFB] rounded-2xl shadow-lg flex flex-row overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
                 <div class="p-6 flex flex-col justify-between w-1/2">
                     <h3 class="text-sm uppercase font-bold">SELECTA NEWS</h3>
                     <p class="text-2xl font-bold mt-2">"Sekarang Selecta punya wahana baru!"</p> <button
@@ -619,29 +678,33 @@
                 <div class="w-1/2"> <img src="{{ asset('assets/customer/berita1.webp') }}"
                         class="w-full h-full object-cover" /> </div>
             </div> <!-- Card Kecil 1 -->
-            <div class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden"> <img
-                    src="{{ asset('assets/customer/berita2.webp') }}" class="w-full h-40 object-cover" />
+            <div
+                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
+                <img src="{{ asset('assets/customer/berita2.webp') }}" class="w-full h-40 object-cover" />
                 <div class="p-4">
                     <h3 class="text-sm uppercase font-bold">Family Time!</h3>
                     <p class="text-lg font-semibold mt-2">"Taman cantik sayang kalo ga foto-foto!"</p>
                 </div>
             </div> <!-- Card Kecil 2 -->
-            <div class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden"> <img
-                    src="{{ asset('assets/customer/berita3.jpg') }}" class="w-full h-40 object-cover" />
+            <div
+                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
+                <img src="{{ asset('assets/customer/berita3.jpg') }}" class="w-full h-40 object-cover" />
                 <div class="p-4">
                     <h3 class="text-sm uppercase font-bold">Family Time!</h3>
                     <p class="text-lg font-semibold mt-2">"50k dapet apa aja si?"</p>
                 </div>
             </div>
+
+    </section>
+    <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-10 overflow-hidden -mt-10">
+        <div class="container mx-auto pt-10 ">
+            <h2
+                class="text-2xl sm:text-4xl md:text-5xl font-poppins font-semibold text-left text-blue-700 mb-8 md:mb-12 leading-snug">
+                Apa kata mereka tentang <span class="text-[#6ECCFF]">Selecta?</span>
+            </h2>
+            <div class="tagembed-widget" style="width:100%;height:100%;overflow:auto;" data-widget-id="301186"
+                data-website="1"></div>
+            <script src="https://widget.tagembed.com/embed.min.js" type="text/javascript"></script>
         </div>
     </section>
-    <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-10 -mt-20 z-0 overflow-hidden rounded-t-[3rem]">
-    <div class="container mx-auto pt-10 ">
-        <h2 class="text-2xl sm:text-4xl md:text-5xl font-poppins font-semibold text-left text-blue-700 mb-8 md:mb-12 leading-snug">
-            Apa kata mereka tentang <span class="text-[#6ECCFF]">Selecta?</span>
-        </h2>
-        <div class="tagembed-widget" style="width:100%;height:100%;overflow:auto;" data-widget-id="301186" data-website="1"></div>
-        <script src="https://widget.tagembed.com/embed.min.js" type="text/javascript"></script>
-    </div>
-</section>
 @endsection

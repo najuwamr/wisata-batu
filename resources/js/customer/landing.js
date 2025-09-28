@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-  document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
         const revealElements = document.querySelectorAll(".reveal-on-scroll, .reveal-item");
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -38,5 +38,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
-
+      var swiper = new Swiper(".mySwiperFeatures", {
+            slidesPerView: "auto", // Mengizinkan lebar kartu ditentukan oleh CSS
+            spaceBetween: 20,
+            speed:700,
+            loop:true,
+            autoplay: {
+            delay: 3000, // jeda antar slide (ms)
+            disableOnInteraction: false,
+           // tetap jalan meskipun user swipe
+            },
+            navigation: {
+                nextEl: ".swiper-button-next-features",
+                prevEl: ".swiper-button-prev-features",
+            },
+        });

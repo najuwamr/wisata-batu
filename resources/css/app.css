@@ -95,3 +95,20 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+
+.swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .tiket-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tiket-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .swiper-button-disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }

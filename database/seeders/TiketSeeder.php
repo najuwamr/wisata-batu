@@ -32,6 +32,8 @@ class TiketSeeder extends Seeder
                 'category' => 'tiket',
                 'is_active' => true,
             ],
+            
+
             [
                 'id' => Str::uuid(),
                 'name' => 'Mobil',
