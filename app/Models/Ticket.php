@@ -19,6 +19,7 @@ class Ticket extends Model
         'description',
         'price',
         'image',
+        'category',
         'is_active'
     ];
 
