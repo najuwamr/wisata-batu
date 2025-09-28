@@ -31,14 +31,18 @@ Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     // ----- CRUD TIKET & PROMO -----
     Route::get('/tiket-promo/tiket', [TiketController::class, 'get_Tiket'])->name('admin.get.tiket');
+    Route::get('/tiket-promo/tiket/tambah', [TiketController::class, 'tambah_tiket'])->name('admin.tambah.tiket');
+    Route::post('/tiket-promo/tiket/', [TiketController::class, 'insert_tiket'])->name('admin.insert.tiket');
     Route::get('/tiket-promo/tiket/{id}/edit', [TiketController::class, 'edit_tiket'])->name('admin.edit.tiket');
     Route::put('/tiket-promo/tiket/{id}', [TiketController::class, 'update_tiket'])->name('admin.update.tiket');
     Route::post('/tiket-promo/tiket/{id}/delete', [TiketController::class, 'delete'])->name('admin.tiket.delete');
     Route::post('/tiket-promo/tiket/{id}/restore', [TiketController::class, 'restore'])->name('admin.tiket.restore');
 
     Route::get('/tiket-promo/promo', [PromoController::class, 'get_Promo'])->name('admin.get.promo');
-    Route::get('/tiket-promo/promo/{id}/edit', [PromoController::class, 'edit_tiket'])->name('admin.edit.promo');
-    Route::put('/tiket-promo/promo/{id}', [PromoController::class, 'update_tiket'])->name('admin.update.promo');
+    Route::get('/tiket-promo/promo/tambah', [PromoController::class, 'tambah_Promo'])->name('admin.tambah.promo');
+    Route::post('/tiket-promo/promo/', [PromoController::class, 'insert_Promo'])->name('admin.insert.promo');
+    Route::get('/tiket-promo/promo/{id}/edit', [PromoController::class, 'edit_Promo'])->name('admin.edit.promo');
+    Route::put('/tiket-promo/promo/{id}', [PromoController::class, 'update_Promo'])->name('admin.update.promo');
     Route::post('/tiket-promo/promo/{id}/delete', [PromoController::class, 'delete'])->name('admin.promo.delete');
     Route::post('/tiket-promo/promo/{id}/restore', [PromoController::class, 'restore'])->name('admin.promo.restore');
     // ----- CRUD INFORMASI -----

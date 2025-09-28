@@ -58,17 +58,22 @@
                 </svg>
             </div>
 
-            <div class="flex items-center bg-blue-200 text-black px-4 py-2 rounded-md space-x-2 shadow-md">
+            <button class="flex items-center bg-blue-200 text-black px-4 py-2 rounded-md space-x-2 shadow-md cursor-pointer"
+                @click="window.location.href = active === 'tiket'
+                            ? '{{ route('admin.tambah.tiket') }}'
+                            : '{{ route('admin.tambah.promo') }}'">
+
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
-                    <path fill="currentColor" d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0zm0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01zM736 480H544V288c0-17.664-14.336-32-32-32s-32 14.336-32 32v192H288c-17.664 0-32 14.336-32 32s14.336 32 32 32h192v192c0 17.664 14.336 32 32 32s32-14.336 32-32V544h192c17.664 0 32-14.336 32-32s-14.336-32-32-32z"/>
+                    <path fill="currentColor"
+                        d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0zm0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01zM736 480H544V288c0-17.664-14.336-32-32-32s-32 14.336-32 32v192H288c-17.664 0-32 14.336-32 32s14.336 32 32 32h192v192c0 17.664 14.336 32 32 32s32-14.336 32-32V544h192c17.664 0 32-14.336 32-32s-14.336-32-32-32z"/>
                 </svg>
+
                 <p x-text="active === 'tiket' ? 'Tambah Tiket' : 'Tambah Promo'"></p>
-            </div>
+            </button>
         </div>
 
         {{-- Content Tiket --}}
         <div x-show="active === 'tiket'" x-cloak>
-            {{-- Tiket Aktif --}}
             <h3 class="text-lg font-semibold mb-2">Tiket Aktif</h3>
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
                 @forelse ($tiketAktif as $tiket)
@@ -78,7 +83,6 @@
                 @endforelse
             </div>
 
-            {{-- Tiket Nonaktif (disembunyikan dulu) --}}
             <div x-data="{ showNonAktif: false }">
                 <button @click="showNonAktif = !showNonAktif"
                         class="text-sm text-blue-600 hover:underline">
@@ -98,7 +102,6 @@
 
         {{-- Content Promo --}}
         <div x-show="active === 'promo'" x-cloak>
-            {{-- Promo Aktif --}}
             <h3 class="text-lg font-semibold mb-2">Promo Aktif</h3>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
                 @forelse ($promoAktif as $promo)
@@ -108,7 +111,6 @@
                 @endforelse
             </div>
 
-            {{-- Promo Nonaktif --}}
             <div x-data="{ showNonAktif: false }">
                 <button @click="showNonAktif = !showNonAktif"
                         class="text-sm text-purple-600 hover:underline">

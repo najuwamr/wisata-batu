@@ -28,6 +28,7 @@ class TiketController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'category' => 'required|in:tiket,parkir',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ],
         [
@@ -45,7 +46,7 @@ class TiketController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('storage/images'), $filename);
+            $file->move(public_path('images'), $filename);
             $validated['image'] = $filename;
         }
 

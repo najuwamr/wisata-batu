@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold mb-6 text-blue-900">Tambah Tiket</h1>
+    <h1 class="text-2xl font-bold mb-6 text-blue-900">Tambah Promo</h1>
 
     <form method="POST"
-          action="{{ route('admin.insert.tiket') }}"
+          action="{{ route('admin.insert.promo') }}"
           enctype="multipart/form-data">
         @csrf
 
@@ -24,30 +24,51 @@
             @enderror
         </div>
 
-        {{-- Harga --}}
+        {{-- Kode Promo --}}
         <div class="mb-4">
-            <label class="block mb-1 font-semibold">Harga</label>
-            <input type="number"
-                name="price"
-                value="{{ old('price') }}"
-                class="w-full border rounded px-3 py-2 @error('price') border-red-500 @enderror"
+            <label class="block mb-1 font-semibold">Kode Promo</label>
+            <input type="text"
+                name="code"
+                value="{{ old('code') }}"
+                class="w-full border rounded px-3 py-2 @error('code') border-red-500 @enderror"
                 required>
-            @error('price')
+            @error('code')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        {{-- Kategori --}}
         <div class="mb-4">
-            <label class="block mb-1 font-semibold">Kategori</label>
-            <select name="category"
-                class="w-full border rounded px-3 py-2 @error('category') border-red-500 @enderror"
+            <label class="block mb-1 font-semibold">Besar Diskon (%)</label>
+            <input type="number"
+                name="discount_percent"
+                value="{{ old('discount_percent') }}"
+                class="w-full border rounded px-3 py-2 @error('discount_percent') border-red-500 @enderror"
+                min="0" max="100"
                 required>
-                <option value="" disabled {{ old('category') ? '' : 'selected' }}>Pilih Kategori</option>
-                <option value="tiket" {{ old('category') === 'tiket' ? 'selected' : '' }}>Tiket</option>
-                <option value="parkir" {{ old('category') === 'parkir' ? 'selected' : '' }}>Parkir</option>
-            </select>
-            @error('category')
+            @error('discount_percent')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-4">
+            <label class="block mb-1 font-semibold">Jumlah Kuota</label>
+            <input type="number"
+                name="qty"
+                value="{{ old('qty') }}"
+                class="w-full border rounded px-3 py-2 @error('qty') border-red-500 @enderror"
+                min="1"
+                required>
+            @error('qty')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-4">
+            <label class="block mb-1 font-semibold">Periode Promo</label>
+            <input type="date"
+                name="valid_until"
+                value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                class="w-full border rounded px-3 py-2 @error('valid_until') border-red-500 @enderror"
+                required>
+            @error('valid_until')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
