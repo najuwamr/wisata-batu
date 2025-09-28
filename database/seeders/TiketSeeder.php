@@ -20,6 +20,7 @@ class TiketSeeder extends Seeder
                 'description' => 'Tiket masuk reguler untuk pengunjung.',
                 'price' => 25000,
                 'image' => null,
+                'category' => 'tiket',
                 'is_active' => true,
             ],
             [
@@ -28,6 +29,7 @@ class TiketSeeder extends Seeder
                 'description' => 'Tiket paket termasuk beberapa wahana.',
                 'price' => 50000,
                 'image' => null,
+                'category' => 'tiket',
                 'is_active' => true,
             ],
             [
@@ -36,6 +38,7 @@ class TiketSeeder extends Seeder
                 'description' => 'Tiket parkir untuk mobil.',
                 'price' => 10000,
                 'image' => null,
+                'category' => 'parkir',
                 'is_active' => true,
             ],
             [
@@ -44,6 +47,7 @@ class TiketSeeder extends Seeder
                 'description' => 'Tiket parkir untuk motor.',
                 'price' => 5000,
                 'image' => null,
+                'category' => 'parkir',
                 'is_active' => true,
             ],
             [
@@ -52,6 +56,7 @@ class TiketSeeder extends Seeder
                 'description' => 'Tiket parkir untuk bus.',
                 'price' => 20000,
                 'image' => null,
+                'category' => 'parkir',
                 'is_active' => true,
             ],
         ];
