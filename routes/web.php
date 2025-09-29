@@ -59,7 +59,8 @@ Route::prefix('admin')->group(function () {
 Route::prefix('loket')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('loket.dashboard');
     // ----- SCAN QR CODE -----
-    Route::get('/scan', [QRController::class, 'index'])->name('loket.scan.index');
+    Route::get('/scan', [QRController::class, 'index'])->name('loket.scan');
     Route::post('/scan/decode', [QRController::class, 'decode'])->name('loket.scan.decode');
     // ----- CRUD LAPORAN -----
+    Route::get('/laporan', [LaporanController::class, 'klik_laporan'])->name('loket.laporan');
 });

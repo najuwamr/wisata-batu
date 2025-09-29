@@ -21,7 +21,7 @@
 
         {{-- Tombol Aksi --}}
         <div class="flex justify-between items-center mb-2">
-            <button onclick="openDetailModal('{{ $product->id }}')" class="flex items-center gap-1 bg-white border border-blue-600 text-blue-900 px-3 py-1 rounded-md hover:bg-blue-100 transition">
+            <button onclick="openDetailModal('{{ $product->id }}')" class="flex items-center cursor-pointer gap-1 bg-white border border-blue-600 text-blue-900 px-3 py-1 rounded-md hover:bg-blue-100 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 472 384">
                     <path fill="currentColor" d="M235 32q79 0 142.5 44.5T469 192q-28 71-91.5 115.5T235 352T92 307.5T0 192q28-71 92-115.5T235 32zm0 267q44 0 75-31.5t31-75.5t-31-75.5T235 85t-75.5 31.5T128 192t31.5 75.5T235 299zm-.5-171q26.5 0 45.5 18.5t19 45.5t-19 45.5t-45.5 18.5t-45-18.5T171 192t18.5-45.5t45-18.5z"/>
                 </svg>
@@ -34,14 +34,14 @@
                             : route('admin.promo.restore', $product->id) }}"
                     onsubmit="return confirm('Yakin ingin mengaktifkan kembali data ini?');">
                     @csrf
-                    <button type="submit" class="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition">
+                    <button type="submit" class="flex items-center cursor-pointer gap-1 bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m20.25 5.5l-.5 6m-14.5-6l.605 10.037c.154 2.57.232 3.855.874 4.78a4 4 0 0 0 1.2 1.132c.582.356 1.284.496 2.321.551m1.5-6.5l1.136 1.466a4 4 0 0 1 7.364-.901m1.5 4.435l-1.136-1.464a4 4 0 0 1-7.328.965M3.75 5.5h18m-4.944 0l-.683-1.408c-.453-.936-.68-1.403-1.071-1.695a2 2 0 0 0-.275-.172C14.344 2 13.824 2 12.785 2c-1.066 0-1.599 0-2.04.234a2 2 0 0 0-.278.18c-.395.303-.616.788-1.058 1.757L8.803 5.5" color="currentColor"/>
                         </svg>
                         <span>Pulihkan</span>
                     </button>
                 </form>
-                <button type="submit" class="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-900 transition">
+                <button type="submit" class="flex items-center cursor-pointer gap-1 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-900 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 256 256">
                         <path fill="currentColor" d="M216 48h-40v-8a24 24 0 0 0-24-24h-48a24 24 0 0 0-24 24v8H40a8 8 0 0 0 0 16h8v144a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16V64h8a8 8 0 0 0 0-16ZM96 40a8 8 0 0 1 8-8h48a8 8 0 0 1 8 8v8H96Zm96 168H64V64h128Zm-80-104v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Zm48 0v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Z"/>
@@ -56,7 +56,7 @@
                                     : route('admin.promo.delete', $product->id) }}"
                         onsubmit="return confirm('Yakin ingin menonaktifkan data ini?');">
                         @csrf
-                        <button type="submit" class="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition">
+                        <button type="submit" class="flex cursor-pointer items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 256 256">
                                 <path fill="currentColor" d="M216 48h-40v-8a24 24 0 0 0-24-24h-48a24 24 0 0 0-24 24v8H40a8 8 0 0 0 0 16h8v144a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16V64h8a8 8 0 0 0 0-16ZM96 40a8 8 0 0 1 8-8h48a8 8 0 0 1 8 8v8H96Zm96 168H64V64h128Zm-80-104v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Zm48 0v64a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Z"/>
@@ -65,7 +65,7 @@
                         </button>
                     </form>
 
-                    <button onclick="openEditModal('{{ $product->id }}')" class="flex items-center gap-1 bg-blue-600 hover:text-blue-600 text-white border border-blue-600 px-3 py-1 rounded-md hover:bg-white transition">
+                    <button onclick="openEditModal('{{ $product->id }}')" class="flex cursor-pointer items-center gap-1 bg-blue-600 hover:text-blue-600 text-white border border-blue-600 px-3 py-1 rounded-md hover:bg-white transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
                             <path fill="currentColor" d="M25 4.031c-.766 0-1.516.297-2.094.875L13 14.781l-.219.219l-.062.313l-.688 3.5l-.312 1.468l1.469-.312l3.5-.688l.312-.062l.219-.219l9.875-9.906A2.968 2.968 0 0 0 25 4.03zm0 1.938c.234 0 .465.12.688.343c.445.446.445.93 0 1.375L16 17.376l-1.719.344l.344-1.719l9.688-9.688c.222-.222.453-.343.687-.343zM4 8v20h20V14.812l-2 2V26H6V10h9.188l2-2z"/>
                         </svg>
@@ -79,177 +79,175 @@
 
 {{-- Modal edit --}}
 <div id="editModal-{{ $product->id }}"
-    class="fixed inset-0 bg-black/70 flex items-center justify-center hidden z-50">
-    <div class="bg-white w-full max-w-4xl p-6 rounded-lg shadow-lg"> {{-- max-w diperbesar --}}
+    class="fixed bg-black/70 inset-0 flex items-center justify-center hidden z-50">
 
-        <h2 class="text-xl font-bold mb-4 text-blue-900">
+    <!-- Kontainer modal -->
+    <div class="bg-white w-full max-w-lg max-h-[90vh] rounded-lg shadow-lg relative my-8 flex flex-col">
+
+        <!-- Header -->
+        <h2 class="text-xl font-bold text-blue-900 px-6 pt-6">
             Edit {{ isset($product->price) ? 'Tiket' : 'Promo' }}
         </h2>
 
-        <form id="editForm-{{ $product->id }}"
-            method="POST"
-            enctype="multipart/form-data"
-            action="{{ isset($product->price)
-                        ? route('admin.update.tiket', $product->id)
-                        : route('admin.update.promo', $product->id) }}">
-            @csrf
-            @method('PUT')
+        <!-- Konten scrollable -->
+        <div class="flex-1 overflow-y-auto px-6 pb-6">
+            <form id="editForm-{{ $product->id }}"
+                method="POST"
+                enctype="multipart/form-data"
+                action="{{ isset($product->price)
+                            ? route('admin.update.tiket', $product->id)
+                            : route('admin.update.promo', $product->id) }}">
+                @csrf
+                @method('PUT')
 
-            {{-- Bagi dua kolom --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    {{-- Nama --}}
+                {{-- Nama --}}
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Nama</label>
+                    <input type="text"
+                        name="name"
+                        id="editNama-{{ $product->id }}"
+                        value="{{ old('name', $product->name) }}"
+                        class="w-full border rounded px-3 py-2 @error('name') border-red-500 @enderror">
+                    @error('name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                @if (isset($product->price))
+                    {{-- Harga --}}
                     <div class="mb-4">
-                        <label class="block mb-1 font-semibold">Nama</label>
-                        <input type="text"
-                            name="name"
-                            id="editNama-{{ $product->id }}"
-                            value="{{ old('name', $product->name) }}"
-                            class="w-full border rounded px-3 py-2 @error('name') border-red-500 @enderror">
-                        @error('name')
+                        <label class="block mb-1 font-semibold">Harga</label>
+                        <input type="number"
+                            name="price"
+                            id="editPrice-{{ $product->id }}"
+                            value="{{ $product->price }}"
+                            class="w-full border rounded px-3 py-2 @error('price') border-red-500 @enderror">
+                        @error('price')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    {{-- Kategori --}}
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold">Kategori</label>
+                        <select name="category"
+                            id="editCategory-{{ $product->id }}"
+                            class="w-full border rounded px-3 py-2 @error('category') border-red-500 @enderror">
+                            <option value="tiket" {{ $product->category === 'tiket' ? 'selected' : '' }}>Tiket</option>
+                            <option value="parkir" {{ $product->category === 'parkir' ? 'selected' : '' }}>Parkir</option>
+                        </select>
+                        @error('category')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                @elseif (isset($product->code))
+                    {{-- Kode Promo --}}
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold">Kode Promo</label>
+                        <input type="text"
+                            name="code"
+                            id="editCode-{{ $product->id }}"
+                            value="{{ $product->code }}"
+                            class="w-full border rounded px-3 py-2 @error('code') border-red-500 @enderror">
+                        @error('code')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    {{-- Diskon --}}
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold">Besar Diskon (%)</label>
+                        <input type="number"
+                            name="discount_percent"
+                            id="editDiscountPercent-{{ $product->id }}"
+                            value="{{ $product->discount_percent }}"
+                            class="w-full border rounded px-3 py-2 @error('discount_percent') border-red-500 @enderror">
+                        @error('discount_percent')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    {{-- Kuota --}}
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold">Jumlah Kuota</label>
+                        <input type="number"
+                            name="qty"
+                            id="editQty-{{ $product->id }}"
+                            value="{{ $product->qty }}"
+                            class="w-full border rounded px-3 py-2 @error('qty') border-red-500 @enderror">
+                        @error('qty')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    {{-- Periode --}}
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold">Periode Promo</label>
+                        <input type="date"
+                            name="valid_until"
+                            id="editValidUntil-{{ $product->id }}"
+                            value="{{ \Carbon\Carbon::parse($product->valid_until)->format('Y-m-d') }}"
+                            class="w-full border rounded px-3 py-2 @error('valid_until') border-red-500 @enderror">
+                        @error('valid_until')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                @endif
 
-                    @if (isset($product->price))
-                        {{-- Harga --}}
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Harga</label>
-                            <input type="number"
-                                name="price"
-                                id="editPrice-{{ $product->id }}"
-                                value="{{ $product->price }}"
-                                class="w-full border rounded px-3 py-2 @error('price') border-red-500 @enderror">
-                            @error('price')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        {{-- Kategori --}}
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Kategori</label>
-                            <select name="category"
-                                id="editCategory-{{ $product->id }}"
-                                class="w-full border rounded px-3 py-2 @error('category') border-red-500 @enderror">
-                                <option value="tiket" {{ $product->category === 'tiket' ? 'selected' : '' }}>Tiket</option>
-                                <option value="parkir" {{ $product->category === 'parkir' ? 'selected' : '' }}>Parkir</option>
-                            </select>
-                            @error('category')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    @elseif (isset($product->code))
-                        {{-- Kode Promo --}}
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Kode Promo</label>
-                            <input type="text"
-                                name="code"
-                                id="editCode-{{ $product->id }}"
-                                value="{{ $product->code }}"
-                                class="w-full border rounded px-3 py-2 @error('code') border-red-500 @enderror">
-                            @error('code')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        {{-- Diskon --}}
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Besar Diskon (%)</label>
-                            <input type="number"
-                                name="discount_percent"
-                                id="editDiscountPercent-{{ $product->id }}"
-                                value="{{ $product->discount_percent }}"
-                                class="w-full border rounded px-3 py-2 @error('discount_percent') border-red-500 @enderror">
-                            @error('discount_percent')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        {{-- Kuota --}}
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Jumlah Kuota</label>
-                            <input type="number"
-                                name="qty"
-                                id="editQty-{{ $product->id }}"
-                                value="{{ $product->qty }}"
-                                class="w-full border rounded px-3 py-2 @error('qty') border-red-500 @enderror">
-                            @error('qty')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        {{-- Periode --}}
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Periode Promo</label>
-                            <input type="date"
-                                name="valid_until"
-                                id="editValidUntil-{{ $product->id }}"
-                                value="{{ \Carbon\Carbon::parse($product->valid_until)->format('Y-m-d') }}"
-                                class="w-full border rounded px-3 py-2 @error('valid_until') border-red-500 @enderror">
-                            @error('valid_until')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                {{-- Deskripsi --}}
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Deskripsi</label>
+                    <textarea name="description"
+                        id="editDeskripsi-{{ $product->id }}"
+                        rows="6"
+                        class="w-full border rounded px-3 py-2 @error('description') border-red-500 @enderror">{{ $product->description }}</textarea>
+                    @error('description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Gambar --}}
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Gambar</label>
+                    @if(!empty($product->image))
+                        <img id="previewGambar-{{ $product->id }}"
+                            src="{{ asset('images/' . $product->image) }}"
+                            alt="Preview Gambar"
+                            class="w-full h-40 object-contain rounded border mb-2">
+                    @else
+                        <div id="previewGambar-{{ $product->id }}"
+                            class="w-full h-40 flex items-center justify-center border rounded mb-2 text-gray-500 font-semibold">
+                            Gambar
                         </div>
                     @endif
+                    <input type="file"
+                        name="image"
+                        accept="image/*"
+                        onchange="previewImage(event, '{{ $product->id }}')"
+                        class="w-full border rounded p-2 @error('image') border-red-500 @enderror">
+                    @error('image')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                {{-- Kolom kanan --}}
-                <div>
-                    {{-- Deskripsi --}}
-                    <div class="mb-4">
-                        <label class="block mb-1 font-semibold">Deskripsi</label>
-                        <textarea name="description"
-                            id="editDeskripsi-{{ $product->id }}"
-                            rows="6"
-                            class="w-full border rounded px-3 py-2 @error('description') border-red-500 @enderror">{{ $product->description }}</textarea>
-                        @error('description')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Gambar --}}
-                    <div class="mb-4">
-                        <label class="block mb-1 font-semibold">Gambar</label>
-                        @if(!empty($product->image))
-                            <img id="previewGambar-{{ $product->id }}"
-                                src="{{ asset('images/' . $product->image) }}"
-                                alt="Preview Gambar"
-                                class="w-full h-40 object-contain rounded border mb-2">
-                        @else
-                            <div id="previewGambar-{{ $product->id }}"
-                                class="w-full h-40 flex items-center justify-center border rounded mb-2 text-gray-500 font-semibold">
-                                Gambar
-                            </div>
-                        @endif
-                        <input type="file"
-                            name="image"
-                            accept="image/*"
-                            onchange="previewImage(event, '{{ $product->id }}')"
-                            class="w-full border rounded p-2 @error('image') border-red-500 @enderror">
-                        @error('image')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                {{-- Tombol --}}
+                <div class="flex justify-end gap-2 mt-4">
+                    <button type="button"
+                            onclick="closeEditModal('{{ $product->id }}')"
+                            class="px-4 py-2 rounded border cursor-pointer border-gray-400 text-gray-600 hover:bg-gray-100">
+                        Batal
+                    </button>
+                    <button type="submit"
+                            class="px-4 py-2 rounded cursor-pointer bg-blue-600 text-white hover:bg-blue-900">
+                        Perbarui
+                    </button>
                 </div>
-            </div>
-
-            {{-- Tombol --}}
-            <div class="flex justify-end gap-2 mt-4">
-                <button type="button"
-                        onclick="closeEditModal('{{ $product->id }}')"
-                        class="px-4 py-2 rounded border border-gray-400 text-gray-600 hover:bg-gray-100">
-                    Batal
-                </button>
-                <button type="submit"
-                        class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-900">
-                    Perbarui
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
 
 {{-- Modal detail --}}
 <div id="detailModal-{{ $product->id }}"
-    class="fixed bg-black/70 inset-0 flex items-center justify-center hidden z-50">
-    <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg relative">
+    class="fixed bg-black/70 inset-0 flex items-center justify-center overflow-y-auto hidden z-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg relative my-8 max-h-screen overflow-y-auto">
         <h2 class="text-2xl font-bold text-blue-900 mb-4">
             Detail {{ isset($product->price) ? 'Tiket' : 'Promo' }}
         </h2>
@@ -277,10 +275,21 @@
             <p><strong>Periode Promo:</strong> {{ \Carbon\Carbon::parse($product->valid_until)->format('d M Y') }}</p>
         @endif
 
+        <style>
+            #detailDeskripsi-{{ $product->id }} ol {
+                list-style-type: decimal;
+                padding-left: 1.5rem;
+            }
+            #detailDeskripsi-{{ $product->id }} ul {
+                list-style-type: disc;
+                padding-left: 1.5rem;
+            }
+        </style>
+
         <p><strong>Deskripsi:</strong></p>
-        <p id="detailDeskripsi-{{ $product->id }}" class="whitespace-pre-line">
-            {{ $product->description }}
-        </p>
+        <div id="detailDeskripsi-{{ $product->id }}">
+            {!! $product->description !!}
+        </div>
 
         <button onclick="closeDetailModal('{{ $product->id }}')"
                 class="absolute top-3 right-4 text-gray-500 hover:text-red-500">
@@ -291,6 +300,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     function openEditModal(id) {
         document.getElementById(`editModal-${id}`).classList.remove('hidden');
@@ -316,3 +326,19 @@
         reader.readAsDataURL(event.target.files[0]);
     }
 </script>
+
+<script src="https://cdn.tiny.cloud/1/kpp26jmqwgc3jwyaal4x0hord83c38xbqbn4zqqrgu2z33jf/tinymce/6/tinymce.min.js" crossorigin="anonymous"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea[name=description]',
+        plugins: 'link image media table code lists',
+        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media | code',
+        menubar: false,
+        setup: function (editor) {
+            editor.on('change blur', function () {
+                editor.save();
+            });
+        }
+    });
+</script>
+@endpush
