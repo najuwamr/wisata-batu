@@ -9,7 +9,8 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [LandingPageController::class, 'index_Tiket'])->name('landing');
+Route::get('/', [LandingPageController::class, 'index'])->name('Beranda');
+
 
 
 
