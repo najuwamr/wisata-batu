@@ -122,4 +122,16 @@ class TiketController extends Controller
 
         return redirect()->route('admin.get.tiket')->with('success', 'Tiket berhasil diaktifkan kembali.');
     }
+
+    public function index_tiket()
+    {
+        $tiket = Ticket::where('is_active', true)->where('category', 'tiket')->get();
+        return view('customer.tiket', compact('tiket'));
+    }
+
+    public function detail_tiket($id)
+    {
+        $tiket = Ticket::findOrFail($id);
+        return view('customer.detail-tiket', compact('tiket'));
+    }
 }

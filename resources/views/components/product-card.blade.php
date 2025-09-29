@@ -275,19 +275,8 @@
             <p><strong>Periode Promo:</strong> {{ \Carbon\Carbon::parse($product->valid_until)->format('d M Y') }}</p>
         @endif
 
-        <style>
-            #detailDeskripsi-{{ $product->id }} ol {
-                list-style-type: decimal;
-                padding-left: 1.5rem;
-            }
-            #detailDeskripsi-{{ $product->id }} ul {
-                list-style-type: disc;
-                padding-left: 1.5rem;
-            }
-        </style>
-
         <p><strong>Deskripsi:</strong></p>
-        <div id="detailDeskripsi-{{ $product->id }}">
+        <div class="detailDeskripsi">
             {!! $product->description !!}
         </div>
 

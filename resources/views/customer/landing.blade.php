@@ -44,7 +44,7 @@
                 </p>
 
                 <!-- Tombol Lihat Tiket lainnya -->
-                <a href="#"
+                <a href="{{ route('guest.tiket') }}"
                    class="md:w-1/3 w-1/2 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700">
                    Lihat Tiket lainnya
                 </a>
@@ -72,7 +72,6 @@
             <div class="w-full overflow-hidden">
                 <div class="swiper mySwiperFeatures">
                     <div class="swiper-wrapper py-4">
-
                         @forelse($tiketAktif as $tiket)
                             <div class="swiper-slide flex justify-center">
                                 <div class="bg-white shadow-lg rounded-2xl overflow-hidden w-full">
@@ -86,7 +85,7 @@
                                             Rp {{ number_format($tiket->price, 0, ',', '.') }}
                                         </p>
 
-                                        <a href="/"
+                                        <a href="{{ route('guest.tiket.detail', $tiket->id) }}"
                                             class="w-full md:w-1/2 flex justify-center items-center mt-4 bg-gradient-to-r from-red-500 to-red-400 text-white px-4 py-2 rounded-lg hover:from-red-600 hover:to-red-500 gap-2">
                                             Lihat Detail
                                             <span>

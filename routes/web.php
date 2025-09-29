@@ -14,6 +14,16 @@ Route::get('/', [LandingPageController::class, 'index_Tiket'])->name('landing');
 
 
 // ----- GUEST -----
+// ----- TIKET -----
+Route::prefix('tiket')->group(function () {
+    Route::get('/', [TiketController::class, 'index_tiket'])->name('guest.tiket');
+    Route::get('/{id}/detail', [TiketController::class, 'detail_tiket'])->name('guest.tiket.detail');
+});
+// ----- PROMO -----
+Route::prefix('promo')->group(function () {
+    Route::get('/', [LandingPageController::class, 'index_promo'])->name('landing.promo');
+    Route::get('/{id}/detail', [LandingPageController::class, 'detail_Promo'])->name('landing.promo.detail');
+});
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {
     Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
