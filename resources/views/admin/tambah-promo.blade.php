@@ -133,3 +133,20 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.tiny.cloud/1/kpp26jmqwgc3jwyaal4x0hord83c38xbqbn4zqqrgu2z33jf/tinymce/6/tinymce.min.js" crossorigin="anonymous"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea[name=description]',
+        plugins: 'link image media table code lists',
+        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media | code',
+        menubar: false,
+        setup: function (editor) {
+            editor.on('change blur', function () {
+                editor.save();
+            });
+        }
+    });
+</script>
+@endpush
