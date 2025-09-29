@@ -53,3 +53,56 @@ document.addEventListener("DOMContentLoaded", function() {
                 prevEl: ".swiper-button-prev-features",
             },
         });
+
+ new Swiper(".mySwiperReview", {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+        },
+        speed: 700,
+        breakpoints: {
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+        },
+    });
+
+new Swiper(".mySwiperPromo", {
+        slidesPerView: "auto",
+        spaceBetween: 20,
+        loop: true,
+        speed: 800, // biar smooth
+        navigation: {
+            nextEl: ".swiper-button-next-promo",
+            prevEl: ".swiper-button-prev-promo",
+        },
+        autoplay: {
+            delay: 3000, // jeda antar slide (ms)
+            disableOnInteraction: false,}
+    });
+
+ var swiperMitra = new Swiper(".mySwiperMitra", {
+    slidesPerView: 2,  // default mobile
+    spaceBetween: 30,
+    loop: true,
+    speed: 5000, // makin besar makin halus
+    autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+    },
+    freeMode: true,
+    freeModeMomentum: false,
+    breakpoints: {
+        640: { slidesPerView: 3 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 6 },
+    },
+});
+
