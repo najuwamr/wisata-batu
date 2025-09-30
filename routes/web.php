@@ -14,6 +14,9 @@ Route::get('/', [LandingPageController::class, 'index'])->name('Beranda');
 
 
 
+Route::prefix('promo')->group(function () {
+
+});
 
 // ----- GUEST -----
 // ----- TIKET -----
@@ -37,7 +40,7 @@ Route::prefix('pesan-tiket')->group(function () {
 });
 // ----- PAYMENT -----
 Route::prefix('pembayaran')->group(function () {
-
+    Route::get('/tiket-promo/promo', [PromoController::class, 'index'])->name('customer.get.promo');
 });
 
 

@@ -81,7 +81,8 @@
 
                                         <div class="p-3">
                                             <h3 class="text-lg font-semibold text-gray-800">{{ $tiket->name }}</h3>
-                                            <p class="text-gray-600 text-sm mt-1">{{ $tiket->description }}</p>
+
+
                                             <p class="mt-3 text-xl font-bold text-blue-600">
                                                 Rp {{ number_format($tiket->price, 0, ',', '.') }}
                                             </p>
@@ -115,8 +116,10 @@
 
 
 
+
     {{-- =================== PETA INTERAKTIF =================== --}}
-    <section class="w-full bg-gradient-to-tr from-blue-100 via-green-50 to-blue-100">
+    <section class="relative w-full bg-gradient-to-tr from-blue-100 via-green-50 to-blue-100 -mt-10">
+
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
 
             <!-- Bagian Peta -->
@@ -726,9 +729,9 @@
         </div>
     </section>
     {{-- Promo --}}
-    <section
-        class="bg-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-t-[2rem] shadow-md relative overflow-hidden min-h-screen">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center">
+    <section class="bg-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-b-[2rem] relative  min-h-screen">
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center pt-10">
 
             <!-- Kolom Kiri: Swiper Card Promo -->
             <div class="w-full">
@@ -747,10 +750,9 @@
                                             Diskon {{ $item->discount_percent }}% • Berlaku sampai
                                             {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
                                         </p>
-                                        <button
-                                            class="mt-4 inline-block px-4 sm:px-5 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow hover:from-red-600 hover:to-red-700 transition text-sm sm:text-base">
-                                            Gunakan Kode: {{ $item->code }}
-                                        </button>
+                                        <a href=""
+                                            class="mt-4 inline-block px-4 sm:px-5 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow hover:from-red-600 hover:to-red-700 transition text-sm sm:text-base">Lihat
+                                            SnK</a>
                                     </div>
                                 </div>
                             </div>
@@ -773,7 +775,7 @@
                 </p>
 
                 <!-- Tombol Lihat Promo -->
-                <a href="#"
+                <a href="{{route('customer.get.promo')}}"
                     class="w-2/3 sm:w-1/2 mx-auto lg:mx-0 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 sm:px-6 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition flex justify-center items-center gap-2 sm:gap-3 text-sm sm:text-base">
                     Lihat Promo Lainnya
                     <span>
@@ -811,29 +813,9 @@
         </div>
     </section>
 
-    <section class="bg-white py-16 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
-            Mitra <span class="text-red-500">Selecta</span>
-        </h2>
 
-        <!-- Marquee Container -->
-        <div class="relative w-full overflow-hidden">
-            <div class="flex animate-marquee space-x-12">
-                @foreach ($mitra as $item)
-                    <img src="{{ $item['image'] }}" alt="Logo Mitra"
-                        class="h-20 w-auto object-contain" />
-                @endforeach
 
-                <!-- Duplikasi biar looping mulus -->
-                @foreach ($mitra as $item)
-                    <img src="{{ $item['image'] }}" alt="Logo Mitra"
-                        class="h-20 w-auto object-contain" />
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
+
 
 
 
