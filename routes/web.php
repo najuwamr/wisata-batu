@@ -8,6 +8,7 @@ use App\Http\Controllers\PromoController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TiketController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('Beranda');
@@ -20,17 +21,24 @@ Route::prefix('promo')->group(function () {
 
 // ----- GUEST -----
 // ----- TIKET -----
-Route::prefix('tiket')->group(function () {
-    Route::get('/', [TiketController::class, 'index_tiket'])->name('guest.tiket');
-    Route::get('/{id}/detail', [TiketController::class, 'detail_tiket'])->name('guest.tiket.detail');
-});
-// ----- PROMO -----
-Route::prefix('promo')->group(function () {
-    Route::get('/', [LandingPageController::class, 'index_promo'])->name('landing.promo');
-    Route::get('/{id}/detail', [LandingPageController::class, 'detail_Promo'])->name('landing.promo.detail');
-});
+Route::get('tiket/', [TiketController::class, 'index_tiket'])->name('guest.tiket');
+Route::get('tiket/{id}/detail', [TiketController::class, 'detail_tiket'])->name('guest.tiket.detail');
 
-Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('guest.keranjang');
+// ----- PROMO -----
+Route::get('promo/', [PromoController::class, 'index_promo'])->name('guest.promo');
+Route::get('promo/{id}/detail', [PromoController::class, 'detail_Promo'])->name('guest.promo.detail');
+
+// ----- KERANJANG -----
+Route::get('keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
+Route::post('keranjang/tambah', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
+Route::post('keranjang/update/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
+Route::delete('keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
+Route::delete('keranjang/clear', [KeranjangController::class, 'clear'])->name('keranjang.clear');
+
+// ----- TRANSAKSI -----
+Route::get('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
+Route::post('/checkout/lanjut', [TransaksiController::class, 'lanjut'])->name('checkout.lanjut');
+Route::post('/checkout/bayar', [TransaksiController::class, 'bayar'])->name('checkout.bayar');
 
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {

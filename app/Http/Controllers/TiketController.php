@@ -131,7 +131,7 @@ class TiketController extends Controller
 
     public function detail_tiket($id)
     {
-        $tiket = Ticket::findOrFail($id);
-        return view('customer.detail-tiket', compact('tiket'));
+        $ticket = Ticket::findOrFail($id);
+        return view('customer.detail-tiket', compact('ticket'));
     }
 }
