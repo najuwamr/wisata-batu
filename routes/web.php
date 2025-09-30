@@ -25,8 +25,8 @@ Route::prefix('pesan-tiket')->group(function () {
     Route::get('/{id}/qr', [CustomerController::class, 'showQr'])->name('customer.qr');
 });
 // ----- PAYMENT -----
-Route::prefix('pembayaran')->group(function () {
-    Route::get('/tiket-promo/promo', [PromoController::class, 'index'])->name('customer.get.promo');
+Route::prefix('promo')->group(function () {
+    Route::get('/lihat-promo', [PromoController::class, 'index'])->name('customer.get.promo');
 });
 
 

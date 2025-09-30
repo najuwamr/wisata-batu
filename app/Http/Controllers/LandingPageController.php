@@ -15,7 +15,7 @@ class LandingPageController extends Controller
 
          $review = [
     [
-        'user'  => 'Dio',
+        'user'  => 'Dio12',
         'image' => asset('assets/review/profile.svg'),
         'komen' => 'Sukak bgt sama tempatnya,lengkapppppl ada pool ada park juga dan byk wahana juga disana,pokokknya ini salah satuu wisata terbaik di Batu',
     ],
