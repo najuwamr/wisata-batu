@@ -106,3 +106,17 @@ new Swiper(".mySwiperPromo", {
     },
 });
 
+ var highlight = new Swiper(".myHighlight", {
+    spaceBetween: 10,
+  });
+
+  var thumb = new Swiper(".myThumb", {
+    spaceBetween: 10,
+    slidesPerView: 3,
+    centeredSlides: true,
+    slideToClickedSlide: true,
+  });
+
+  highlight.controller.control = thumb;
+  thumb.controller.control = highlight;
+

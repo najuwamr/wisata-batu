@@ -133,11 +133,4 @@ class PromoController extends Controller
 
         return redirect()->route('admin.get.promo')->with('success', 'Promo berhasil diaktifkan kembali.');
     }
-
-    public function index(){
-
-        $promoAktif = Promo::where('is_active', true)->get();
-
-        return view ('customer.promo', compact('promoAktif'));
-    }
 }
