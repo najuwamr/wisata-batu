@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\QRController;
@@ -25,6 +26,9 @@ Route::prefix('promo')->group(function () {
     Route::get('/', [LandingPageController::class, 'index_promo'])->name('landing.promo');
     Route::get('/{id}/detail', [LandingPageController::class, 'detail_Promo'])->name('landing.promo.detail');
 });
+
+Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('guest.keranjang');
+
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {
     Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');

@@ -1,4 +1,4 @@
-@extends('layouts.customer')
+@extends('layouts.guest')
 
 @section('content')
 <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -27,9 +27,16 @@
 
     {{-- Tombol kembali --}}
     <div class="mt-6">
-        <a href="{{ route('customer.tiket.index') }}"
+        <a href="{{ route('guest.tiket') }}"
            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
             Kembali
+        </a>
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ route('guest.keranjang') }}"
+           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            Pesan Sekarang
         </a>
     </div>
 </div>
