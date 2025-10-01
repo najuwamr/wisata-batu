@@ -12,7 +12,7 @@
             Browser Anda tidak mendukung video.
         </video>
 
-        <div class="absolute inset-0 bg-black/0"></div>
+        <div class="absolute inset-0 bg-black/50 "></div>
         <div class="flex-col justify-center items-center">
             <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic"
                 class="absolute top-1/2 left-1/2 w-1/2 md:w-1/3 transform -translate-x-1/2 -translate-y-1/2 z-20">
@@ -735,7 +735,7 @@
                                         class="w-full h-56 sm:h-64 md:h-72 object-cover" />
                                     <div class="p-4 sm:p-6">
                                         <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
-                                        <p class="text-gray-600 mt-2 text-sm sm:text-base">{{ $item->description }}</p>
+                                        
                                         <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
                                             Diskon {{ $item->discount_percent }}% • Berlaku sampai
                                             {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
@@ -765,7 +765,7 @@
                 </p>
 
                 <!-- Tombol Lihat Promo -->
-                <a href="{{ route('customer.get.promo') }}"
+                <a href="{{ route('promo.index') }}"
                     class="w-2/3 sm:w-1/2 mx-auto lg:mx-0 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 sm:px-6 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition flex justify-center items-center gap-2 sm:gap-3 text-sm sm:text-base">
                     Lihat Promo Lainnya
                     <span>
