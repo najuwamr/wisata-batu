@@ -134,10 +134,25 @@ class PromoController extends Controller
         return redirect()->route('admin.get.promo')->with('success', 'Promo berhasil diaktifkan kembali.');
     }
 
-    public function index(){
+   public function index()
+    {
+        $promoAktif = Promo::where('valid_until', '>=', now())
+                          ->orderBy('created_at', 'desc')
+                          ->get();
 
-        $promoAktif = Promo::where('is_active', true)->get();
+        return view('customer.promo.promo', compact('promoAktif'));
+    }
 
-        return view ('customer.promo', compact('promoAktif'));
+    public function show($id)
+    {
+        // Cari promo berdasarkan ID
+        $promo = Promo::find($id);
+
+        // Jika promo tidak ditemukan
+        if (!$promo) {
+            return view('promo.show')->with('error', 'Promo tidak ditemukan');
+        }
+
+        return view('customer.promo.detail', compact('promo'));
     }
 }

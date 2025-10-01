@@ -106,3 +106,45 @@ new Swiper(".mySwiperPromo", {
     },
 });
 
+ var highlight = new Swiper(".myHighlight", {
+    spaceBetween: 10,
+  });
+
+  var thumb = new Swiper(".myThumb", {
+    spaceBetween: 10,
+    slidesPerView: 3,
+    centeredSlides: true,
+    slideToClickedSlide: true,
+  });
+
+  highlight.controller.control = thumb;
+  thumb.controller.control = highlight;
+
+function copyPromoCode(code) {
+            navigator.clipboard.writeText(code).then(function() {
+                showToast('Kode promo berhasil disalin!', 'success');
+            }, function() {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('Kode promo berhasil disalin!', 'success');
+            });
+        }
+
+        function sharePromo() {
+            if (navigator.share) {
+                navigator.share({
+                        title: '{{ $promo->name }}',
+                        text: 'Dapatkan diskon {{ $promo->discount_percent }}% dengan kode promo: {{ $promo->code }}',
+                        url: window.location.href,
+                    })
+                    .then(() => showToast('Promo berhasil dibagikan!', 'success'))
+                    .catch((error) => console.log('Error sharing:', error));
+            } else {
+                copyPromoCode('{{ $promo->code }}');
+            }
+        }

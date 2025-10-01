@@ -6,13 +6,13 @@
 
 @section('content')
     {{-- =================== HERO VIDEO =================== --}}
-    <section class="relative w-full h-screen overflow-hidden">
+    <section class="relative md:w-full md:h-screen h-1/2 overflow-hidden">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
             <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4" loading="lazy">
             Browser Anda tidak mendukung video.
         </video>
 
-        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="absolute inset-0 bg-black/50 "></div>
         <div class="flex-col justify-center items-center">
             <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic"
                 class="absolute top-1/2 left-1/2 w-1/2 md:w-1/3 transform -translate-x-1/2 -translate-y-1/2 z-20">
@@ -33,8 +33,6 @@
     <section class="w-full bg-blue-50 py-20">
         <div class="max-w-7xl mx-auto bg-blue-50 rounded-3xl p-8 md:p-12 lg:p-16">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-                <!-- Bagian Teks -->
                 <div>
                     <h2
                         class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4">
@@ -117,42 +115,36 @@
 
 
 
-    {{-- =================== PETA INTERAKTIF =================== --}}
+    {{-- =================== Peta =================== --}}
     <section class="relative w-full bg-gradient-to-tr from-blue-100 via-green-50 to-blue-100 -mt-10">
 
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
 
-            <!-- Bagian Peta -->
+
             <div class="relative w-full md:w-full flex justify-end items-end ">
-                <!-- Container Peta dengan Efek 3D Ringan -->
+
                 <div class="relative w-full">
-                    <!-- Background Peta dengan Efek Kedalaman -->
 
 
-                    <!-- Peta Utama -->
+
+
                     <div class="relative">
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
                             class="w-full h-auto object-cover shadow-2xl" loading="lazy">
-
-                        <!-- Overlay dengan Grid Transparan untuk Efek Interaktif -->
-
                     </div>
 
-                    <!-- Marker hanya ditampilkan di desktop -->
+
                     <div class="hidden lg:block">
-                        <!-- Marker: Kolam Renang -->
                         <div class="absolute top-[40%] left-[43%] animate-float">
                             <div class="group relative">
-                                <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="bg-blue-"
+                                    <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
-                                <!-- Tooltip -->
                                 <div
                                     class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
                                     <div
@@ -169,19 +161,19 @@
                             </div>
                         </div>
 
-                        <!-- Marker: Bianglala -->
+
                         <div class="absolute top-[51%] left-[36%] animate-float" style="animation-delay: 0.5s;">
                             <div class="group relative">
-                                <!-- Marker dengan animasi pulsa -->
+
                                 <div
-                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="#ED3500"
+                                    <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
-                                <!-- Tooltip -->
+
                                 <div
                                     class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50">
                                     <div
@@ -197,17 +189,17 @@
                             </div>
                         </div>
 
-                        {{-- Dinosaurus --}}
+
                         <div class="absolute top-[35%] left-[45%] animate-float" style="animation-delay: 0.5s;">
                             <div class="group relative">
-                                <!-- Marker dengan animasi pulsa -->
+
                                 <div
-                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                     viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="#ED3500"
+                                    <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
                                 <!-- Tooltip -->
@@ -231,12 +223,12 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                     viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="#ED3500"
+                                    <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
                                 <!-- Tooltip -->
@@ -259,12 +251,12 @@
                             <div class="group relative">
                                 <!-- Marker dengan animasi pulsa -->
                                 <div
-                                    class="absolute -inset-2 bg-green-500 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                     viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="#ED3500"
+                                    <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
                                 <!-- Tooltip -->
@@ -293,7 +285,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                                     viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-gradient-to-b from-blue-500 to-blue-700"
+                                    <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
                                 </svg>
                                 <!-- Tooltip -->
@@ -697,10 +689,10 @@
             </div>
 
     </section>
-    <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-10 overflow-hidden md:min-h-screen items-center">
+    <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center">
         <div class="container mx-auto pt-10">
             <h2
-                class="text-2xl sm:text-5xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug">
+                class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug">
                 Apa kata mereka tentang <span
                     class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-[#6ECCFF]">Selecta?</span>
             </h2>
@@ -729,11 +721,10 @@
         </div>
     </section>
     {{-- Promo --}}
-    <section class="bg-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-b-[2rem] relative  min-h-screen">
+    <section
+        class="bg-gradient-to-br from-gray-50 to-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-b-[2rem] relative  min-h-screen">
 
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center pt-10">
-
-            <!-- Kolom Kiri: Swiper Card Promo -->
             <div class="w-full">
                 <div class="swiper mySwiperPromo">
                     <div class="swiper-wrapper">
@@ -745,7 +736,7 @@
                                         class="w-full h-56 sm:h-64 md:h-72 object-cover" />
                                     <div class="p-4 sm:p-6">
                                         <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
-                                        <p class="text-gray-600 mt-2 text-sm sm:text-base">{{ $item->description }}</p>
+                                        
                                         <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
                                             Diskon {{ $item->discount_percent }}% • Berlaku sampai
                                             {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
@@ -775,7 +766,7 @@
                 </p>
 
                 <!-- Tombol Lihat Promo -->
-                <a href="{{route('customer.get.promo')}}"
+                <a href="{{ route('promo.index') }}"
                     class="w-2/3 sm:w-1/2 mx-auto lg:mx-0 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 sm:px-6 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition flex justify-center items-center gap-2 sm:gap-3 text-sm sm:text-base">
                     Lihat Promo Lainnya
                     <span>
@@ -792,7 +783,7 @@
                     </span>
                 </a>
 
-                <!-- Tombol Navigasi -->
+
                 <div class="flex justify-center lg:justify-start space-x-4 mt-6">
                     <button
                         class="swiper-button-prev-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
