@@ -10,7 +10,15 @@ class KeranjangController extends Controller
     public function keranjang()
     {
         $cart = session()->get('cart', []);
-        return view('customer.keranjang', compact('cart'));
+
+        $tiket = Ticket::orderByRaw("
+            CASE category
+                WHEN 'tiket' THEN 1
+                WHEN 'parkir' THEN 2
+                WHEN 'lainnya' THEN 3
+            END
+        ")->get();
+        return view('customer.keranjang', compact('cart', 'tiket'));
     }
 
     public function tambah(Request $request)

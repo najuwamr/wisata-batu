@@ -7,6 +7,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,17 @@ Route::delete('keranjang/clear', [KeranjangController::class, 'clear'])->name('k
 Route::get('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
 Route::post('/checkout/lanjut', [TransaksiController::class, 'lanjut'])->name('checkout.lanjut');
 Route::post('/checkout/bayar', [TransaksiController::class, 'bayar'])->name('checkout.bayar');
+
+Route::get('/payment', function () {
+    return view('admin.create-customer');
+});
+
+Route::post('/payment/charge', [PaymentController::class, 'charge'])->name('payment.charge');
+// Callback dari Midtrans
+Route::post('/payment/notification', [PaymentController::class, 'notification']);
+Route::get('/payment/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+Route::get('/payment/unfinish', [PaymentController::class, 'unfinish'])->name('payment.unfinish');
+Route::get('/payment/error', [PaymentController::class, 'error'])->name('payment.error');
 
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {
