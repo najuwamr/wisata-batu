@@ -41,7 +41,6 @@
                     <p class="text-gray-600 text-lg max-w-md mb-8">
                         Geser untuk melihat semua tiket yang tersedia dan pilih yang terbaik untuk Anda.
                     </p>
-
                 <!-- Tombol Lihat Tiket lainnya -->
                 <a href="{{ route('guest.tiket') }}"
                    class="md:w-1/3 w-1/2 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700">
@@ -736,7 +735,7 @@
                                         class="w-full h-56 sm:h-64 md:h-72 object-cover" />
                                     <div class="p-4 sm:p-6">
                                         <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
-                                        
+
                                         <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
                                             Diskon {{ $item->discount_percent }}% • Berlaku sampai
                                             {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}

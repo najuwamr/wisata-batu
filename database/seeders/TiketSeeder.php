@@ -18,7 +18,7 @@ class TiketSeeder extends Seeder
                 'id' => Str::uuid(),
                 'name' => 'Tiket Reguler',
                 'description' => 'Tiket masuk reguler untuk pengunjung.',
-                'price' => 25000,
+                'price' => 250,
                 'image' => 'p.jpg',
                 'category' => 'tiket',
                 'is_active' => true,
@@ -32,14 +32,9 @@ class TiketSeeder extends Seeder
                 'category' => 'tiket',
                 'is_active' => true,
             ],
-
-
             [
-                'id' => Str::uuid(),
-                'name' => 'Mobil',
-                'description' => 'Tiket parkir untuk mobil.',
                 'price' => 10000,
-                'image' => 'selecta.png',
+                'image' => 'p.jpg',
                 'category' => 'parkir',
                 'is_active' => true,
             ],
