@@ -41,10 +41,13 @@
                     <p class="text-gray-600 text-lg max-w-md mb-8">
                         Geser untuk melihat semua tiket yang tersedia dan pilih yang terbaik untuk Anda.
                     </p>
-                    <a href="#"
-                        class="md:w-1/3 w-1/2 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700">
-                        Lihat Tiket lainnya
-                    </a>
+                <!-- Tombol Lihat Tiket lainnya -->
+                <a href="{{ route('guest.tiket') }}"
+                   class="md:w-1/3 w-1/2 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700">
+                   Lihat Tiket lainnya
+                </a>
+
+                    <!-- Tombol Navigasi di bawah -->
                     <div class="flex space-x-3 mt-6">
                         <button
                             class="swiper-button-prev-features w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
@@ -63,16 +66,15 @@
                     </div>
                 </div>
 
-                <!-- Bagian Slider -->
-                <div class="w-full overflow-hidden">
-                    <div class="swiper mySwiperFeatures">
-                        <div class="swiper-wrapper py-4">
-
-                            @forelse($tiketAktif as $tiket)
-                                <div class="swiper-slide flex justify-center">
-                                    <div class="bg-white shadow-lg rounded-2xl overflow-hidden w-full">
-                                        <img src="{{ asset('images/' . $tiket->image) }}" alt="{{ $tiket->name }}"
-                                            class="w-full h-40 object-cover">
+            <!-- Bagian Slider -->
+            <div class="w-full overflow-hidden">
+                <div class="swiper mySwiperFeatures">
+                    <div class="swiper-wrapper py-4">
+                        @forelse($tiketAktif as $tiket)
+                            <div class="swiper-slide flex justify-center">
+                                <div class="bg-white shadow-lg rounded-2xl overflow-hidden w-full">
+                                    <img src="{{ asset('images/' . $tiket->image) }}" alt="{{ $tiket->name }}"
+                                        class="w-full h-40 object-cover">
 
                                         <div class="p-3">
                                             <h3 class="text-lg font-semibold text-gray-800">{{ $tiket->name }}</h3>
@@ -82,18 +84,16 @@
                                                 Rp {{ number_format($tiket->price, 0, ',', '.') }}
                                             </p>
 
-                                            <a href="/"
-                                                class="w-full md:w-1/2 flex justify-center items-center mt-4 bg-gradient-to-r from-red-500 to-red-400 text-white px-4 py-2 rounded-lg hover:from-red-600 hover:to-red-500 gap-2">
-                                                Lihat Detail
-                                                <span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                                        viewBox="0 0 24 24">
-                                                        <path fill="#ffffff"
-                                                            d="M9 10a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1Zm12 1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1a1 1 0 0 1 0-2Zm-1-1.82a3 3 0 0 0 0 5.64V17H10a1 1 0 0 0-2 0H4v-2.18a3 3 0 0 0 0-5.64V7h4a1 1 0 0 0 2 0h10Z" />
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </div>
+                                        <a href="{{ route('guest.tiket.detail', $tiket->id) }}"
+                                            class="w-full md:w-1/2 flex justify-center items-center mt-4 bg-gradient-to-r from-red-500 to-red-400 text-white px-4 py-2 rounded-lg hover:from-red-600 hover:to-red-500 gap-2">
+                                            Lihat Detail
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                                                    <path fill="#ffffff"
+                                                        d="M9 10a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1Zm12 1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1a1 1 0 0 1 0-2Zm-1-1.82a3 3 0 0 0 0 5.64V17H10a1 1 0 0 0-2 0H4v-2.18a3 3 0 0 0 0-5.64V7h4a1 1 0 0 0 2 0h10Z" />
+                                                </svg>
+                                            </span>
+                                        </a>
                                     </div>
                                 </div>
                             @empty
