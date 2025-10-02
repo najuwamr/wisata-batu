@@ -735,7 +735,7 @@
                                         class="w-full h-56 sm:h-64 md:h-72 object-cover" />
                                     <div class="p-4 sm:p-6">
                                         <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
-                                        
+
                                         <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
                                             Diskon {{ $item->discount_percent }}% • Berlaku sampai
                                             {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
