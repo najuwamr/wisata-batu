@@ -17,7 +17,7 @@ Route::get('/', [LandingPageController::class, 'index'])->name('Beranda');
 
 
 Route::prefix('promo')->group(function () {
-  Route::get('/lihat-promo', [CustomerController::class, 'index'])->name('promo.index');
+  Route::get('/lihat-promo', [PromoController::class, 'index'])->name('promo.index');
   Route::get('/lihat-promo/{id}', [PromoController::class, 'show'])->name('promo.show');
 });
 
@@ -31,11 +31,11 @@ Route::get('promo/', [PromoController::class, 'index_promo'])->name('guest.promo
 Route::get('promo/{id}/detail', [PromoController::class, 'detail_Promo'])->name('guest.promo.detail');
 
 // ----- KERANJANG -----
-Route::get('keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
-Route::post('keranjang/tambah', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
-Route::post('keranjang/update/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
-Route::delete('keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
-Route::delete('keranjang/clear', [KeranjangController::class, 'clear'])->name('keranjang.clear');
+Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
+Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
+Route::post('/keranjang/update/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
+Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
+Route::delete('/keranjang/clear', [KeranjangController::class, 'clear'])->name('keranjang.clear');
 
 // ----- TRANSAKSI -----
 Route::get('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
