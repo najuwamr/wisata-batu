@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Selecta</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/customer/landing.js'])
-    @vite('resources/js/sweetalert.js')
+
+    <!-- Preload Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap" rel="stylesheet">
+
+    <!-- Ikon -->
     <link rel="icon" type="image/png" href="{{ asset('assets/customer/selecta-logo1.png') }}">
+
+    <!-- CSS External -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-
+    <!-- Vite Resources -->
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/customer/landing.js'])
+    @vite('resources/js/sweetalert.js')
 </head>
 
 <body>
@@ -27,7 +28,22 @@
     @yield('content')
     @include('components.footer')
 
+    <!-- JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Inisialisasi AOS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi AOS
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+        });
+    </script>
 
     @if ($errors->any())
         <script>
@@ -61,4 +77,5 @@
         </script>
     @endif
 </body>
+
 </html>

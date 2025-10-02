@@ -126,12 +126,12 @@ class TiketController extends Controller
     public function index_tiket()
     {
         $tiket = Ticket::where('is_active', true)->where('category', 'tiket')->get();
-        return view('customer.tiket', compact('tiket'));
+        return view('customer.tiket.tiket', compact('tiket'));
     }
 
     public function detail_tiket($id)
     {
         $ticket = Ticket::findOrFail($id);
-        return view('customer.detail-tiket', compact('ticket'));
+        return view('customer.tiket.detail-tiket', compact('ticket'));
     }
 }

@@ -3,148 +3,186 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Tunggu sampai DOM sepenuhnya loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Swipers...');
 
-document.addEventListener("DOMContentLoaded", () => {
-  const marquee = document.querySelector(".marquee");
-
-  // Ambil lebar dari anak pertama (satu grup logo)
-  const trackWidth = marquee.children[0].scrollWidth;
-
-  gsap.to(marquee, {
-    x: -trackWidth, // Geser ke kiri sejauh lebar satu grup logo
-    duration: 20,
-    ease: "linear",
-    repeat: -1, // Ulangi tanpa henti
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-        const revealElements = document.querySelectorAll(".reveal-on-scroll, .reveal-item");
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    // Opsional: Hentikan pengamatan setelah elemen terlihat
-                    // observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1 // Elemen dianggap terlihat jika 10% areanya masuk viewport
-        });
-
-        revealElements.forEach(element => {
-            observer.observe(element);
-        });
-    });
-
-      var swiper = new Swiper(".mySwiperFeatures", {
-            slidesPerView: "auto", // Mengizinkan lebar kartu ditentukan oleh CSS
+    // Swiper untuk Features - TIKET
+    if (document.querySelector('.mySwiperFeatures')) {
+        var swiperFeatures = new Swiper(".mySwiperFeatures", {
+            slidesPerView: 1,
             spaceBetween: 20,
-            speed:700,
-            loop:true,
+            speed: 600,
+            loop: true,
             autoplay: {
-            delay: 3000, // jeda antar slide (ms)
-            disableOnInteraction: false,
-           // tetap jalan meskipun user swipe
+                delay: 4000,
+                disableOnInteraction: false,
             },
             navigation: {
                 nextEl: ".swiper-button-next-features",
                 prevEl: ".swiper-button-prev-features",
             },
+            pagination: {
+                el: ".swiper-pagination-features",
+                clickable: true,
+                renderBullet: function (index, className) {
+                    return '<span class="' + className + '"></span>';
+                },
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 1,
+                    spaceBetween: 24,
+                },
+                1024: {
+                    slidesPerView: 1,
+                    spaceBetween: 28,
+                },
+                1280: {
+                    slidesPerView: 1,
+                    spaceBetween: 32,
+                }
+            },
+        });
+    }
+
+    // Swiper untuk Review
+    if (document.querySelector(".mySwiperReview")) {
+        new Swiper(".mySwiperReview", {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+            speed: 700,
+            breakpoints: {
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+            },
+        });
+    }
+
+    // Swiper untuk Promo
+    if (document.querySelector(".mySwiperPromo")) {
+        new Swiper(".mySwiperPromo", {
+            slidesPerView: "auto",
+            spaceBetween: 20,
+            loop: true,
+            speed: 800,
+            navigation: {
+                nextEl: ".swiper-button-next-promo",
+                prevEl: ".swiper-button-prev-promo",
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            }
+        });
+    }
+
+    // Swiper untuk Mitra
+    if (document.querySelector(".mySwiperMitra")) {
+        var swiperMitra = new Swiper(".mySwiperMitra", {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            loop: true,
+            speed: 5000,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+            },
+            freeMode: true,
+            freeModeMomentum: false,
+            breakpoints: {
+                640: { slidesPerView: 3 },
+                768: { slidesPerView: 4 },
+                1024: { slidesPerView: 6 },
+            },
+        });
+    }
+
+    // Swiper untuk Highlight
+    if (document.querySelector(".myHighlight")) {
+        var highlight = new Swiper(".myHighlight", {
+            spaceBetween: 10,
         });
 
- new Swiper(".mySwiperReview", {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        autoplay: {
-            delay: 2000,
-            disableOnInteraction: false,
-        },
-        speed: 700,
-        breakpoints: {
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-        },
-    });
+        var thumb = new Swiper(".myThumb", {
+            spaceBetween: 10,
+            slidesPerView: 3,
+            centeredSlides: true,
+            slideToClickedSlide: true,
+        });
 
-new Swiper(".mySwiperPromo", {
-        slidesPerView: "auto",
-        spaceBetween: 20,
-        loop: true,
-        speed: 800, // biar smooth
-        navigation: {
-            nextEl: ".swiper-button-next-promo",
-            prevEl: ".swiper-button-prev-promo",
-        },
-        autoplay: {
-            delay: 3000, // jeda antar slide (ms)
-            disableOnInteraction: false,}
-    });
+        highlight.controller.control = thumb;
+        thumb.controller.control = highlight;
+    }
 
- var swiperMitra = new Swiper(".mySwiperMitra", {
-    slidesPerView: 2,  // default mobile
-    spaceBetween: 30,
-    loop: true,
-    speed: 5000, // makin besar makin halus
-    autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-    },
-    freeMode: true,
-    freeModeMomentum: false,
-    breakpoints: {
-        640: { slidesPerView: 3 },
-        768: { slidesPerView: 4 },
-        1024: { slidesPerView: 6 },
-    },
+    // GSAP Animations
+    if (typeof gsap !== 'undefined') {
+        // Tambahkan animasi GSAP di sini jika diperlukan
+        gsap.from(".hero-title", {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out"
+        });
+    }
 });
 
- var highlight = new Swiper(".myHighlight", {
-    spaceBetween: 10,
-  });
-
-  var thumb = new Swiper(".myThumb", {
-    spaceBetween: 10,
-    slidesPerView: 3,
-    centeredSlides: true,
-    slideToClickedSlide: true,
-  });
-
-  highlight.controller.control = thumb;
-  thumb.controller.control = highlight;
-
-function copyPromoCode(code) {
-            navigator.clipboard.writeText(code).then(function() {
-                showToast('Kode promo berhasil disalin!', 'success');
-            }, function() {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = code;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                showToast('Kode promo berhasil disalin!', 'success');
+// Fungsi untuk promo (pastikan tersedia secara global)
+window.copyPromoCode = function(code) {
+    navigator.clipboard.writeText(code).then(function() {
+        if (typeof showToast === 'function') {
+            showToast('Kode promo berhasil disalin!', 'success');
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Kode promo berhasil disalin!',
+                timer: 2000
             });
         }
-
-        function sharePromo() {
-            if (navigator.share) {
-                navigator.share({
-                        title: '{{ $promo->name }}',
-                        text: 'Dapatkan diskon {{ $promo->discount_percent }}% dengan kode promo: {{ $promo->code }}',
-                        url: window.location.href,
-                    })
-                    .then(() => showToast('Promo berhasil dibagikan!', 'success'))
-                    .catch((error) => console.log('Error sharing:', error));
-            } else {
-                copyPromoCode('{{ $promo->code }}');
-            }
+    }, function() {
+        // Fallback untuk browser lama
+        const textArea = document.createElement('textarea');
+        textArea.value = code;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        if (typeof showToast === 'function') {
+            showToast('Kode promo berhasil disalin!', 'success');
         }
+    });
+};
+
+window.sharePromo = function() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Promo Spesial',
+            text: 'Dapatkan promo menarik!',
+            url: window.location.href,
+        })
+        .then(() => {
+            if (typeof showToast === 'function') {
+                showToast('Promo berhasil dibagikan!', 'success');
+            }
+        })
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+        // Fallback untuk browser yang tidak support share
+        copyPromoCode('PROMOCODE');
+    }
+};

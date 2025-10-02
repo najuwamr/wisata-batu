@@ -30,84 +30,174 @@
     </section>
 
     {{-- =================== TIKET =================== --}}
-    <section class="w-full bg-blue-50 py-20">
-        <div class="max-w-7xl mx-auto bg-blue-50 rounded-3xl p-8 md:p-12 lg:p-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2
-                        class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4">
-                        Pilihan Tiket
-                    </h2>
-                    <p class="text-gray-600 text-lg max-w-md mb-8">
-                        Geser untuk melihat semua tiket yang tersedia dan pilih yang terbaik untuk Anda.
-                    </p>
-                <!-- Tombol Lihat Tiket lainnya -->
-                <a href="{{ route('guest.tiket') }}"
-                   class="md:w-1/3 w-1/2 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700">
-                   Lihat Tiket lainnya
-                </a>
+    <section class="w-full bg-gradient-to-br from-blue-50 to-indigo-50 py-16 md:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <!-- Left Content -->
+                <div class="order-2 lg:order-1" data-aos="fade-right">
+                    <!-- Badge -->
+                    <div
+                        class="inline-flex items-center px-4 py-2 rounded-full bg-white shadow-sm border border-blue-100 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
+                        <span class="text-sm font-medium text-blue-600">Tersedia Sekarang</span>
+                    </div>
 
-                    <!-- Tombol Navigasi di bawah -->
-                    <div class="flex space-x-3 mt-6">
+                    <!-- Heading -->
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Pilihan</span>
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-600 ">Tiket Terbaik</span>
+                    </h2>
+
+                    <!-- Description -->
+                    <p class="text-md text-gray-400 max-w-md mb-8 leading-relaxed">
+                        Temukan pengalaman tak terlupakan dengan tiket pilihan kami.
+                        Pilih yang sesuai dengan kebutuhan Anda dan nikmati momen spesial.
+                    </p>
+
+                    <!-- CTA Button -->
+                    <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                        <a href="{{ route('guest.tiket') }}"
+                            class="group relative inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:from-red-600 hover:to-red-700 transform hover:-translate-y-1">
+                            <span>Lihat Semua Tiket</span>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+
+                        <!-- Stats -->
+                        <div class="flex items-center gap-6 text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Harga Terjangkau</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Instant Confirm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div class="flex items-center gap-4">
                         <button
-                            class="swiper-button-prev-features w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800" fill="none"
+                            class="swiper-button-prev-features group w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button
-                            class="swiper-button-next-features w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800" fill="none"
+                            class="swiper-button-next-features group w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
+                        <span class="text-sm text-gray-500 ml-2">Geser untuk melihat lebih banyak</span>
                     </div>
                 </div>
 
-            <!-- Bagian Slider -->
-            <div class="w-full overflow-hidden">
-                <div class="swiper mySwiperFeatures">
-                    <div class="swiper-wrapper py-4">
-                        @forelse($tiketAktif as $tiket)
-                            <div class="swiper-slide flex justify-center">
-                                <div class="bg-white shadow-lg rounded-2xl overflow-hidden w-full">
-                                    <img src="{{ asset('images/' . $tiket->image) }}" alt="{{ $tiket->name }}"
-                                        class="w-full h-40 object-cover">
+                <!-- Right Content - Slider -->
+                <div class="order-1 lg:order-2 relative max-w-8xl" data-aos="fade-left">
+                    <!-- Floating Elements -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-yellow-100 rounded-full opacity-70 blur-xl"></div>
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-purple-100 rounded-full opacity-60 blur-xl"></div>
 
-                                        <div class="p-3">
-                                            <h3 class="text-lg font-semibold text-gray-800">{{ $tiket->name }}</h3>
+                    <div class="relative z-10">
+                        <div class="swiper mySwiperFeatures">
+                            <div class="swiper-wrapper">
+                                @forelse($tiketAktif as $tiket)
+                                    <div class="swiper-slide">
+                                        <div
+                                            class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 h-full flex flex-col transform hover:-translate-y-2 w-full">
+                                            <!-- Image with Overlay -->
+                                            <div class="relative overflow-hidden">
+                                                <img src="{{ asset('images/' . $tiket->image) }}" alt="{{ $tiket->name }}"
+                                                    class="w-full h-[200px] object-cover transition-transform duration-700 group-hover:scale-110">
+                                                <div
+                                                    class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                </div>
+
+                                                <!-- Price Badge -->
+                                                <div
+                                                    class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl px-3 py-2 shadow-lg">
+                                                    <span class="text-lg font-bold text-blue-600">
+                                                        Rp {{ number_format($tiket->price, 0, ',', '.') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Content -->
+                                            <div class="p-5 flex-1 flex flex-col">
+                                                <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                                                    {{ $tiket->name }}</h3>
 
 
-                                            <p class="mt-3 text-xl font-bold text-blue-600">
-                                                Rp {{ number_format($tiket->price, 0, ',', '.') }}
-                                            </p>
-
-                                        <a href="{{ route('guest.tiket.detail', $tiket->id) }}"
-                                            class="w-full md:w-1/2 flex justify-center items-center mt-4 bg-gradient-to-r from-red-500 to-red-400 text-white px-4 py-2 rounded-lg hover:from-red-600 hover:to-red-500 gap-2">
-                                            Lihat Detail
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                                                    <path fill="#ffffff"
-                                                        d="M9 10a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1Zm12 1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1a1 1 0 0 1 0-2Zm-1-1.82a3 3 0 0 0 0 5.64V17H10a1 1 0 0 0-2 0H4v-2.18a3 3 0 0 0 0-5.64V7h4a1 1 0 0 0 2 0h10Z" />
-                                                </svg>
-                                            </span>
-                                        </a>
+                                                <!-- CTA Button -->
+                                                <a href="{{ route('guest.tiket.detail', $tiket->id) }}"
+                                                    class="mt-auto group/btn w-1/3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg transform group-hover:scale-105">
+                                                    <span>Pilih Tiket</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                        viewBox="0 0 24 24"
+                                                        class="transition-transform group-hover/btn:translate-x-1">
+                                                        <path fill="currentColor"
+                                                            d="M9 10a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1Zm12 1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1a1 1 0 0 1 0-2Zm-1-1.82a3 3 0 0 0 0 5.64V17H10a1 1 0 0 0-2 0H4v-2.18a3 3 0 0 0 0-5.64V7h4a1 1 0 0 0 2 0h10Z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            @empty
-                                <div class="swiper-slide">
-                                    <p class="text-center text-gray-500">Belum ada tiket tersedia.</p>
-                                </div>
-                            @endforelse
+                                @empty
+                                    <div class="swiper-slide">
+                                        <div
+                                            class="bg-white rounded-2xl p-8 text-center shadow-lg border border-gray-100 h-full flex flex-col justify-center items-center">
+                                            <div
+                                                class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <h3 class="text-lg font-semibold text-gray-700 mb-2">Belum ada tiket tersedia
+                                            </h3>
+                                            <p class="text-gray-500">Silakan kembali lagi nanti untuk melihat tiket
+                                                terbaru.</p>
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
 
+                        <!-- Pagination Dots -->
+                        <div class="flex justify-center mt-6">
+                            <div class="swiper-pagination-features flex space-x-2"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- CSS Tambahan untuk Swiper -->
+
 
 
 
@@ -117,7 +207,7 @@
     {{-- =================== Peta =================== --}}
     <section class="relative w-full bg-gradient-to-tr from-blue-100 via-green-50 to-blue-100 -mt-10">
 
-        <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
+        <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto " >
 
 
             <div class="relative w-full md:w-full flex justify-end items-end ">
@@ -139,7 +229,8 @@
                                 <div
                                     class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                    viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
                                     <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
@@ -150,8 +241,8 @@
                                         class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Kolam Renang</h3>
-                                    <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
-                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
+                                    <img  src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy" >
                                     <p class="mt-3 text-sm text-slate-700">
                                         3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
                                         air di sini dingin sekali!
@@ -167,7 +258,8 @@
                                 <div
                                     class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                    viewBox="0 0 16 16"
                                     class="cursor-pointer drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
                                     <path fill="currentColor" class="text-blue-800"
                                         d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
@@ -691,7 +783,7 @@
     <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center">
         <div class="container mx-auto pt-10">
             <h2
-                class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug">
+                class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug" data-aos="fade-left">
                 Apa kata mereka tentang <span
                     class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-[#6ECCFF]">Selecta?</span>
             </h2>
@@ -754,13 +846,13 @@
             <!-- Kolom Kanan: Text & Navigasi -->
             <div class="flex flex-col justify-center text-center lg:text-left">
                 <h2
-                    class="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4 sm:mb-6">
+                    class="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4 sm:mb-6" data-aos="fade-up">
                     Promo <span
                         class="text-transparent bg-clip-text bg-gradient-to-br from-red-400 via-amber-400 to-red-600">
                         Selecta 🔥
                     </span>
                 </h2>
-                <p class="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0">
+                <p class="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0" data-aos="fade-left">
                     Pilih promo terbaik untuk liburanmu! Nikmati diskon menarik dan penawaran spesial dari Selecta.
                 </p>
 
