@@ -42,7 +42,6 @@ class TransaksiSeeder extends Seeder
         }
 
         $paymentMethodeId = DB::table('payment_methode')->first()->id ?? 1;
-        $statusTransactionId = DB::table('status_transaction')->first()->id ?? 1;
         $ticket = DB::table('ticket')->first();
 
         if (!$ticket) {
@@ -60,7 +59,6 @@ class TransaksiSeeder extends Seeder
                 'total_price' => $ticket->price * 2,
                 'customer_id' => $customer->id,
                 'payment_methode_id' => $paymentMethodeId,
-                'status_transaction_id' => $statusTransactionId,
             ]);
 
             TransactionDetail::create([
@@ -68,7 +66,6 @@ class TransaksiSeeder extends Seeder
                 'transaction_id' => $transaction->id,
                 'ticket_id' => $ticket->id,
                 'quantity' => 2,
-                'price' => $ticket->price,
                 'subtotal' => $ticket->price * 2,
             ]);
         }

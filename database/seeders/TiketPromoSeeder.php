@@ -16,14 +16,14 @@ class TiketPromoSeeder extends Seeder
         $promo = DB::table('promo')->pluck('id', 'code');
         $ticket = DB::table('ticket')->pluck('id', 'name');
 
-        DB::table('ticket_promo')->insert([
+        DB::table('tiket_promo')->insert([
             [
-                'ticket_id' => $ticket['Tiket Masuk Dewasa'],
+                'ticket_id' => $ticket['Tiket Reguler'],
                 'promo_id'  => $promo['WEEKEND50'],
             ],
             [
-                'ticket_id' => $ticket['Tiket Masuk Anak'],
-                'promo_id'  => $promo['STUDENT20'],
+                'ticket_id' => $ticket['Tiket Paket Wahana'],
+                'promo_id'  => $promo['STUDENT26'],
             ],
         ]);
     }
