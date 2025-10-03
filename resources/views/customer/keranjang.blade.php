@@ -20,7 +20,7 @@
         {{-- Tiket + Parkir (col-span-2, row-span-2) --}}
         <div class="bg-white rounded-xl shadow p-4 md:col-span-2 md:row-span-2 order-2">
             <h2 class="font-bold text-xl md:text-2xl text-blue-900 mb-2">Daftar Tiket</h2>
-            {{-- isi tiket + parkir di sini --}}
+            {{-- isi tiket + parkir --}}
             <p class="text-gray-500 text-sm">Belum ada daftar tiket ditampilkan.</p>
         </div>
 
@@ -75,7 +75,7 @@
                     @endforeach
                 </ul>
                 {{-- Gunakan promo --}}
-                <input type="text" 
+                <input type="text"
                     placeholder="Gunakan Promo Anda"
                     class="w-full mt-4 rounded-lg border border-green-300 bg-green-50 text-green-700 placeholder-green-700 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
                 <!-- Total -->
@@ -88,19 +88,28 @@
 
                 <!-- Tombol Checkout -->
                 <div class="mt-4 flex justify-center">
-                    <a href="#"
-                        class="flex items-center justify-center gap-2 bg-blue-900 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm md:text-base">
-                        Pesan
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
-                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                                <path d="M2.75 4.75h10.5v9.5H2.75z"/>
-                                <path d="M5.75 7.75c0 1.5 1 2.5 2.25 2.5s2.25-1 2.25-2.5m-7.5-3l1.5-3h7.5l1.5 3"/>
-                            </g>
-                        </svg>
-                    </a>
+                    <form action="{{ route('keranjang.checkout') }}" method="POST"
+                        x-data="{ date: '' }"
+                        @date-selected.window="date = $event.detail.date">
+                        @csrf
+                        
+                        <input type="hidden" name="date" :value="date">
+
+                        <button type="submit"
+                            class="flex items-center justify-center gap-2 bg-blue-900 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm md:text-base">
+                            Pesan
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                    <path d="M2.75 4.75h10.5v9.5H2.75z"/>
+                                    <path d="M5.75 7.75c0 1.5 1 2.5 2.25 2.5s2.25-1 2.25-2.5m-7.5-3l1.5-3h7.5l1.5 3"/>
+                                </g>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             @else
                 <p class="text-sm text-gray-500">Belum ada tiket dipilih.</p>
+                <a href="{{ route('guest.tiket') }}">Pilih Tiket</a>
             @endif
         </div>
     </div>

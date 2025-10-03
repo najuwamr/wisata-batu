@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('transaction_detail', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('transaction_id')->nullable()->constrained('transaction')->onDelete('cascade');
+            $table->foreignId('tiket_promo_id')->nullable()->constrained('tiket_promo')->onDelete('cascade');
             $table->foreignUuid('ticket_id')->constrained('ticket')->onDelete('cascade');
             $table->integer('quantity');
-            $table->integer('price');
             $table->integer('subtotal');
             $table->timestamps();
         });

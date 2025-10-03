@@ -36,6 +36,7 @@ Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])->name('
 Route::post('/keranjang/update/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
 Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
 Route::delete('/keranjang/clear', [KeranjangController::class, 'clear'])->name('keranjang.clear');
+Route::post('/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
 
 // ----- TRANSAKSI -----
 Route::get('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');

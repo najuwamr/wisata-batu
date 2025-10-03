@@ -58,9 +58,17 @@ function calendar() {
     return {
         month: new Date().getMonth(),
         year: new Date().getFullYear(),
-        selectedDate: null,
+        selectedDate: null, // jangan lupa tambahkan ini biar binding x-show jalan
 
-        startDay: 'sunday', // 'sunday' atau 'monday'
+        startDay: 'sunday',
+
+        selectDate(day) {
+            this.selectedDate = new Date(this.year, this.month, day);
+
+            // kirim event global, form di luar bisa nangkap
+            const iso = this.selectedDate.toISOString().slice(0, 10);
+            this.$dispatch('date-selected', { date: iso });
+        },
 
         get days() {
             return this.startDay === 'monday'
@@ -101,15 +109,10 @@ function calendar() {
                 this.year === this.selectedDate.getFullYear();
         },
 
-        // aturan baru: disable kalau tanggal sudah lewat
         isPast(day) {
             let today = new Date();
             let check = new Date(this.year, this.month, day);
             return check < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        },
-
-        selectDate(day) {
-            this.selectedDate = new Date(this.year, this.month, day);
         },
 
         prevMonth() {
@@ -123,4 +126,5 @@ function calendar() {
         }
     }
 }
+
 </script>

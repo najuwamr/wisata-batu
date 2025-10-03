@@ -33,6 +33,9 @@ class TiketSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => Str::uuid(),
+                'name' => 'Parkir Mobil',
+                'description' => 'Tiket parkir mobil Anda.',
                 'price' => 10000,
                 'image' => 'p.jpg',
                 'category' => 'parkir',

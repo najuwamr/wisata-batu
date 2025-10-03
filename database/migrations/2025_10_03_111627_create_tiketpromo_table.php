@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurant', function (Blueprint $table) {
+        Schema::create('tiket_promo', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('image')->nullable();
+            $table->foreignUuid('promo_id')->constrained('promo')->onDelete('cascade');
+            $table->foreignUuid('ticket_id')->constrained('ticket')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurant');
+        Schema::dropIfExists('tiket_promo');
     }
 };

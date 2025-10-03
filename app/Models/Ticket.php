@@ -28,6 +28,16 @@ class Ticket extends Model
         return $this->hasMany(TransactionDetail::class, 'ticket_id');
     }
 
+    public function promo()
+    {
+        return $this->belongsToMany(Promo::class, 'ticket_promo', 'ticket_id', 'promo_id');
+    }
+
+    public function aset()
+    {
+        return $this->belongsToMany(Aset::class, 'aset_tiket', 'aset_id', 'ticket_id');
+    }
+
     public function getShortNameAttribute()
     {
         return str_replace('Tiket ', '', $this->name);

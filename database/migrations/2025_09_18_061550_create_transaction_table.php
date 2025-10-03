@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('midtrans_order_id');
             $table->string('midtrans_tr_id')->nullable();
             $table->integer('total_price');
+            $table->enum('status', ['pending', 'paid', 'failed', 'redeemed']);
             $table->foreignUuid('customer_id')->constrained('customer')->onDelete('cascade');
             $table->foreignId('payment_methode_id')->constrained('payment_methode')->onDelete('cascade');
-            $table->foreignId('status_transaction_id')->constrained('status_transaction')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,6 +20,11 @@ class Aset extends Model
         'description'
     ];
 
+    public function tickets()
+    {
+        return $this->belongsToMany(Ticket::class, 'aset_tiket', 'aset_id', 'ticket_id');
+    }
+
     protected static function booted()
     {
         static::creating(function ($model) {
