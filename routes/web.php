@@ -17,7 +17,7 @@ Route::get('/', [LandingPageController::class, 'index'])->name('Beranda');
 
 // ----- PROMO -----
 Route::prefix('promo')->group(function () {
-  Route::get('/lihat-promo', [PromoController::class, 'index'])->name('promo.index');
+  Route::get('/lihat-promo', [PromoController::class, 'index'])->name('guest.promo');
   Route::get('/lihat-promo/{id}', [PromoController::class, 'show'])->name('promo.show');
 });
 

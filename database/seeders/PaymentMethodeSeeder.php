@@ -16,21 +16,25 @@ class PaymentMethodeSeeder extends Seeder
         DB::table('payment_methode')->insert([
             [
                 'type' => 'Bank Transfer',
+                'description' => 'tes',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'type' => 'E-Wallet',
+                'description' => 'tes',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'type' => 'Credit Card',
+                'description' => 'tes',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'type' => 'Virtual Account',
+                'description' => 'tes',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
