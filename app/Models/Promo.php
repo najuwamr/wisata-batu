@@ -15,9 +15,9 @@ class Promo extends Model
     public $incrementing = false;
     protected $fillable = ['name', 'code', 'discount_percent', 'qty', 'valid_until', 'description', 'image', 'is_active'];
 
-    public function transactions()
+    public function tickets()
     {
-        return $this->hasMany(Transaction::class, 'promo_id');
+        return $this->belongsToMany(Ticket::class, 'tiket_promo', 'promo_id', 'ticket_id');
     }
 
     protected static function booted()

@@ -3,81 +3,115 @@
 @section('title', 'Keranjang')
 
 @section('content')
-<div class="p-8">
-    <h1 class="pb-0 text-3xl font-bold text-blue-900">Pilih Tiket & Tanggal</h1>
-    <p class="font-thin text-gray-700">Notes: Jangan lupa tambahkan jenis kendaraan bila membawa ya!</p>
+<div class="p-4 md:p-8">
+    <h1 class="pb-0 text-2xl md:text-3xl font-bold text-blue-900">Pilih Tiket & Tanggal</h1>
+    <p class="text-sm md:text-base font-thin text-gray-700">
+        Notes: Jangan lupa tambahkan jenis kendaraan bila membawa ya!
+    </p>
 
-    {{-- content kanan kiri --}}
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {{-- Kolom kiri (kalender + keranjang) --}}
-        <div class="space-y-6">
+    {{-- Grid Layout --}}
+    <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-4">
 
-            {{-- Kalender --}}
-            <div class="bg-indigo-900 text-white rounded-xl p-2">
-                @include('components.kalender')
-            </div>
-
-            {{-- Keranjang --}}
-            <div class="bg-white rounded-xl shadow p-4">
-                <h2 class="font-bold text-gray-800">Keranjang</h2>
-                <p class="text-sm text-gray-500">Belum ada tiket dipilih.</p>
-            </div>
+        {{-- Kalender (col-1, row-1) --}}
+        <div class="bg-gradient-to-br from-blue-300 to-blue-200 text-blue-900 rounded-xl p-3 order-1">
+            @include('components.kalender')
         </div>
 
-        {{-- Kolom kanan --}}
-        <div>
-            <div>
-                {{-- tiket list di sini --}}
+        {{-- Tiket + Parkir (col-span-2, row-span-2) --}}
+        <div class="bg-white rounded-xl shadow p-4 md:col-span-2 md:row-span-2 order-2">
+            <h2 class="font-bold text-xl md:text-2xl text-blue-900 mb-2">Daftar Tiket</h2>
+            {{-- isi tiket + parkir --}}
+            <p class="text-gray-500 text-sm">Belum ada daftar tiket ditampilkan.</p>
+        </div>
+
+        {{-- Keranjang (col-1, row-2) --}}
+        <div class="relative bg-white rounded-xl shadow p-4 mt-6 order-3 md:row-start-2">
+            <!-- Icon atas -->
+            <div class="absolute -top-7 right-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 16 16">
+                    <path fill="none" stroke="#162456" stroke-linecap="round"
+                        d="M9.5 4v7.7c0 .8-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5V3C6.5 1.6 7.6.5 9 .5s2.5 1.1 2.5 2.5v9c0 1.9-1.6 3.5-3.5 3.5S4.5 13.9 4.5 12V4"/>
+                </svg>
             </div>
+
+            <h2 class="font-bold text-xl md:text-2xl pb-2 border-b text-blue-900 mb-3">Keranjang Anda</h2>
+
+            @php
+                $cart = session('cart', []);
+            @endphp
+
+            @if (count($cart) > 0)
+                <ul class="divide-y divide-gray-800 bg-gray-100 rounded-md">
+                    @foreach ($cart as $item)
+                        <li class="relative p-3 flex justify-between">
+                            <!-- Kiri: Nama & Qty -->
+                            <div class="flex flex-col justify-end">
+                                <p class="font-semibold text-gray-900 text-sm md:text-base">
+                                    {{ $item['name'] }}
+                                </p>
+                                <p class="text-xs font-light text-gray-600">
+                                    Qty: {{ $item['qty'] }}
+                                </p>
+                            </div>
+
+                            <!-- Kanan: Hapus & Harga -->
+                            <div class="flex flex-col items-end justify-between">
+                                <!-- Tombol Hapus -->
+                                <button type="button"
+                                    class="text-red-600 hover:text-red-800 pb-4"
+                                    title="Hapus">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 16H5V5h14v14M17 8.4L13.4 12l3.6 3.6l-1.4 1.4l-3.6-3.6L8.4 17L7 15.6l3.6-3.6L7 8.4L8.4 7l3.6 3.6L15.6 7L17 8.4Z" />
+                                    </svg>
+                                </button>
+
+                                <!-- Harga -->
+                                <p class="text-gray-900 font-medium text-sm md:text-base">
+                                    Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}
+                                </p>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+                {{-- Gunakan promo --}}
+                <input type="text"
+                    placeholder="Gunakan Promo Anda"
+                    class="w-full mt-4 rounded-lg border border-green-300 bg-green-50 text-green-700 placeholder-green-700 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+                <!-- Total -->
+                <div class="mt-3 border-t pt-3 flex justify-between font-bold text-blue-900 text-sm md:text-base">
+                    <span>Total</span>
+                    <span>
+                        Rp {{ number_format(collect($cart)->sum(fn($i) => $i['price'] * $i['qty']), 0, ',', '.') }}
+                    </span>
+                </div>
+
+                <!-- Tombol Checkout -->
+                <div class="mt-4 flex justify-center">
+                    <form action="{{ route('keranjang.checkout') }}" method="POST"
+                        x-data="{ date: '' }"
+                        @date-selected.window="date = $event.detail.date">
+                        @csrf
+                        
+                        <input type="hidden" name="date" :value="date">
+
+                        <button type="submit"
+                            class="flex items-center justify-center gap-2 bg-blue-900 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm md:text-base">
+                            Pesan
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                    <path d="M2.75 4.75h10.5v9.5H2.75z"/>
+                                    <path d="M5.75 7.75c0 1.5 1 2.5 2.25 2.5s2.25-1 2.25-2.5m-7.5-3l1.5-3h7.5l1.5 3"/>
+                                </g>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            @else
+                <p class="text-sm text-gray-500">Belum ada tiket dipilih.</p>
+                <a href="{{ route('guest.tiket') }}">Pilih Tiket</a>
+            @endif
         </div>
     </div>
 </div>
-
-<script src="//unpkg.com/alpinejs" defer></script>
-<script>
-function calendar() {
-    return {
-        month: new Date().getMonth(),
-        year: new Date().getFullYear(),
-        selectedDate: null,
-        days: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-        monthNames: [
-            'Januari','Februari','Maret','April','Mei','Juni',
-            'Juli','Agustus','September','Oktober','November','Desember'
-        ],
-
-        get daysInMonth() {
-            return new Date(this.year, this.month + 1, 0).getDate();
-        },
-        get blanks() {
-            let firstDay = new Date(this.year, this.month, 1).getDay();
-            return Array.from({ length: (firstDay + 6) % 7 });
-        },
-        isToday(day) {
-            let today = new Date();
-            return day === today.getDate() &&
-                   this.month === today.getMonth() &&
-                   this.year === today.getFullYear();
-        },
-        isSelected(day) {
-            return this.selectedDate &&
-                   day === this.selectedDate.getDate() &&
-                   this.month === this.selectedDate.getMonth() &&
-                   this.year === this.selectedDate.getFullYear();
-        },
-        selectDate(day) {
-            this.selectedDate = new Date(this.year, this.month, day);
-        },
-        prevMonth() {
-            if (this.month === 0) { this.month = 11; this.year--; }
-            else { this.month--; }
-        },
-        nextMonth() {
-            if (this.month === 11) { this.month = 0; this.year++; }
-            else { this.month++; }
-        }
-    }
-}
-</script>
-
 @endsection

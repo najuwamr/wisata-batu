@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TiketSeeder::class);
         $this->call(DiscountSeeder::class);
+        $this->call(TiketPromoSeeder::class);
         $this->call(PaymentMethodeSeeder::class);
         $this->call(StatusSeeder::class);
         $this->call(TransaksiSeeder::class);

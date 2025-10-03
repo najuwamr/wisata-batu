@@ -10,6 +10,11 @@ class Restaurant extends Model
     use HasFactory;
 
     protected $table = 'restaurant';
-    protected $fillable = ['name', 'description', 'price', 'image', 'is_active'];
+    protected $fillable = ['name', 'description', 'image', 'is_active'];
+
+    public function menu()
+    {
+        return $this->hasMany(Menu::class, 'restaurant_id');
+    }
 }
 

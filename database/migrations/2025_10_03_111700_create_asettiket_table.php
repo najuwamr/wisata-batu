@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_transaction', function (Blueprint $table) {
+        Schema::create('aset_tiket', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['pending', 'paid', 'failed', 'redeemed', 'cancelled'])->default('pending');
+            $table->foreignUuid('aset_id')->constrained('aset')->onDelete('cascade');
+            $table->foreignUuid('ticket_id')->constrained('ticket')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_transaction');
+        Schema::dropIfExists('aset_tiket');
     }
 };

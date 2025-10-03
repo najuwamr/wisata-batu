@@ -30,6 +30,11 @@ class TransactionDetail extends Model
         return $this->belongsTo(Ticket::class, 'ticket_id');
     }
 
+    public function promo()
+    {
+        return $this->belongsTo(Promo::class, 'promo_id');
+    }
+
     public function transaction()
     {
         return $this->belongsTo(Transaction::class, 'transaction_id');

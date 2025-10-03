@@ -43,11 +43,6 @@ class Transaction extends Model
         return $this->belongsTo(PaymentMethode::class, 'payment_methode_id');
     }
 
-    public function status()
-    {
-        return $this->belongsTo(StatusTransaction::class, 'status_transaction_id');
-    }
-
     public function transactionDetail()
     {
         return $this->hasMany(TransactionDetail::class, 'transaction_id');
