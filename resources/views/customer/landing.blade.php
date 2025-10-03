@@ -46,7 +46,8 @@
                     <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                         <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Pilihan</span>
-                        <span class="block text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-600 ">Tiket Terbaik</span>
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-600 ">Tiket
+                            Terbaik</span>
                     </h2>
 
                     <!-- Description -->
@@ -196,18 +197,165 @@
         </div>
     </section>
 
-    <!-- CSS Tambahan untuk Swiper -->
+    {{-- promo --}}
+
+
+    <section
+        class="bg-gradient-to-br from-gray-50 to-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-b-[2rem] relative  min-h-screen">
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center pt-10">
+            <div class="w-full">
+                <div class="swiper mySwiperPromo">
+                    <div class="swiper-wrapper">
+                        @foreach ($promo as $item)
+                            <div class="swiper-slide flex justify-center">
+                                <div
+                                    class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-500 w-full max-w-lg">
+                                    <img src="{{ asset('images/' . $item->image) }}" alt="{{ $item->name }}"
+                                        class="w-full h-56 sm:h-64 md:h-72 object-cover" />
+                                    <div class="p-4 sm:p-6">
+                                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
+
+                                        <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
+                                            Diskon {{ $item->discount_percent }}% • Berlaku sampai
+                                            {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
+                                        </p>
+                                        <a href=""
+                                            class="mt-4 inline-block px-4 sm:px-5 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow hover:from-red-600 hover:to-red-700 transition text-sm sm:text-base">Lihat
+                                            SnK</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Text & Navigasi -->
+            <div class="flex flex-col justify-center text-center lg:text-left">
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4 sm:mb-6"
+                    data-aos="fade-up">
+                    Promo <span
+                        class="text-transparent bg-clip-text bg-gradient-to-br from-red-400 via-amber-400 to-red-600">
+                        Selecta 🔥
+                    </span>
+                </h2>
+                <p class="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0" data-aos="fade-left">
+                    Pilih promo terbaik untuk liburanmu! Nikmati diskon menarik dan penawaran spesial dari Selecta.
+                </p>
+
+                <!-- Tombol Lihat Promo -->
+                <a href="{{ route('guest.promo') }}"
+                    class="w-2/3 sm:w-1/2 mx-auto lg:mx-0 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 sm:px-6 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition flex justify-center items-center gap-2 sm:gap-3 text-sm sm:text-base">
+                    Lihat Promo Lainnya
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="currentColor" class="text-white">
+                            <g fill="none" stroke="currentColor">
+                                <path stroke-width="2.5"
+                                    d="M10.51 3.665a2 2 0 0 1 2.98 0l.7.782a2 2 0 0 0 1.601.663l1.05-.058a2 2 0 0 1 2.107 2.108l-.058 1.049a2 2 0 0 0 .663 1.6l.782.7a2 2 0 0 1 0 2.981l-.782.7a2 2 0 0 0-.663 1.601l.058 1.05a2 2 0 0 1-2.108 2.107l-1.049-.058a2 2 0 0 0-1.6.663l-.7.782a2 2 0 0 1-2.981 0l-.7-.782a2 2 0 0 0-1.601-.663l-1.05.058a2 2 0 0 1-2.107-2.108l.058-1.049a2 2 0 0 0-.663-1.6l-.782-.7a2 2 0 0 1 0-2.981l.782-.7a2 2 0 0 0 .663-1.601l-.058-1.05A2 2 0 0 1 7.16 5.053l1.049.058a2 2 0 0 0 1.6-.663l.7-.782Z" />
+                                <path stroke-linejoin="round" stroke-width="3.75"
+                                    d="M9.5 9.5h.01v.01H9.5zm5 5h.01v.01h-.01z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m15 9l-6 6" />
+                            </g>
+                        </svg>
+                    </span>
+                </a>
+
+
+                <div class="flex justify-center lg:justify-start space-x-4 mt-6">
+                    <button
+                        class="swiper-button-prev-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5 text-gray-800"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button
+                        class="swiper-button-next-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5 text-gray-800"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 
 
+    {{-- =================== BERITA =================== --}}
+    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-t-[3rem] shadow-sm">
+        <div class="flex justify-between items-center p-7">
+            <div class="flex-col items-center">
+                <h1
+                    class="text-left p-5 text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-green-500 via-blue-400 to-lime-500">
+                    Berita <span
+                        class="text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600">Selecta!</span>
+                </h1>
+                <div
+                    class="w-full h-1 bg-gradient-to-r from-blue-300 via-green-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
+                </div>
+            </div>
+            <a href=""
+                class="md:text-md text-center font-reguler text-blue-700 underline p-4 flex items-center gap-2">
+                Selengkapnya
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="currentColor" class="text-blue-700">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-miterlimit="10" d="m15.813 8.187l-7.626 7.626" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.111 15.155V8.917a1.028 1.028 0 0 0-1.028-1.028H8.845" />
+                        <rect width="18.5" height="18.5" x="2.75" y="2.75" rx="6" />
+                    </g>
+                </svg>
+            </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-10"> <!-- Card Besar -->
+            <div
+                class="md:col-span-2 md:row-span-2 bg-[#FFFCFB] rounded-2xl shadow-lg flex flex-row overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
+                <div class="p-6 flex flex-col justify-between w-1/2">
+                    <h3 class="text-sm uppercase font-bold">SELECTA NEWS</h3>
+                    <p class="text-2xl font-bold mt-2">"Sekarang Selecta punya wahana baru!"</p> <button
+                        class="mt-6 px-4 py-2 bg-[#093FB4] rounded-lg text-[#FFD8D8] text-sm font-semibold hover:bg-gray-200 transition">
+                        MORE INFO >> </button>
+                </div>
+                <div class="w-1/2"> <img src="{{ asset('assets/customer/berita1.webp') }}"
+                        class="w-full h-full object-cover" /> </div>
+            </div> <!-- Card Kecil 1 -->
+            <div
+                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
+                <img src="{{ asset('assets/customer/berita2.webp') }}" class="w-full h-40 object-cover" />
+                <div class="p-4">
+                    <h3 class="text-sm uppercase font-bold">Family Time!</h3>
+                    <p class="text-lg font-semibold mt-2">"Taman cantik sayang kalo ga foto-foto!"</p>
+                </div>
+            </div> <!-- Card Kecil 2 -->
+            <div
+                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
+                <img src="{{ asset('assets/customer/berita3.jpg') }}" class="w-full h-40 object-cover" />
+                <div class="p-4">
+                    <h3 class="text-sm uppercase font-bold">Family Time!</h3>
+                    <p class="text-lg font-semibold mt-2">"50k dapet apa aja si?"</p>
+                </div>
+            </div>
 
-
+    </section>
 
     {{-- =================== Peta =================== --}}
-    <section class="relative w-full bg-gradient-to-tr from-blue-100 via-green-50 to-blue-100 -mt-10">
+    <section class="relative w-full bg-gradient-to-tr from-blue-100 via-purple-50 to-blue-100">
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="block w-full h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    fill="#ffffff"></path>
+            </svg>
+        </div>
 
-        <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto " >
+        <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
 
 
             <div class="relative w-full md:w-full flex justify-end items-end ">
@@ -219,7 +367,7 @@
 
                     <div class="relative">
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
-                            class="w-full h-auto object-cover shadow-2xl" loading="lazy">
+                            class="w-full h-auto object-cover" loading="lazy">
                     </div>
 
 
@@ -241,8 +389,8 @@
                                         class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Kolam Renang</h3>
-                                    <img  src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
-                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy" >
+                                    <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
+                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
                                     <p class="mt-3 text-sm text-slate-700">
                                         3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
                                         air di sini dingin sekali!
@@ -723,67 +871,11 @@
 
 
 
-    {{-- =================== BERITA =================== --}}
-    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-t-[3rem] shadow-sm">
-        <div class="flex justify-between items-center p-7">
-            <div class="flex-col items-center">
-                <h1
-                    class="text-left p-5 text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-green-500 via-blue-400 to-lime-500">
-                    Berita <span
-                        class="text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600">Selecta!</span>
-                </h1>
-                <div
-                    class="w-full h-1 bg-gradient-to-r from-blue-300 via-green-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
-                </div>
-            </div>
-            <a href=""
-                class="md:text-md text-center font-reguler text-blue-700 underline p-4 flex items-center gap-2">
-                Selengkapnya
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                    fill="currentColor" class="text-blue-700">
-                    <g fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-miterlimit="10" d="m15.813 8.187l-7.626 7.626" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16.111 15.155V8.917a1.028 1.028 0 0 0-1.028-1.028H8.845" />
-                        <rect width="18.5" height="18.5" x="2.75" y="2.75" rx="6" />
-                    </g>
-                </svg>
-            </a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-10"> <!-- Card Besar -->
-            <div
-                class="md:col-span-2 md:row-span-2 bg-[#FFFCFB] rounded-2xl shadow-lg flex flex-row overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
-                <div class="p-6 flex flex-col justify-between w-1/2">
-                    <h3 class="text-sm uppercase font-bold">SELECTA NEWS</h3>
-                    <p class="text-2xl font-bold mt-2">"Sekarang Selecta punya wahana baru!"</p> <button
-                        class="mt-6 px-4 py-2 bg-[#093FB4] rounded-lg text-[#FFD8D8] text-sm font-semibold hover:bg-gray-200 transition">
-                        MORE INFO >> </button>
-                </div>
-                <div class="w-1/2"> <img src="{{ asset('assets/customer/berita1.webp') }}"
-                        class="w-full h-full object-cover" /> </div>
-            </div> <!-- Card Kecil 1 -->
-            <div
-                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
-                <img src="{{ asset('assets/customer/berita2.webp') }}" class="w-full h-40 object-cover" />
-                <div class="p-4">
-                    <h3 class="text-sm uppercase font-bold">Family Time!</h3>
-                    <p class="text-lg font-semibold mt-2">"Taman cantik sayang kalo ga foto-foto!"</p>
-                </div>
-            </div> <!-- Card Kecil 2 -->
-            <div
-                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
-                <img src="{{ asset('assets/customer/berita3.jpg') }}" class="w-full h-40 object-cover" />
-                <div class="p-4">
-                    <h3 class="text-sm uppercase font-bold">Family Time!</h3>
-                    <p class="text-lg font-semibold mt-2">"50k dapet apa aja si?"</p>
-                </div>
-            </div>
 
-    </section>
     <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center">
         <div class="container mx-auto pt-10">
-            <h2
-                class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug" data-aos="fade-left">
+            <h2 class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug"
+                data-aos="fade-left">
                 Apa kata mereka tentang <span
                     class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-[#6ECCFF]">Selecta?</span>
             </h2>
@@ -812,88 +904,7 @@
         </div>
     </section>
     {{-- Promo --}}
-    <section
-        class="bg-gradient-to-br from-gray-50 to-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-b-[2rem] relative  min-h-screen">
 
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center pt-10">
-            <div class="w-full">
-                <div class="swiper mySwiperPromo">
-                    <div class="swiper-wrapper">
-                        @foreach ($promo as $item)
-                            <div class="swiper-slide flex justify-center">
-                                <div
-                                    class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-500 w-full max-w-lg">
-                                    <img src="{{ asset('images/' . $item->image) }}" alt="{{ $item->name }}"
-                                        class="w-full h-56 sm:h-64 md:h-72 object-cover" />
-                                    <div class="p-4 sm:p-6">
-                                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
-
-                                        <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
-                                            Diskon {{ $item->discount_percent }}% • Berlaku sampai
-                                            {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
-                                        </p>
-                                        <a href=""
-                                            class="mt-4 inline-block px-4 sm:px-5 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow hover:from-red-600 hover:to-red-700 transition text-sm sm:text-base">Lihat
-                                            SnK</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kolom Kanan: Text & Navigasi -->
-            <div class="flex flex-col justify-center text-center lg:text-left">
-                <h2
-                    class="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4 sm:mb-6" data-aos="fade-up">
-                    Promo <span
-                        class="text-transparent bg-clip-text bg-gradient-to-br from-red-400 via-amber-400 to-red-600">
-                        Selecta 🔥
-                    </span>
-                </h2>
-                <p class="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0" data-aos="fade-left">
-                    Pilih promo terbaik untuk liburanmu! Nikmati diskon menarik dan penawaran spesial dari Selecta.
-                </p>
-
-                <!-- Tombol Lihat Promo -->
-                <a href="{{ route('promo.index') }}"
-                    class="w-2/3 sm:w-1/2 mx-auto lg:mx-0 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 sm:px-6 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition flex justify-center items-center gap-2 sm:gap-3 text-sm sm:text-base">
-                    Lihat Promo Lainnya
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="currentColor" class="text-white">
-                            <g fill="none" stroke="currentColor">
-                                <path stroke-width="2.5"
-                                    d="M10.51 3.665a2 2 0 0 1 2.98 0l.7.782a2 2 0 0 0 1.601.663l1.05-.058a2 2 0 0 1 2.107 2.108l-.058 1.049a2 2 0 0 0 .663 1.6l.782.7a2 2 0 0 1 0 2.981l-.782.7a2 2 0 0 0-.663 1.601l.058 1.05a2 2 0 0 1-2.108 2.107l-1.049-.058a2 2 0 0 0-1.6.663l-.7.782a2 2 0 0 1-2.981 0l-.7-.782a2 2 0 0 0-1.601-.663l-1.05.058a2 2 0 0 1-2.107-2.108l.058-1.049a2 2 0 0 0-.663-1.6l-.782-.7a2 2 0 0 1 0-2.981l.782-.7a2 2 0 0 0 .663-1.601l-.058-1.05A2 2 0 0 1 7.16 5.053l1.049.058a2 2 0 0 0 1.6-.663l.7-.782Z" />
-                                <path stroke-linejoin="round" stroke-width="3.75"
-                                    d="M9.5 9.5h.01v.01H9.5zm5 5h.01v.01h-.01z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m15 9l-6 6" />
-                            </g>
-                        </svg>
-                    </span>
-                </a>
-
-
-                <div class="flex justify-center lg:justify-start space-x-4 mt-6">
-                    <button
-                        class="swiper-button-prev-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5 text-gray-800"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button
-                        class="swiper-button-next-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5 text-gray-800"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
 

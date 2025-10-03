@@ -3,7 +3,9 @@
     <div class="flex items-center justify-between px-6 py-3">
         <div class="flex items-center space-x-8">
             <div class="flex-shrink-0">
-                <img src="{{ asset('assets/customer/selecta-logo1.png') }}" alt="Selecta Logo" class="h-12">
+                <a href="/"><img src="{{ asset('assets/customer/selecta-logo1.png') }}" alt="Selecta Logo"
+                        class="h-12"></a>
+
             </div>
 
             <ul class="hidden lg:flex items-center space-x-6 font-poppins font-medium text-blue-700">
@@ -41,7 +43,7 @@
                                     </div>
                                 </a>
 
-                                <a href="#"
+                                <a href="{{route('guest.promo')}}"
                                     class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 group/item">
                                     <div
                                         class="w-10 h-10 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center">
@@ -115,7 +117,7 @@
                                     </div>
                                 </a>
 
-                                <a href="#"
+                                <a href="/"
                                     class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 group/item">
                                     <div
                                         class="w-10 h-10 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center">
@@ -250,6 +252,7 @@
     </div>
 
     <!-- Mobile Menu -->
+    <!-- Mobile Menu -->
     <div id="menu" class="hidden lg:hidden px-6 pb-4 bg-white border-t border-gray-200">
         <ul class="flex flex-col space-y-3 font-poppins font-medium text-[#373C90]">
             <!-- Tiket & Promo Mobile -->
@@ -264,15 +267,32 @@
                     </svg>
                 </button>
                 <div id="tiket-dropdown" class="hidden ml-4 mt-2 space-y-2 border-l-2 border-blue-200 pl-4">
-                    <a href="{{ route('guest.tiket') }}" class="block py-2 text-gray-600 hover:text-blue-700">Tiket
-                        Masuk</a>
-                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Promo Spesial</a>
-                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Paket Wisata</a>
+                    <a href="{{ route('guest.tiket') }}" class="block py-2 text-gray-600 hover:text-blue-700">Cari
+                        Tiket</a>
+                    <a href="{{route('guest.promo')}}" class="block py-2 text-gray-600 hover:text-blue-700">Promo Spesial</a>
+                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Paket Selecta</a>
                 </div>
             </li>
 
             <li><a href="/" class="block py-2 hover:text-blue-700">Hotel</a></li>
-            <li><a href="/" class="block py-2 hover:text-blue-700">Restoran</a></li>
+
+            <!-- Restoran Mobile -->
+            <li>
+                <button class="flex items-center justify-between w-full py-2 hover:text-blue-700"
+                    onclick="toggleMobileDropdown('restoran-dropdown')">
+                    <span>Restoran</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        class="transition-transform duration-200" id="restoran-arrow">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2.5" d="m7 10l5 5m0 0l5-5" />
+                    </svg>
+                </button>
+                <div id="restoran-dropdown" class="hidden ml-4 mt-2 space-y-2 border-l-2 border-blue-200 pl-4">
+                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Restoran Asri</a>
+                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Restoran Bahagia</a>
+                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Restoran Cantik</a>
+                </div>
+            </li>
 
             <!-- Informasi Mobile -->
             <li>
@@ -287,9 +307,7 @@
                 </button>
                 <div id="info-dropdown" class="hidden ml-4 mt-2 space-y-2 border-l-2 border-blue-200 pl-4">
                     <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Tentang Selecta</a>
-                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Fasilitas & Layanan</a>
-                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Lokasi & Akses</a>
-                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Wahana & Attraksi</a>
+                    <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Berita Selecta</a>
                 </div>
             </li>
 
