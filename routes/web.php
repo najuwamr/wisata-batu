@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LandingPageController::class, 'index'])->name('Beranda');
 
 
-
+// ----- PROMO -----
 Route::prefix('promo')->group(function () {
   Route::get('/lihat-promo', [PromoController::class, 'index'])->name('promo.index');
   Route::get('/lihat-promo/{id}', [PromoController::class, 'show'])->name('promo.show');
@@ -26,9 +26,8 @@ Route::prefix('promo')->group(function () {
 Route::get('tiket/', [TiketController::class, 'index_tiket'])->name('guest.tiket');
 Route::get('tiket/{id}/detail', [TiketController::class, 'detail_tiket'])->name('guest.tiket.detail');
 
-// ----- PROMO -----
-Route::get('promo/', [PromoController::class, 'index_promo'])->name('guest.promo');
-Route::get('promo/{id}/detail', [PromoController::class, 'detail_Promo'])->name('guest.promo.detail');
+
+
 
 // ----- KERANJANG -----
 Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
@@ -61,9 +60,6 @@ Route::prefix('pesan-tiket')->group(function () {
     Route::get('/{id}/qr', [CustomerController::class, 'showQr'])->name('customer.qr');
 });
 // ----- PAYMENT -----
-Route::prefix('promo')->group(function () {
-    Route::get('/lihat-promo', [PromoController::class, 'index'])->name('promo.index');
-});
 
 
 
