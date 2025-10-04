@@ -92,7 +92,7 @@
                         x-data="{ date: '' }"
                         @date-selected.window="date = $event.detail.date">
                         @csrf
-                        
+
                         <input type="hidden" name="date" :value="date">
 
                         <button type="submit"

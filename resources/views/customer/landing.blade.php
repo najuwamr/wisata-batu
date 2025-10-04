@@ -7,27 +7,30 @@
 @section('content')
     {{-- =================== HERO VIDEO =================== --}}
     <section class="relative md:w-full md:h-screen h-1/2 overflow-hidden">
-        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4" loading="lazy">
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto"
+            class="absolute inset-0 w-full h-full object-cover z-0">
+            <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4">
             Browser Anda tidak mendukung video.
         </video>
 
-        <div class="absolute inset-0 bg-black/50 "></div>
-        <div class="flex-col justify-center items-center">
-            <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic"
-                class="absolute top-1/2 left-1/2 w-1/2 md:w-1/3 transform -translate-x-1/2 -translate-y-1/2 z-20">
-            <a href="" class="bg-white"></a>
+        {{-- Overlay hitam --}}
+        <div class="absolute inset-0 bg-black/50 z-10"></div>
+
+        {{-- Logo + CTA --}}
+        <div class="relative flex flex-col justify-center items-center h-full z-20">
+            <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic" class="w-1/2 md:w-1/3 mb-6">
+
         </div>
 
-
-        <!-- Wave -->
-        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+        {{-- Wave --}}
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20">
             <svg class="block w-full h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100"
                 preserveAspectRatio="none">
                 <path fill="currentColor" class="text-blue-50" d="M0,30 C360,90 1080,-30 1440,60 L1440,100 L0,100Z"></path>
             </svg>
         </div>
     </section>
+
 
     {{-- =================== TIKET =================== --}}
     <section class="w-full bg-gradient-to-br from-blue-50 to-indigo-50 py-16 md:py-24">
@@ -96,7 +99,7 @@
                     <!-- Navigation Controls -->
                     <div class="flex items-center gap-4">
                         <button
-                            class="swiper-button-prev-features group w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105">
+                            class="swiper-button-prev-features group w-14 h-14 bg-white rounded-full items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105 hidden md:flex">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -104,14 +107,14 @@
                             </svg>
                         </button>
                         <button
-                            class="swiper-button-next-features group w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105">
+                            class="swiper-button-next-features group w-14 h-14 bg-white rounded-full items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105 hidden md:flex">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                        <span class="text-sm text-gray-500 ml-2">Geser untuk melihat lebih banyak</span>
+                        <span class="text-sm text-gray-500 ml-2 hidden md:inline">Geser untuk melihat lebih banyak</span>
                     </div>
                 </div>
 
@@ -201,85 +204,199 @@
 
 
     <section
-        class="bg-gradient-to-br from-gray-50 to-red-50 py-16 px-4 sm:px-6 md:px-12 rounded-b-[2rem] relative  min-h-screen">
+        class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[2rem]">
+        <!-- Background Elements -->
+        <div class="absolute inset-0">
+            <!-- Floating Circles -->
+            <div class="absolute top-10 left-10 w-20 h-20 bg-pink-500/10 rounded-full blur-xl"></div>
+            <div class="absolute top-1/3 right-20 w-16 h-16 bg-blue-500/10 rounded-full blur-lg"></div>
+            <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl"></div>
+            <div class="absolute bottom-10 right-10 w-12 h-12 bg-cyan-500/10 rounded-full blur-lg"></div>
 
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center pt-10">
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        </div>
+
+        <!-- Wave Divider -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="fill-white/10"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+            <!-- Kolom Kiri: Swiper Slider -->
             <div class="w-full">
-                <div class="swiper mySwiperPromo">
-                    <div class="swiper-wrapper">
-                        @foreach ($promo as $item)
-                            <div class="swiper-slide flex justify-center">
-                                <div
-                                    class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-500 w-full max-w-lg">
-                                    <img src="{{ asset('images/' . $item->image) }}" alt="{{ $item->name }}"
-                                        class="w-full h-56 sm:h-64 md:h-72 object-cover" />
-                                    <div class="p-4 sm:p-6">
-                                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">{{ $item->name }}</h3>
+                <div class="relative">
+                    <!-- Swiper Container -->
+                    <div class="swiper mySwiperPromo rounded-3xl">
+                        <div class="swiper-wrapper">
+                            @foreach ($promo as $item)
+                                <div class="swiper-slide">
+                                    <div
+                                        class="bg-white/10 backdrop-blur-lg rounded-3xl p-1 border border-white/20 shadow-2xl h-full">
+                                        <div
+                                            class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden h-full">
+                                            <div class="relative">
+                                                <img src="{{ asset('images/' . $item->image) }}" alt="{{ $item->name }}"
+                                                    class="w-full h-64 sm:h-72 md:h-80 object-cover" />
 
-                                        <p class="text-base sm:text-lg font-semibold text-red-500 mt-4">
-                                            Diskon {{ $item->discount_percent }}% • Berlaku sampai
-                                            {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
-                                        </p>
-                                        <a href=""
-                                            class="mt-4 inline-block px-4 sm:px-5 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow hover:from-red-600 hover:to-red-700 transition text-sm sm:text-base">Lihat
-                                            SnK</a>
+                                                <!-- Discount Badge -->
+                                                <div class="absolute top-4 right-4">
+                                                    <div
+                                                        class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg animate-pulse">
+                                                        {{ $item->discount_percent }}% OFF
+                                                    </div>
+                                                </div>
+
+                                                <!-- Time Badge -->
+                                                <div class="absolute top-4 left-4">
+                                                    <div
+                                                        class="bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
+                                                        ⏳ {{ \Carbon\Carbon::parse($item->valid_until)->diffForHumans() }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="p-6 sm:p-8">
+                                                <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+                                                    {{ $item->name }}</h3>
+                                                <p class="text-gray-600 mb-4 line-clamp-2">
+                                                    {{ Str::limit($item->description, 120) }}</p>
+
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-sm text-gray-500">
+                                                        Berakhir:
+                                                        {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
+                                                    </div>
+                                                    <a href="{{ route('promo.show', $item->id) }}"
+                                                        class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg flex items-center gap-2">
+                                                        Lihat Detail
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M13 7l5 5m0 0l-5 5"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+
+                            @if ($promo->count() === 0)
+                                <!-- Empty State -->
+                                <div class="swiper-slide">
+                                    <div
+                                        class="bg-white/10 backdrop-blur-lg rounded-3xl p-1 border border-white/20 shadow-2xl h-full">
+                                        <div
+                                            class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden h-full">
+                                            <div class="h-80 flex items-center justify-center">
+                                                <div class="text-center">
+                                                    <div
+                                                        class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                        <svg class="w-8 h-8 text-gray-400" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <p class="text-gray-500">Belum ada promo tersedia</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div
+                            class="swiper-button-next-promo absolute top-1/2 right-4 transform -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all duration-300 cursor-pointer">
+                            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <div
+                            class="swiper-button-prev-promo absolute top-1/2 left-4 transform -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all duration-300 cursor-pointer">
+                            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="swiper-pagination-promo mt-6 flex justify-center space-x-2"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Kolom Kanan: Text & Navigasi -->
-            <div class="flex flex-col justify-center text-center lg:text-left">
-                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 leading-tight mb-4 sm:mb-6"
-                    data-aos="fade-up">
-                    Promo <span
-                        class="text-transparent bg-clip-text bg-gradient-to-br from-red-400 via-amber-400 to-red-600">
-                        Selecta 🔥
+            <div class="flex flex-col justify-center text-center lg:text-left space-y-6">
+                <!-- Badge -->
+                <div
+                    class="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mx-auto lg:mx-0">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                    <span class="text-white font-semibold text-sm">Promo Terbatas</span>
+                </div>
+
+                <!-- Heading -->
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                    Promo
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500">
+                        Spesial 🔥
                     </span>
                 </h2>
-                <p class="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0" data-aos="fade-left">
-                    Pilih promo terbaik untuk liburanmu! Nikmati diskon menarik dan penawaran spesial dari Selecta.
+
+                <!-- Description -->
+                <p class="text-lg text-white/80 max-w-md mx-auto lg:mx-0 leading-relaxed">
+                    Dapatkan penawaran terbaik untuk pengalaman tak terlupakan di Selecta! Diskon menarik menanti Anda.
                 </p>
 
-                <!-- Tombol Lihat Promo -->
-                <a href="{{ route('guest.promo') }}"
-                    class="w-2/3 sm:w-1/2 mx-auto lg:mx-0 bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 sm:px-6 py-3 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition flex justify-center items-center gap-2 sm:gap-3 text-sm sm:text-base">
-                    Lihat Promo Lainnya
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="currentColor" class="text-white">
-                            <g fill="none" stroke="currentColor">
-                                <path stroke-width="2.5"
-                                    d="M10.51 3.665a2 2 0 0 1 2.98 0l.7.782a2 2 0 0 0 1.601.663l1.05-.058a2 2 0 0 1 2.107 2.108l-.058 1.049a2 2 0 0 0 .663 1.6l.782.7a2 2 0 0 1 0 2.981l-.782.7a2 2 0 0 0-.663 1.601l.058 1.05a2 2 0 0 1-2.108 2.107l-1.049-.058a2 2 0 0 0-1.6.663l-.7.782a2 2 0 0 1-2.981 0l-.7-.782a2 2 0 0 0-1.601-.663l-1.05.058a2 2 0 0 1-2.107-2.108l.058-1.049a2 2 0 0 0-.663-1.6l-.782-.7a2 2 0 0 1 0-2.981l.782-.7a2 2 0 0 0 .663-1.601l-.058-1.05A2 2 0 0 1 7.16 5.053l1.049.058a2 2 0 0 0 1.6-.663l.7-.782Z" />
-                                <path stroke-linejoin="round" stroke-width="3.75"
-                                    d="M9.5 9.5h.01v.01H9.5zm5 5h.01v.01h-.01z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m15 9l-6 6" />
-                            </g>
-                        </svg>
-                    </span>
-                </a>
+                <!-- Stats -->
+                <div class="flex flex-wrap gap-6 justify-center lg:justify-start">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white">{{ $promo->count() }}+</div>
+                        <div class="text-white/60 text-sm">Promo Aktif</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white">{{ $promo->max('discount_percent') ?? 0 }}%</div>
+                        <div class="text-white/60 text-sm">Diskon Tertinggi</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white">24/7</div>
+                        <div class="text-white/60 text-sm">Tersedia</div>
+                    </div>
+                </div>
 
-
-                <div class="flex justify-center lg:justify-start space-x-4 mt-6">
-                    <button
-                        class="swiper-button-prev-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5 text-gray-800"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                <!-- CTA Button -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="{{ route('guest.promo') }}"
+                        class="group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 text-lg">
+                        <span>Lihat Semua Promo</span>
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
-                    </button>
-                    <button
-                        class="swiper-button-next-promo w-10 sm:w-12 h-10 sm:h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5 text-gray-800"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+                    </a>
                 </div>
             </div>
+        </div>
+
+        <!-- Bottom Wave -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden rotate-180">
+            <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="fill-white/5"></path>
+            </svg>
         </div>
     </section>
 
@@ -287,7 +404,7 @@
 
 
     {{-- =================== BERITA =================== --}}
-    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-20 z-0 overflow-hidden rounded-t-[3rem] shadow-sm">
+    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-10 z-0 overflow-hidden rounded-t-[3rem] shadow-sm">
         <div class="flex justify-between items-center p-7">
             <div class="flex-col items-center">
                 <h1
@@ -346,14 +463,7 @@
 
     {{-- =================== Peta =================== --}}
     <section class="relative w-full bg-gradient-to-tr from-blue-100 via-purple-50 to-blue-100">
-        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
-            <svg class="block w-full h-[80px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
-                preserveAspectRatio="none">
-                <path
-                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                    fill="#ffffff"></path>
-            </svg>
-        </div>
+
 
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
 
