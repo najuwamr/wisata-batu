@@ -86,6 +86,14 @@
                     </span>
                 </div>
 
+                <!-- Tombol Checkout -->
+                <div class="mt-4 flex justify-center">
+                    <form action="{{ route('keranjang.checkout') }}" method="POST"
+                        x-data="{ date: '' }"
+                        @date-selected.window="date = $event.detail.date">
+                        @csrf
+
+                        <input type="hidden" name="date" :value="date">
                 {{-- Form Checkout --}}
                 <form action="{{ route('keranjang.checkout') }}" method="POST"
                     x-data="{ date: '', promo: '' }"
