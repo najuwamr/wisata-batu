@@ -14,7 +14,7 @@ class TransactionDetail extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['transaction_id','ticket_id', 'quantity', 'price', 'subtotal'];
+    protected $fillable = ['transaction_id','ticket_id', 'quantity', 'subtotal'];
 
     protected static function booted()
     {

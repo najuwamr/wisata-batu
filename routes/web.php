@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeranjangController;
@@ -35,23 +36,20 @@ Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])->name('
 Route::post('/keranjang/update/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
 Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
 Route::delete('/keranjang/clear', [KeranjangController::class, 'clear'])->name('keranjang.clear');
+
+// ----- CHECKOUT & TRANSAKSI -----
 Route::post('/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
+Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/checkout/payment', [CheckoutController::class, 'pembayaran'])->name('checkout.pembayaran');
+Route::post('/checkout/charge', [TransaksiController::class, 'charge'])->name('checkout.charge');
+Route::get('/payment/finish', [TransaksiController::class, 'finish'])->name('payment.finish');
+// Route::post('/checkout/bayar', [TransaksiController::class, 'bayar'])->name('checkout.bayar');
 
-// ----- TRANSAKSI -----
-Route::get('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
-Route::post('/checkout/lanjut', [TransaksiController::class, 'lanjut'])->name('checkout.lanjut');
-Route::post('/checkout/bayar', [TransaksiController::class, 'bayar'])->name('checkout.bayar');
+// Route::get('/payment', function () {
+//     return view('admin.create-customer');
+// });
 
-Route::get('/payment', function () {
-    return view('admin.create-customer');
-});
-
-Route::post('/payment/charge', [PaymentController::class, 'charge'])->name('payment.charge');
-// Callback dari Midtrans
-Route::post('/payment/notification', [PaymentController::class, 'notification']);
-Route::get('/payment/finish', [PaymentController::class, 'finish'])->name('payment.finish');
-Route::get('/payment/unfinish', [PaymentController::class, 'unfinish'])->name('payment.unfinish');
-Route::get('/payment/error', [PaymentController::class, 'error'])->name('payment.error');
+// Route::post('/payment/charge', [TransaksiController::class, 'charge'])->name('payment.charge');
 
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {

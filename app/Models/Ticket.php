@@ -35,7 +35,7 @@ class Ticket extends Model
 
     public function aset()
     {
-        return $this->belongsToMany(Aset::class, 'aset_tiket', 'aset_id', 'ticket_id');
+        return $this->belongsToMany(Aset::class, 'aset_tiket', 'ticket_id', 'aset_id',);
     }
 
     public function getShortNameAttribute()
