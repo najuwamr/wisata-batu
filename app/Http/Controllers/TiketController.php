@@ -131,7 +131,17 @@ class TiketController extends Controller
 
     public function detail_tiket($id)
     {
-        $ticket = Ticket::findOrFail($id);
-        return view('customer.tiket.detail-tiket', compact('ticket'));
+        // Ambil tiket yang aktif berdasarkan ID
+        $ticket = Ticket::where('is_active', true)->findOrFail($id);
+
+        // Ambil tiket lainnya (exclude current ticket, random order, limit 3)
+        $otherTickets = Ticket::where('is_active', true)
+            ->where('category', 'tiket')
+            ->where('id', '!=', $id)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
+        return view('customer.tiket.detail-tiket', compact('ticket', 'otherTickets'));
     }
 }
