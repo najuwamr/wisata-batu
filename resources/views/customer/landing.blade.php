@@ -404,7 +404,7 @@
 
 
     {{-- =================== BERITA =================== --}}
-    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-10 z-0 overflow-hidden rounded-t-[3rem] shadow-sm">
+    <section class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-10 z-0 overflow-hidden rounded-t-[3rem] rounded-b-[1.7rem] shadow-sm">
         <div class="flex justify-between items-center p-7">
             <div class="flex-col items-center">
                 <h1
@@ -462,7 +462,7 @@
     </section>
 
     {{-- =================== Peta =================== --}}
-    <section class="relative w-full bg-gradient-to-tr from-blue-100 via-purple-50 to-blue-100">
+    <section class="relative w-full bg-gradient-to-tr -mt-10 overflow-hidden z-[-2] from-blue-100 via-purple-50 to-blue-100">
 
 
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto ">
