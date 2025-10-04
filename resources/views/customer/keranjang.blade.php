@@ -26,39 +26,42 @@
 
         {{-- Keranjang (col-1, row-2) --}}
         <div class="relative bg-white rounded-xl shadow p-4 mt-6 order-3 md:row-start-2">
-            <!-- Icon atas -->
+            <!-- Icon di atas -->
             <div class="absolute -top-7 right-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 16 16">
                     <path fill="none" stroke="#162456" stroke-linecap="round"
-                        d="M9.5 4v7.7c0 .8-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5V3C6.5 1.6 7.6.5 9 .5s2.5 1.1 2.5 2.5v9c0 1.9-1.6 3.5-3.5 3.5S4.5 13.9 4.5 12V4"/>
+                        d="M9.5 4v7.7c0 .8-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5V3C6.5 1.6 7.6.5 9 .5s2.5 1.1 2.5 2.5v9c0 1.9-1.6 3.5-3.5 3.5S4.5 13.9 4.5 12V4" />
                 </svg>
             </div>
 
-            <h2 class="font-bold text-xl md:text-2xl pb-2 border-b text-blue-900 mb-3">Keranjang Anda</h2>
+            <h2 class="font-bold text-xl md:text-2xl pb-2 border-b text-blue-900 mb-3">
+                Keranjang Anda
+            </h2>
 
             @php
                 $cart = session('cart', []);
             @endphp
 
             @if (count($cart) > 0)
-                <ul class="divide-y divide-gray-800 bg-gray-100 rounded-md">
+                {{-- Daftar item dalam keranjang --}}
+                <ul class="divide-y divide-gray-200 bg-gray-50 rounded-md">
                     @foreach ($cart as $item)
-                        <li class="relative p-3 flex justify-between">
+                        <li class="p-3 flex justify-between items-center hover:bg-gray-100 transition">
                             <!-- Kiri: Nama & Qty -->
-                            <div class="flex flex-col justify-end">
+                            <div>
                                 <p class="font-semibold text-gray-900 text-sm md:text-base">
                                     {{ $item['name'] }}
                                 </p>
-                                <p class="text-xs font-light text-gray-600">
+                                <p class="text-xs text-gray-500">
                                     Qty: {{ $item['qty'] }}
                                 </p>
                             </div>
 
                             <!-- Kanan: Hapus & Harga -->
-                            <div class="flex flex-col items-end justify-between">
+                            <div class="flex items-center gap-3">
                                 <!-- Tombol Hapus -->
                                 <button type="button"
-                                    class="text-red-600 hover:text-red-800 pb-4"
+                                    class="text-red-600 hover:text-red-800 transition"
                                     title="Hapus">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                         <path fill="currentColor"
@@ -74,42 +77,64 @@
                         </li>
                     @endforeach
                 </ul>
-                {{-- Gunakan promo --}}
-                <input type="text"
-                    placeholder="Gunakan Promo Anda"
-                    class="w-full mt-4 rounded-lg border border-green-300 bg-green-50 text-green-700 placeholder-green-700 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
-                <!-- Total -->
-                <div class="mt-3 border-t pt-3 flex justify-between font-bold text-blue-900 text-sm md:text-base">
+
+                {{-- Total Belanja --}}
+                <div class="mt-4 border-t pt-3 flex justify-between font-bold text-blue-900 text-sm md:text-base">
                     <span>Total</span>
                     <span>
                         Rp {{ number_format(collect($cart)->sum(fn($i) => $i['price'] * $i['qty']), 0, ',', '.') }}
                     </span>
                 </div>
 
-                <!-- Tombol Checkout -->
-                <div class="mt-4 flex justify-center">
-                    <form action="{{ route('keranjang.checkout') }}" method="POST"
-                        x-data="{ date: '' }"
-                        @date-selected.window="date = $event.detail.date">
-                        @csrf
-                        
-                        <input type="hidden" name="date" :value="date">
+                {{-- Form Checkout --}}
+                <form action="{{ route('keranjang.checkout') }}" method="POST"
+                    x-data="{ date: '', promo: '' }"
+                    @date-selected.window="date = $event.detail.date"
+                    class="mt-4 space-y-3">
+                    @csrf
 
+                    <!-- Input tanggal dari kalender -->
+                    <input type="hidden" name="date" :value="date">
+
+                    <!-- Input kode promo -->
+                    <div>
+                        <label for="promo" class="block text-sm font-medium text-gray-700 mb-1">
+                            Kode Promo (opsional)
+                        </label>
+                        <input type="text"
+                            id="promo"
+                            name="promo"
+                            x-model="promo"
+                            placeholder="Masukkan kode promo Anda"
+                            class="w-full rounded-lg border border-green-300 bg-green-50 text-green-700 placeholder-green-600 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400" />
+                    </div>
+
+                    <!-- Tombol Checkout -->
+                    <div class="flex justify-center">
                         <button type="submit"
-                            class="flex items-center justify-center gap-2 bg-blue-900 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm md:text-base">
-                            Pesan
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            class="flex items-center justify-center gap-2 bg-blue-900 text-white py-2 px-6 rounded-lg font-semibold hover:bg-blue-800 transition text-sm md:text-base w-full md:w-auto">
+                            Pesan Sekarang
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="1.5">
                                     <path d="M2.75 4.75h10.5v9.5H2.75z"/>
                                     <path d="M5.75 7.75c0 1.5 1 2.5 2.25 2.5s2.25-1 2.25-2.5m-7.5-3l1.5-3h7.5l1.5 3"/>
                                 </g>
                             </svg>
                         </button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             @else
-                <p class="text-sm text-gray-500">Belum ada tiket dipilih.</p>
-                <a href="{{ route('guest.tiket') }}">Pilih Tiket</a>
+                {{-- Jika keranjang kosong --}}
+                <div class="text-center py-4">
+                    <p class="text-sm text-gray-500 mb-2">
+                        Belum ada tiket dipilih.
+                    </p>
+                    <a href="{{ route('guest.tiket') }}"
+                    class="inline-block text-blue-700 font-medium hover:underline">
+                        Pilih Tiket Sekarang
+                    </a>
+                </div>
             @endif
         </div>
     </div>

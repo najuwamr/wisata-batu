@@ -96,25 +96,19 @@ class KeranjangController extends Controller
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('keranjang.index')
-                ->with('error', 'Keranjang masih kosong.');
+            return redirect()->route('keranjang.index')->with('error', 'Keranjang masih kosong.');
         }
 
         $request->validate([
             'date'  => 'required|date',
             'promo' => 'nullable|string'
-        ], [
-            'date.required' => 'Harap memilih tanggal kunjungan Anda',
         ]);
 
         $date = $request->date;
         $promoCode = $request->promo;
 
-        // Hitung total belanja
-        $total = collect($cart)->sum(fn($item) => $item['price'] * $item['qty']);
-
-        $discountPercent = 0;
-        $discountAmount  = 0;
+        $promo = null;
+        $promoTickets = collect();
 
         if ($promoCode) {
             $promo = Promo::where('code', $promoCode)
@@ -123,17 +117,51 @@ class KeranjangController extends Controller
                     $today = now()->toDateString();
                     $q->whereNull('valid_until')->orWhere('valid_until', '>=', $today);
                 })
+                ->with('tickets:id') // ambil tiket yang terhubung ke promo
                 ->first();
 
             if ($promo) {
-                $discountPercent = $promo->discount_percent;
-                $discountAmount  = ($discountPercent / 100) * $total;
-                $total = $total - $discountAmount;
+                $promoTickets = $promo->tickets->pluck('id')->toArray();
             } else {
                 return back()->with('error', 'Kode promo tidak valid atau sudah kadaluarsa.');
             }
         }
 
-        return view('customer.checkout', compact('cart', 'date', 'total', 'discountPercent', 'discountAmount'));
+        $cartWithDiscount = [];
+        $total = 0;
+        $totalDiscount = 0;
+
+        foreach ($cart as $item) {
+            $itemSubtotal = $item['price'] * $item['qty'];
+            $discountAmount = 0;
+
+            // Cek apakah tiket ini kena promo
+            if ($promo && in_array($item['ticket_id'], $promoTickets)) {
+                $discountAmount = ($promo->discount_percent / 100) * $itemSubtotal;
+                $itemSubtotal -= $discountAmount;
+            }
+
+            $cartWithDiscount[] = [
+                'id' => $item['ticket_id'],
+                'name' => $item['name'],
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+                'discount' => $discountAmount,
+                'subtotal' => $itemSubtotal,
+            ];
+
+            $total += $itemSubtotal;
+            $totalDiscount += $discountAmount;
+        }
+
+        return view('customer.checkout', [
+            'cart' => $cartWithDiscount,
+            'total' => $total,
+            'totalDiscount' => $totalDiscount,
+            'promoCode' => $promoCode,
+            'promoName' => $promo->name ?? null,
+            'discountPercent' => $promo->discount_percent ?? 0,
+            'date' => $date,
+        ]);
     }
 }
