@@ -43,7 +43,7 @@
                                     </div>
                                 </a>
 
-                                <a href="{{route('guest.promo')}}"
+                                <a href="{{ route('guest.promo') }}"
                                     class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 group/item">
                                     <div
                                         class="w-10 h-10 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center">
@@ -239,7 +239,7 @@
             </button>
 
             <div
-                class="flex items-center bg-[#373C90] text-white px-4 py-2 rounded-full space-x-2 shadow-md hover:shadow-lg transition-shadow duration-200">
+                class="flex items-center bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-2 rounded-full space-x-2 shadow-md hover:shadow-lg transition-shadow duration-200">
                 <input type="text" placeholder="Cari disini"
                     class="bg-transparent focus:outline-none text-sm placeholder-white w-32 lg:w-40">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -269,7 +269,8 @@
                 <div id="tiket-dropdown" class="hidden ml-4 mt-2 space-y-2 border-l-2 border-blue-200 pl-4">
                     <a href="{{ route('guest.tiket') }}" class="block py-2 text-gray-600 hover:text-blue-700">Cari
                         Tiket</a>
-                    <a href="{{route('guest.promo')}}" class="block py-2 text-gray-600 hover:text-blue-700">Promo Spesial</a>
+                    <a href="{{ route('guest.promo') }}" class="block py-2 text-gray-600 hover:text-blue-700">Promo
+                        Spesial</a>
                     <a href="#" class="block py-2 text-gray-600 hover:text-blue-700">Paket Selecta</a>
                 </div>
             </li>
@@ -316,7 +317,7 @@
 
         <!-- Mobile Search & Language -->
         <div class="mt-6 space-y-4">
-            <div class="flex items-center bg-[#373C90] text-white px-4 py-3 rounded-full space-x-2">
+            <div class="flex items-center bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-3 rounded-full space-x-2">
                 <input type="text" placeholder="Cari disini"
                     class="bg-transparent focus:outline-none text-sm placeholder-white w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
