@@ -34,7 +34,7 @@ class CheckoutController extends Controller
         // Get cart from session
         $cartItems = session('cart', []);
         if (!$cartItems) {
-            return redirect()->route('keranjang.index')->with('error', 'Keranjang kosong.');
+            return redirect()->route('keranjang')->with('error', 'Keranjang kosong.');
         }
 
         // SIMPAN KE SESSION

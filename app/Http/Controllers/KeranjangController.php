@@ -25,12 +25,12 @@ class KeranjangController extends Controller
     public function tambah(Request $request)
     {
         $request->validate([
-            'ticket_id' => 'required|uuid|exists:ticket,id',
+            'ticket_id' => 'required|uuid|exists:ticket,id', // Ganti ke 'ticket'
             'qty'       => 'required|integer|min:1',
         ]);
 
         $ticket = Ticket::findOrFail($request->ticket_id);
-        $cart   = session()->get('cart', []);
+        $cart = session()->get('cart', []);
 
         if (isset($cart[$ticket->id])) {
             $cart[$ticket->id]['qty'] += $request->qty;
@@ -45,31 +45,32 @@ class KeranjangController extends Controller
 
         session()->put('cart', $cart);
 
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Tiket berhasil ditambahkan!'
-            ]);
-        }
-
         return redirect()->route('keranjang')->with('success', 'Tiket berhasil ditambahkan!');
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'qty' => 'required|integer|min:1',
+            'qty' => 'required|integer|min:0',
+        ], [
+            'qty.required' => 'Data tidak berubah'
         ]);
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['qty'] = $request->qty;
-            session()->put('cart', $cart);
-            return response()->json(['success' => true, 'message' => 'Jumlah tiket berhasil diupdate!']);
+            if ($request->qty == 0) {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+                return redirect()->route('keranjang')->with('success', 'Tiket berhasil dihapus!');
+            } else {
+                $cart[$id]['qty'] = $request->qty;
+                session()->put('cart', $cart);
+                return redirect()->route('keranjang')->with('success', 'Jumlah tiket berhasil diupdate!');
+            }
         }
 
-        return response()->json(['success' => false, 'message' => 'Tiket tidak ditemukan.']);
+        return redirect()->route('keranjang')->with('error', 'Tiket tidak ditemukan.');
     }
 
     public function hapus($id)
@@ -79,16 +80,11 @@ class KeranjangController extends Controller
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
-            return response()->json(['success' => true, 'message' => 'Tiket berhasil dihapus!']);
+
+            return redirect()->route('keranjang')->with('success', 'Tiket berhasil dihapus!');
         }
 
-        return response()->json(['success' => false, 'message' => 'Tiket tidak ditemukan.']);
-    }
-
-    public function clear()
-    {
-        session()->forget('cart');
-        return response()->json(['success' => true, 'message' => 'Keranjang dikosongkan!']);
+        return redirect()->route('keranjang')->with('error', 'Tiket tidak ditemukan.');
     }
 
     public function checkout(Request $request)
@@ -96,7 +92,7 @@ class KeranjangController extends Controller
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('keranjang.index')->with('error', 'Keranjang masih kosong.');
+            return redirect()->route('keranjang')->with('error', 'Keranjang masih kosong.');
         }
 
         $request->validate([

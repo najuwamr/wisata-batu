@@ -28,7 +28,7 @@
                     <td class="border p-2 text-center">{{ $item['qty'] }}</td>
                     <td class="border p-2">Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
                     <td class="border p-2 text-green-700">
-                        @if ($item['discount'] > 0)
+                        @if (!empty($item['discount']) && $item['discount'] > 0)
                             -Rp {{ number_format($item['discount'], 0, ',', '.') }}
                         @else
                             -
