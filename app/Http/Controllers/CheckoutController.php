@@ -13,13 +13,13 @@ class CheckoutController extends Controller
 {
     public function store(Request $request)
     {
+        // dd(session()->all()); // Bisa dipakai untuk debug
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'whatsapp' => 'required|string|max:20',
             'email' => 'required|email|max:255',
-            'total' => 'required|numeric|min:1',
-            'date' => 'required|date',
-            'promo' => 'nullable|string'
+            // HAPUS 'total', 'date', 'promo' karena sudah ada di session
         ]);
 
         // Format WhatsApp number
@@ -31,27 +31,23 @@ class CheckoutController extends Controller
         }
         $validated['whatsapp'] = $wa;
 
-        // Get cart from session
-        $cartItems = session('cart', []);
-        if (!$cartItems) {
-            return redirect()->route('keranjang')->with('error', 'Keranjang kosong.');
+        // AMBIL DATA DARI SESSION CHECKOUT (yang sudah ada perhitungan promo)
+        $checkoutSession = session('checkout_data');
+
+        if (!$checkoutSession) {
+            return redirect()->route('keranjang')->with('error', 'Data checkout tidak ditemukan.');
         }
 
-        // SIMPAN KE SESSION
+        // UPDATE SESSION dengan data customer + data checkout yang sudah ada
         session([
-            'checkout_data' => [
+            'checkout_data' => array_merge($checkoutSession, [
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'whatsapp' => $validated['whatsapp'],
-                'total' => $validated['total'],
-                'date' => $validated['date'],
-                'promo' => $validated['promo'],
-                'cart_items' => $cartItems
-            ]
+            ])
         ]);
 
-        // ⭐⭐ YANG INI HARUS ADA ⭐⭐
-        // REDIRECT KE HALAMAN PEMBAYARAN
+        // Redirect ke halaman pembayaran
         return redirect()->route('checkout.pembayaran');
     }
 
@@ -60,12 +56,12 @@ class CheckoutController extends Controller
         $checkout = session('checkout_data');
 
         if (!$checkout) {
-            return redirect()->route('keranjang.index')->with('error', 'Data checkout belum lengkap.');
+            return redirect()->route('keranjang')->with('error', 'Data checkout belum lengkap.');
         }
 
         return view('customer.transaksi', [
             'checkout' => $checkout,
-            'total' => $checkout['total'],
+            'total' => $checkout['total'], // Total yang sudah include promo
         ]);
     }
 }
