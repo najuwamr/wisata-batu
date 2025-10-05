@@ -12,19 +12,77 @@
     {{-- Grid Layout --}}
     <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-4">
 
-        {{-- Kalender (col-1, row-1) --}}
+        {{-- Kalender --}}
         <div class="bg-gradient-to-br from-blue-300 to-blue-200 text-blue-900 rounded-xl p-3 order-1">
             @include('components.kalender')
         </div>
 
-        {{-- Tiket + Parkir (col-span-2, row-span-2) --}}
+        {{-- Daftar Tiket --}}
         <div class="bg-white rounded-xl shadow p-4 md:col-span-2 md:row-span-2 order-2">
             <h2 class="font-bold text-xl md:text-2xl text-blue-900 mb-2">Daftar Tiket</h2>
-            {{-- isi tiket + parkir --}}
-            <p class="text-gray-500 text-sm">Belum ada daftar tiket ditampilkan.</p>
+
+            @if($tiket->count() > 0)
+                <div class="space-y-4">
+                    @foreach($tiket->groupBy('category') as $category => $items)
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-lg text-blue-800 mb-3 capitalize">{{ $category }}</h3>
+                            <div class="space-y-3">
+                                @foreach($items as $ticket)
+                                    @php
+                                        $inCart = isset($cart[$ticket->id]);
+                                        $quantity = $inCart ? $cart[$ticket->id]['qty'] : 0;
+                                    @endphp
+                                    <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                        <div class="flex-1">
+                                            <h4 class="font-medium text-gray-900">{{ $ticket->name }}</h4>
+                                            @if($ticket->description)
+                                                <p class="text-sm text-gray-600 mt-1">{{ $ticket->description }}</p>
+                                            @endif
+                                            <p class="text-blue-700 font-semibold mt-2">Rp {{ number_format($ticket->price, 0, ',', '.') }}</p>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            @if($inCart)
+                                                <div class="flex items-center space-x-3 bg-blue-50 px-3 py-2 rounded-lg">
+                                                    <form action="{{ route('keranjang.update', $ticket->id) }}" method="POST" class="m-0">
+                                                        @csrf
+                                                        <input type="hidden" name="qty" value="{{ $quantity - 1 }}">
+                                                        <button type="submit" class="w-8 h-8 flex items-center justify-center bg-white border border-gray-300 rounded-full hover:bg-gray-100">
+                                                            <span class="text-lg font-bold text-gray-700">-</span>
+                                                        </button>
+                                                    </form>
+                                                    <span class="w-8 text-center font-medium text-gray-900">{{ $quantity }}</span>
+                                                    <form action="{{ route('keranjang.update', $ticket->id) }}" method="POST" class="m-0">
+                                                        @csrf
+                                                        <input type="hidden" name="qty" value="{{ $quantity + 1 }}">
+                                                        <button type="submit" class="w-8 h-8 flex items-center justify-center bg-white border border-gray-300 rounded-full hover:bg-gray-100">
+                                                            <span class="text-lg font-bold text-gray-700">+</span>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <form action="{{ route('keranjang.tambah') }}" method="POST" class="m-0">
+                                                    @csrf
+                                                    <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+                                                    <input type="hidden" name="qty" value="1">
+                                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
+                                                        Tambah
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p class="text-gray-500 text-sm">Belum ada daftar tiket ditampilkan.</p>
+            @endif
         </div>
 
-        {{-- Keranjang (col-1, row-2) --}}
+        {{-- Keranjang --}}
         <div class="relative bg-white rounded-xl shadow p-4 mt-6 order-3 md:row-start-2">
             <!-- Icon di atas -->
             <div class="absolute -top-7 right-1">
@@ -38,15 +96,11 @@
                 Keranjang Anda
             </h2>
 
-            @php
-                $cart = session('cart', []);
-            @endphp
-
-            @if (count($cart) > 0)
+            @if(count($cart) > 0)
                 {{-- Daftar item dalam keranjang --}}
                 <ul class="divide-y divide-gray-200 bg-gray-50 rounded-md">
-                    @foreach ($cart as $item)
-                        <li class="p-3 flex justify-between items-center hover:bg-gray-100 transition">
+                    @foreach ($cart as $id => $item)
+                        <li class="p-3 flex justify-between items-center hover:bg-gray-100">
                             <!-- Kiri: Nama & Qty -->
                             <div>
                                 <p class="font-semibold text-gray-900 text-sm md:text-base">
@@ -60,14 +114,16 @@
                             <!-- Kanan: Hapus & Harga -->
                             <div class="flex items-center gap-3">
                                 <!-- Tombol Hapus -->
-                                <button type="button"
-                                    class="text-red-600 hover:text-red-800 transition"
-                                    title="Hapus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                            d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 16H5V5h14v14M17 8.4L13.4 12l3.6 3.6l-1.4 1.4l-3.6-3.6L8.4 17L7 15.6l3.6-3.6L7 8.4L8.4 7l3.6 3.6L15.6 7L17 8.4Z" />
-                                    </svg>
-                                </button>
+                                <form action="{{ route('keranjang.hapus', $id) }}" method="POST" class="m-0">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Hapus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 16H5V5h14v14M17 8.4L13.4 12l3.6 3.6l-1.4 1.4l-3.6-3.6L8.4 17L7 15.6l3.6-3.6L7 8.4L8.4 7l3.6 3.6L15.6 7L17 8.4Z" />
+                                        </svg>
+                                    </button>
+                                </form>
 
                                 <!-- Harga -->
                                 <p class="text-gray-900 font-medium text-sm md:text-base">
@@ -85,7 +141,7 @@
                         Rp {{ number_format(collect($cart)->sum(fn($i) => $i['price'] * $i['qty']), 0, ',', '.') }}
                     </span>
                 </div>
-                {{-- Form Checkout --}}
+
                 {{-- Form Checkout --}}
                 <form action="{{ route('keranjang.checkout') }}" method="POST"
                     x-data="{ date: '', promo: '' }"
@@ -94,7 +150,7 @@
                     @csrf
 
                     <!-- Input tanggal dari kalender -->
-                    <input type="hidden" name="date" x-model="date">
+                    <input type="hidden" name="date" x-model="date" required>
 
                     <!-- Input kode promo -->
                     <div>

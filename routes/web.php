@@ -32,6 +32,7 @@ Route::get('tiket/{id}/detail', [TiketController::class, 'detail_tiket'])->name(
 
 // ----- KERANJANG -----
 Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
+Route::get('/keranjang/tiket', [KeranjangController::class, 'getTiket'])->name('keranjang.tiket'); // Tambahkan ini
 Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
 Route::post('/keranjang/update/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
 Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
