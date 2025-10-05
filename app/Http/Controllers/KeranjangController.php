@@ -59,6 +59,8 @@ class KeranjangController extends Controller
     {
         $request->validate([
             'qty' => 'required|integer|min:1',
+        ], [
+            'qty.required' => 'Data tidak berubah'
         ]);
 
         $cart = session()->get('cart', []);
@@ -96,7 +98,7 @@ class KeranjangController extends Controller
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('keranjang.index')->with('error', 'Keranjang masih kosong.');
+            return redirect()->route('keranjang')->with('error', 'Keranjang masih kosong.');
         }
 
         $request->validate([

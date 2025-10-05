@@ -44,18 +44,21 @@ class CheckoutController extends Controller
 
         $cartItems = session('cart');
         if (!$cartItems) {
-            return redirect()->route('keranjang.index')->with('error', 'Keranjang kosong.');
+            return redirect()->route('keranjang')->with('error', 'Keranjang kosong.');
         }
 
         DB::beginTransaction();
         try {
-            // Simpan transaksi
             $transaction = Transaction::create([
                 'id' => Str::uuid(),
                 'code' => 'INV-' . strtoupper(uniqid()),
-                'customer_id' => $customer->id,
-                'status_transaction_id' => 1, // pending
+                'tanggal_kedatangan' => $validated['tanggal_kedatangan'], // ambil dari request
+                'midtrans_order_id' => null, // nanti diisi setelah request ke Midtrans
+                'midtrans_tr_id' => null, // nanti diisi setelah transaksi berhasil
                 'total_price' => $validated['total'],
+                'customer_id' => $customer->id,
+                'payment_method_id' => $validated['payment_method_id'], // ambil dari request
+                'status' => 'pending',
             ]);
 
             // Simpan detail transaksi
@@ -64,8 +67,8 @@ class CheckoutController extends Controller
                     'id' => Str::uuid(),
                     'transaction_id' => $transaction->id,
                     'ticket_id' => $item['id'],
-                    'quantity' => $item['quantity'],
-                    'subtotal' => ($item['price'] * $item['quantity']) - ($item['discount'] ?? 0),
+                    'quantity' => $item['qty'],
+                    'subtotal' => $item['subtotal'],
                 ]);
             }
 
