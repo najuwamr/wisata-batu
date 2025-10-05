@@ -119,7 +119,7 @@ class KeranjangController extends Controller
                     $today = now()->toDateString();
                     $q->whereNull('valid_until')->orWhere('valid_until', '>=', $today);
                 })
-                ->with('tickets:id') // ambil tiket yang terhubung ke promo
+                ->with('tickets:id')
                 ->first();
 
             if ($promo) {

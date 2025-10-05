@@ -85,15 +85,7 @@
                         Rp {{ number_format(collect($cart)->sum(fn($i) => $i['price'] * $i['qty']), 0, ',', '.') }}
                     </span>
                 </div>
-
-                <!-- Tombol Checkout -->
-                <div class="mt-4 flex justify-center">
-                    <form action="{{ route('keranjang.checkout') }}" method="POST"
-                        x-data="{ date: '' }"
-                        @date-selected.window="date = $event.detail.date">
-                        @csrf
-
-                        <input type="hidden" name="date" :value="date">
+                {{-- Form Checkout --}}
                 {{-- Form Checkout --}}
                 <form action="{{ route('keranjang.checkout') }}" method="POST"
                     x-data="{ date: '', promo: '' }"
@@ -102,7 +94,7 @@
                     @csrf
 
                     <!-- Input tanggal dari kalender -->
-                    <input type="hidden" name="date" :value="date">
+                    <input type="hidden" name="date" x-model="date">
 
                     <!-- Input kode promo -->
                     <div>
