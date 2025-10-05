@@ -659,6 +659,7 @@
                 </div>
             </div>
 
+
             <!-- Bagian Informasi -->
             <div
                 class="w-full md:w-1/2 bg-gradient-to-br from-blue-900 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-[2rem] ">
