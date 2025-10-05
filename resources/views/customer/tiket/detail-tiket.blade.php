@@ -152,15 +152,16 @@
                             </div>
                         </div>
 
-                        <!-- CTA Button -->
-                        <a href="{{ route('keranjang') }}"
-                            class="w-full bg-white text-blue-600 font-bold py-4 px-6 rounded-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 text-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                            </svg>
-                            Pesan Tiket Sekarang
-                        </a>
+                    <!-- CTA Button -->
+                    <form action="{{ route('keranjang.tambah') }}" method="POST" class="cursor-pointer w-full bg-white text-blue-600 font-bold py-4 px-6 rounded-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 text-lg">
+                        @csrf
+                        <input type="hidden" name="ticket_id" value= "{{ $ticket->id }}">
+                        <input type="hidden" name="qty" value="1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <button class="cursor-pointer">Pesan Tiket Sekarang</button>
+                    </form>
 
                         <p class="text-center text-blue-100 text-sm mt-4">
                             ✅ Pembayaran aman & terjamin
