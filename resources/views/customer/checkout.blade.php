@@ -56,8 +56,13 @@
         </tbody>
     </table>
 
-    <form action="{{ route('checkout.store') }}" method="POST" class="mt-8 space-y-4">
+    <form action="/checkout/store" method="POST" class="mt-8 space-y-4">
         @csrf
+        <!-- Input hidden untuk data yang diperlukan -->
+        <input type="hidden" name="total" value="{{ $total }}">
+        <input type="hidden" name="date" value="{{ $date }}">
+        <input type="hidden" name="promo" value="{{ $promoCode }}">
+
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
             <input type="text" name="name" required class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-400">
@@ -70,7 +75,7 @@
             <label class="block text-sm font-semibold text-gray-700 mb-1">Nomor WhatsApp</label>
             <input type="text" name="whatsapp" required placeholder="Contoh: 08123456789" class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-400">
         </div>
-        <input type="hidden" name="total" value="{{ $total }}">
+
         <div class="pt-4 border-t mt-6 flex justify-end">
             <button type="submit" class="bg-blue-900 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all">
                 Lanjutkan Pembayaran
