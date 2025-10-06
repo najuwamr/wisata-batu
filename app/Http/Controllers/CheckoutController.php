@@ -13,13 +13,12 @@ class CheckoutController extends Controller
 {
     public function store(Request $request)
     {
-        // dd(session()->all()); // Bisa dipakai untuk debug
+        // dd(session()->all());
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'whatsapp' => 'required|string|max:20',
             'email' => 'required|email|max:255',
-            // HAPUS 'total', 'date', 'promo' karena sudah ada di session
         ]);
 
         // Format WhatsApp number
@@ -54,6 +53,7 @@ class CheckoutController extends Controller
     public function pembayaran()
     {
         $checkout = session('checkout_data');
+        // dd(session()->all());
 
         if (!$checkout) {
             return redirect()->route('keranjang')->with('error', 'Data checkout belum lengkap.');
