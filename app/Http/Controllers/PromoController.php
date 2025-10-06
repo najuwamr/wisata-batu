@@ -136,7 +136,7 @@ class PromoController extends Controller
 
    public function index()
     {
-        $promoAktif = Promo::where('valid_until', '>=', now())
+        $promoAktif = Promo::where('is_active', true, now())
                           ->orderBy('created_at', 'desc')
                           ->get();
 
