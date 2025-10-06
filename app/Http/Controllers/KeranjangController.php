@@ -141,14 +141,27 @@ class KeranjangController extends Controller
                 'id' => $item['ticket_id'],
                 'name' => $item['name'],
                 'qty' => $item['qty'],
-                'price' => $item['price'],
-                'discount' => $discountAmount,
-                'subtotal' => $itemSubtotal,
+                'price' => $item['price'], // Harga asli
+                'discount' => $discountAmount, // Jumlah diskon
+                'subtotal' => $itemSubtotal, // Subtotal setelah diskon
             ];
 
             $total += $itemSubtotal;
             $totalDiscount += $discountAmount;
         }
+
+        // SIMPAN KE SESSION - pakai $cartWithDiscount yang sudah ada perhitungan promo
+        session([
+            'checkout_data' => [
+                'date' => $date,
+                'promo' => $promoCode,
+                'promo_name' => $promo->name ?? null,
+                'discount_percent' => $promo->discount_percent ?? 0,
+                'total_discount' => $totalDiscount,
+                'total' => $total,
+                'cart_items' => $cartWithDiscount // INI YANG SUDAH ADA PERHITUNGAN PROMO
+            ]
+        ]);
 
         return view('customer.checkout', [
             'cart' => $cartWithDiscount,

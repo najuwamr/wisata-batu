@@ -16,6 +16,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'code',
+        'tanggal_kedatangan',
         'midtrans_order_id',
         'midtrans_tr_id',
         'customer_id',

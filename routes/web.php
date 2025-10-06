@@ -43,14 +43,10 @@ Route::post('/checkout', [KeranjangController::class, 'checkout'])->name('keranj
 Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/checkout/payment', [CheckoutController::class, 'pembayaran'])->name('checkout.pembayaran');
 Route::post('/checkout/charge', [TransaksiController::class, 'charge'])->name('checkout.charge');
-Route::get('/payment/finish', [TransaksiController::class, 'finish'])->name('payment.finish');
-// Route::post('/checkout/bayar', [TransaksiController::class, 'bayar'])->name('checkout.bayar');
-
-// Route::get('/payment', function () {
-//     return view('admin.create-customer');
-// });
-
-// Route::post('/payment/charge', [TransaksiController::class, 'charge'])->name('payment.charge');
+Route::post('/payment/notification', [TransaksiController::class, 'notification']);
+Route::get('/payment/finish', [TransaksiController::class, 'finish']);
+Route::get('/payment/unfinish', [TransaksiController::class, 'unfinish']);
+Route::get('/payment/error', [TransaksiController::class, 'error']);
 
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Midtrans\CoreApi;
 use Midtrans\Notification;
 use Illuminate\Support\Facades\Log;
@@ -11,8 +15,15 @@ class TransaksiController extends Controller
 {
     public function charge(Request $request)
     {
+        // dd(session()->all());
+        $checkout = session('checkout_data');
+
+        if (!$checkout) {
+            return response()->json(['error' => 'Checkout session tidak ditemukan'], 400);
+        }
+
         $orderId = 'ORDER-' . strtoupper(uniqid());
-        $grossAmount = $request->gross_amount;
+        $grossAmount = $checkout['total'] ?? $request->gross_amount;
 
         $params = [
             'transaction_details' => [
@@ -20,14 +31,13 @@ class TransaksiController extends Controller
                 'gross_amount' => $grossAmount,
             ],
             'customer_details' => [
-                'first_name' => $request->customer_name,
-                'email' => $request->customer_email,
-                'phone' => $request->customer_phone,
+                'first_name' => $checkout['name'],
+                'email' => $checkout['email'],
+                'phone' => $checkout['whatsapp'],
             ],
         ];
 
         $paymentType = $request->input('payment_type');
-
         switch ($paymentType) {
             case 'bca_va':
             case 'bni_va':
@@ -61,9 +71,83 @@ class TransaksiController extends Controller
         }
 
         try {
+            DB::beginTransaction();
+
+            // 1️⃣ Coba cari berdasarkan email
+            $customer = Customer::where('email', $checkout['email'])->first();
+
+            // 2️⃣ Kalau tidak ada, coba cari berdasarkan telepon
+            if (!$customer) {
+                $customer = Customer::where('telephone', $checkout['whatsapp'])->first();
+            }
+
+            // 3️⃣ Jika ada (entah dari email atau telepon), update data jika berbeda
+            if ($customer) {
+                $needsUpdate = false;
+
+                if ($customer->name !== $checkout['name']) {
+                    $customer->name = $checkout['name'];
+                    $needsUpdate = true;
+                }
+
+                if ($customer->email !== $checkout['email']) {
+                    $customer->email = $checkout['email'];
+                    $needsUpdate = true;
+                }
+
+                if ($customer->telephone !== $checkout['whatsapp']) {
+                    $customer->telephone = $checkout['whatsapp'];
+                    $needsUpdate = true;
+                }
+
+                if ($needsUpdate) {
+                    $customer->save();
+                }
+            }
+            // 4️⃣ Jika belum ada sama sekali, buat baru
+            else {
+                $customer = Customer::create([
+                    'name' => $checkout['name'],
+                    'email' => $checkout['email'],
+                    'telephone' => $checkout['whatsapp'],
+                ]);
+            }
+
+            // 2️⃣ Simpan transaksi utama
+
+            $transaction = Transaction::create([
+                'code' => 'TRX-' . now()->format('Ymd-His'),
+                'tanggal_kedatangan' => $checkout['date'],
+                'midtrans_order_id' => $orderId,
+                'total_price' => $grossAmount,
+                'status' => 'pending',
+                'customer_id' => $customer->id,
+                'payment_methode_id' => $checkout['payment_methode_id'] ?? 1,
+            ]);
+            // 3️⃣ Simpan detail transaksi
+           if (!empty($checkout['cart_items'])) {
+                foreach ($checkout['cart_items'] as $item) {
+                    TransactionDetail::create([
+                        'transaction_id' => $transaction->id,
+                        'ticket_id' => $item['id'],
+                        'quantity' => $item['qty'], // bukan quantity
+                        'subtotal' => $item['subtotal'],
+                    ]);
+                }
+            }
+
+            // 4️⃣ Kirim ke Midtrans
             $charge = CoreApi::charge($params);
 
-            // Virtual Account (BCA, BNI, BRI)
+            // Update transaksi dengan data Midtrans
+            $transaction->update([
+                'midtrans_tr_id' => $charge->transaction_id ?? null,
+                'status' => $charge->transaction_status ?? 'pending',
+            ]);
+
+            DB::commit();
+
+            // 5️⃣ Response hasil pembayaran
             if (isset($charge->va_numbers)) {
                 $va = $charge->va_numbers[0];
                 return response()->json([
@@ -76,7 +160,6 @@ class TransaksiController extends Controller
                 ]);
             }
 
-            // Mandiri Bill Payment
             if (isset($charge->bill_key)) {
                 return response()->json([
                     'status' => 'success',
@@ -88,7 +171,6 @@ class TransaksiController extends Controller
                 ]);
             }
 
-            // QRIS / E-Wallet
             if (isset($charge->actions)) {
                 return response()->json([
                     'status' => 'redirect',
@@ -97,24 +179,114 @@ class TransaksiController extends Controller
             }
 
             return response()->json(['status' => 'unknown', 'data' => $charge]);
+
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        DB::rollBack();
         }
     }
 
     // 📌 Webhook dari Midtrans
     public function notification(Request $request)
     {
-        $notif = new Notification();
+        try {
+            Log::info('=== MIDTRANS NOTIFICATION CALLBACK ===');
+            Log::info('Request Method: ' . $request->method());
+            Log::info('Request Headers:', $request->headers->all());
+            Log::info('Request Content: ' . $request->getContent());
 
-        $transactionStatus = $notif->transaction_status;
-        $orderId = $notif->order_id;
+            // ✅ CARA 1: Manual parsing (lebih reliable)
+            $notificationPayload = $request->getContent();
+            Log::info('Raw Notification Payload: ' . $notificationPayload);
 
-        // di sini update database transaksi sesuai $orderId
-        // contoh sederhana:
-        Log::info("Notifikasi Midtrans: Order $orderId status $transactionStatus");
+            if (empty($notificationPayload)) {
+                Log::error('Empty notification payload');
+                return response()->json(['error' => 'Empty payload'], 400);
+            }
 
-        return response()->json(['message' => 'Notifikasi diterima']);
+            $notif = json_decode($notificationPayload);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                Log::error('JSON decode error: ' . json_last_error_msg());
+                return response()->json(['error' => 'Invalid JSON'], 400);
+            }
+
+            // ✅ Extract data dari payload
+            $transactionStatus = $notif->transaction_status ?? null;
+            $orderId = $notif->order_id ?? null;
+            $paymentType = $notif->payment_type ?? null;
+            $fraudStatus = $notif->fraud_status ?? null;
+
+            Log::info('Parsed Notification:', [
+                'order_id' => $orderId,
+                'transaction_status' => $transactionStatus,
+                'payment_type' => $paymentType,
+                'fraud_status' => $fraudStatus
+            ]);
+
+            // ✅ Validasi data penting
+            if (!$orderId || !$transactionStatus) {
+                Log::error('Missing required fields in notification');
+                return response()->json(['error' => 'Missing required fields'], 400);
+            }
+
+            // ✅ Cari transaksi
+            $transaction = Transaction::where('midtrans_order_id', $orderId)->first();
+
+            if (!$transaction) {
+                Log::error("Transaction not found for order_id: " . $orderId);
+                return response()->json(['message' => 'Transaction not found'], 404);
+            }
+
+            Log::info("Transaction found - ID: {$transaction->id}, Current Status: {$transaction->status}");
+
+            // ✅ Update status transaksi
+            $newStatus = $transaction->status; // default ke status lama
+
+            if ($transactionStatus == 'capture') {
+                if ($paymentType == 'credit_card') {
+                    $newStatus = ($fraudStatus == 'challenge') ? 'pending' : 'paid';
+                } else {
+                    $newStatus = 'paid';
+                }
+            } elseif ($transactionStatus == 'settlement') {
+                $newStatus = 'paid';
+            } elseif ($transactionStatus == 'pending') {
+                $newStatus = 'pending';
+            } elseif (in_array($transactionStatus, ['deny', 'expire', 'cancel'])) {
+                $newStatus = 'failed';
+            }
+
+            // ✅ Update hanya jika status berubah
+            if ($transaction->status !== $newStatus) {
+                $transaction->update(['status' => $newStatus]);
+                Log::info("Transaction status updated: {$transaction->status} -> {$newStatus}");
+
+                // ✅ Kirim email notifikasi atau proses lain di sini
+                // $this->sendPaymentNotification($transaction);
+            } else {
+                Log::info("No status change needed. Current: {$transaction->status}");
+            }
+
+            Log::info('=== NOTIFICATION PROCESSED SUCCESSFULLY ===');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Notification processed',
+                'order_id' => $orderId,
+                'transaction_status' => $transactionStatus
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('NOTIFICATION ERROR: ' . $e->getMessage());
+            Log::error('File: ' . $e->getFile());
+            Log::error('Line: ' . $e->getLine());
+            Log::error('Trace: ' . $e->getTraceAsString());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to process notification: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     // 📌 Callback redirect ke user
