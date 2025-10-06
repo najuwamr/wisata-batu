@@ -3,84 +3,201 @@
 @section('title', 'Checkout')
 
 @section('content')
-<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-6 md:p-8 mt-6">
-    <h1 class="text-2xl font-bold text-blue-900 mb-4">Checkout</h1>
-
-    <p class="text-gray-700 mb-3">
-        <strong>Tanggal Kedatangan:</strong>
-        {{ \Carbon\Carbon::parse($date)->translatedFormat('l, d F Y') }}
-    </p>
-
-    <table class="w-full border rounded-lg overflow-hidden">
-        <thead class="bg-gray-100 text-blue-900">
-            <tr>
-                <th class="border p-2 text-left">Nama Tiket</th>
-                <th class="border p-2 text-center">Qty</th>
-                <th class="border p-2 text-left">Harga</th>
-                <th class="border p-2 text-left">Diskon</th>
-                <th class="border p-2 text-left">Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($cart as $item)
-                <tr>
-                    <td class="border p-2">{{ $item['name'] }}</td>
-                    <td class="border p-2 text-center">{{ $item['qty'] }}</td>
-                    <td class="border p-2">Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
-                    <td class="border p-2 text-green-700">
-                        @if (!empty($item['discount']) && $item['discount'] > 0)
-                            -Rp {{ number_format($item['discount'], 0, ',', '.') }}
-                        @else
-                            -
-                        @endif
-                    </td>
-                    <td class="border p-2">Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</td>
-                </tr>
-            @endforeach
-
-            @if ($totalDiscount > 0)
-                <tr class="bg-green-50">
-                    <td colspan="3" class="border p-2 text-right text-green-800 font-semibold">
-                        Total Potongan ({{ $promoName }} - {{ $discountPercent }}%)
-                    </td>
-                    <td colspan="2" class="border p-2 text-green-700">
-                        - Rp {{ number_format($totalDiscount, 0, ',', '.') }}
-                    </td>
-                </tr>
-            @endif
-
-            <tr class="bg-gray-100 font-bold">
-                <td colspan="4" class="border p-2 text-right">Total Bayar</td>
-                <td class="border p-2 text-blue-900">Rp {{ number_format($total, 0, ',', '.') }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <form action="/checkout/store" method="POST" class="mt-8 space-y-4">
-        @csrf
-        <!-- Input hidden untuk data yang diperlukan -->
-        <input type="hidden" name="total" value="{{ $total }}">
-        <input type="hidden" name="date" value="{{ $date }}">
-        <input type="hidden" name="promo" value="{{ $promoCode }}">
-
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-            <input type="text" name="name" required class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-400">
-        </div>
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-            <input type="email" name="email" required class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-400">
-        </div>
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Nomor WhatsApp</label>
-            <input type="text" name="whatsapp" required placeholder="Contoh: 08123456789" class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-400">
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-sky-50 py-8">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-blue-900 mb-2">Checkout</h1>
+            <p class="text-gray-600">Lengkapi data diri Anda untuk melanjutkan pemesanan</p>
         </div>
 
-        <div class="pt-4 border-t mt-6 flex justify-end">
-            <button type="submit" class="bg-blue-900 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all">
-                Lanjutkan Pembayaran
-            </button>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Form Data Diri -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Mengisi data diri
+                </h2>
+
+                <form action="{{ route('checkout.store') }}" method="POST" class="space-y-6">
+                    @csrf
+                    <!-- Input hidden untuk data yang diperlukan -->
+                    <input type="hidden" name="total" value="{{ $total }}">
+                    <input type="hidden" name="date" value="{{ $date }}">
+                    <input type="hidden" name="promo" value="{{ $promoCode ?? '' }}">
+
+                    <!-- Nama -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Nama Lengkap
+                        </label>
+                        <input type="text" name="name" required
+                               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                               placeholder="Masukkan nama lengkap"
+                               value="{{ old('name') }}">
+                        @error('name')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Email
+                        </label>
+                        <input type="email" name="email" required
+                               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                               placeholder="Masukkan alamat email"
+                               value="{{ old('email') }}">
+                        @error('email')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- No. WhatsApp -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            Nomor WhatsApp
+                        </label>
+                        <input type="text" name="whatsapp" required
+                               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                               placeholder="Contoh: 08123456789"
+                               value="{{ old('whatsapp') }}">
+                        @error('whatsapp')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Garis Pemisah -->
+                    <div class="border-t border-gray-200 my-6"></div>
+
+                    <!-- Tanggal Kedatangan -->
+                    <div class="bg-blue-50 rounded-xl p-4">
+                        <p class="text-sm text-blue-800 font-medium">
+                            <strong>Tanggal Kedatangan:</strong>
+                            {{ \Carbon\Carbon::parse($date)->translatedFormat('l, d F Y') }}
+                        </p>
+                    </div>
+
+                    <!-- Informasi Penting -->
+                    <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+                        <div class="flex items-start gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yellow-600 mt-0.5 flex-shrink-0">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <p class="text-sm text-yellow-800">
+                                Pastikan data diri yang Anda isi sudah benar. Tiket yang sudah dibeli tidak dapat dikembalikan.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Submit -->
+                    <button type="submit"
+                            class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg mt-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        Lanjutkan Pembayaran
+                    </button>
+                </form>
+            </div>
+
+            <!-- Ringkasan Pesanan -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Pesanan Anda
+                </h2>
+
+                <!-- Tanggal -->
+                <div class="mb-6 p-4 bg-gray-50 rounded-xl">
+                    <p class="text-lg font-semibold text-gray-800 text-center">
+                        {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
+                    </p>
+                </div>
+
+                <!-- Daftar Item -->
+                <div class="space-y-4 mb-6">
+                    @foreach ($cart as $item)
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                        <div class="flex-1">
+                            <p class="font-semibold text-gray-900">{{ $item['name'] }}</p>
+                            <p class="text-sm text-gray-500">{{ $item['qty'] }}x</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-semibold text-gray-900">Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</p>
+                            @if (!empty($item['discount']) && $item['discount'] > 0)
+                                <p class="text-sm text-green-600">-Rp {{ number_format($item['discount'], 0, ',', '.') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
+
+                    <!-- Diskon Promo -->
+                    @if (($totalDiscount ?? 0) > 0)
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 bg-green-50 -mx-4 px-4">
+                        <div>
+                            <p class="font-semibold text-green-800">BANKBCA</p>
+                            <p class="text-sm text-green-600">{{ $promoName ?? 'Diskon' }} ({{ $discountPercent ?? 0 }}%)</p>
+                        </div>
+                        <p class="font-semibold text-green-800">-Rp {{ number_format($totalDiscount ?? 0, 0, ',', '.') }}</p>
+                    </div>
+                    @endif
+                </div>
+
+                <!-- Total -->
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold text-blue-900">Total</span>
+                        <span class="text-2xl font-bold text-blue-900">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+
+                <!-- Info Promo -->
+                @if($promoCode)
+                <div class="mt-6 p-4 bg-green-50 rounded-xl">
+                    <p class="text-sm text-green-800">
+                        <strong>Kode Promo:</strong> {{ $promoCode }}
+                    </p>
+                    <p class="text-sm text-green-600 mt-1">
+                        Diskon {{ $discountPercent ?? 0 }}% berhasil diterapkan
+                    </p>
+                </div>
+                @endif
+            </div>
         </div>
-    </form>
+    </div>
 </div>
+
+<style>
+    /* Custom styles untuk mempercantik tampilan */
+    input:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+
+    .shadow-lg {
+        box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+</style>
 @endsection

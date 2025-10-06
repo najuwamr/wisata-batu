@@ -264,8 +264,10 @@
                                             <div class="p-6 sm:p-8">
                                                 <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
                                                     {{ $item->name }}</h3>
-                                                <p class="text-gray-600 mb-4 line-clamp-2">
-                                                    {{ Str::limit($item->description, 120) }}</p>
+                                                <p><strong>Deskripsi:</strong></p>
+                                                <div id="detailDeskripsi-{{ $item->id }}">
+                                                    {!! $item->description !!}
+                                                </div>
 
                                                 <div class="flex items-center justify-between">
                                                     <div class="text-sm text-gray-500">
