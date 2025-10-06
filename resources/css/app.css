@@ -15,59 +15,26 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-@keyframes marquee {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
+/* Pastikan animasi float didefinisikan */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
 
-        .animate-marquee {
-            animation: marquee 25s linear infinite;
-            display: flex;
-            width: max-content;
-        }
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
 
-        .marquee-container {
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-        }
+/* Pastikan z-index bekerja dengan benar */
+.group {
+    position: relative;
+    z-index: 10;
+}
 
-        .marquee-container:hover .animate-marquee {
-            animation-play-state: paused;
-        }
-
-        .logo-item {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 2rem;
-        }
-
-        /* Gradient overlay untuk efek halus di ujung */
-        .marquee-container::before,
-        .marquee-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 50px;
-            z-index: 2;
-        }
-
-        .marquee-container::before {
-            left: 0;
-            background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-        }
-
-        .marquee-container::after {
-            right: 0;
-            background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-        }
+/* Tooltip styling */
+.group:hover .pointer-events-none {
+    pointer-events: auto !important;
+}
 
 
         .reveal-on-scroll {
