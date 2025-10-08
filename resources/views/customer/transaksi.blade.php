@@ -3,15 +3,16 @@
 @section('title', 'Pembayaran')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-sky-50 py-8">
-    <div class="max-w-2xl mx-auto px-4">
-        <!-- Debug Info (sementara untuk testing) -->
-        @if(empty($checkout))
-        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
-            <p><strong>Debug Info:</strong> Data checkout tidak ditemukan di session</p>
-            <p class="text-sm">Pastikan Anda sudah melalui proses checkout terlebih dahulu</p>
-        </div>
-        @endif
+<div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 mt-6"
+     x-data="paymentForm()" x-cloak>
+    <h2 class="text-2xl font-bold mb-4 text-center">Pembayaran</h2>
+
+    <div class="mb-4">
+        <p><strong>Nama:</strong> {{ $checkout['name'] }}</p>
+        <p><strong>Email:</strong> {{ $checkout['email'] }}</p>
+        <p><strong>WhatsApp:</strong> {{ $checkout['whatsapp'] }}</p>
+        <p class="mt-2"><strong>Total:</strong> Rp {{ number_format($total, 0, ',', '.') }}</p>
+    </div>
 
         <!-- Header -->
         <div class="text-center mb-8">

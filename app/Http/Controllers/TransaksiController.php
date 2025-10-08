@@ -8,6 +8,7 @@ use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Midtrans\CoreApi;
+use Illuminate\Support\Str;
 use Midtrans\Notification;
 use Illuminate\Support\Facades\Log;
 
@@ -114,9 +115,17 @@ class TransaksiController extends Controller
             }
 
             // 2️⃣ Simpan transaksi utama
+            $today = now()->format('Y-m-d');
+
+            do {
+                $todayCount = Transaction::whereDate('created_at', $today)->count() + 1;
+                $sequence = str_pad($todayCount % 1000, 3, '0', STR_PAD_LEFT); // reset tiap 1000
+                $random = Str::upper(Str::random(6));
+                $code = 'SLCT-' . $random . $sequence;
+            } while (Transaction::where('code', $code)->exists());
 
             $transaction = Transaction::create([
-                'code' => 'TRX-' . now()->format('Ymd-His'),
+                'code' => $code,
                 'tanggal_kedatangan' => $checkout['date'],
                 'midtrans_order_id' => $orderId,
                 'total_price' => $grossAmount,
@@ -124,13 +133,14 @@ class TransaksiController extends Controller
                 'customer_id' => $customer->id,
                 'payment_methode_id' => $checkout['payment_methode_id'] ?? 1,
             ]);
+
             // 3️⃣ Simpan detail transaksi
            if (!empty($checkout['cart_items'])) {
                 foreach ($checkout['cart_items'] as $item) {
                     TransactionDetail::create([
                         'transaction_id' => $transaction->id,
                         'ticket_id' => $item['id'],
-                        'quantity' => $item['qty'], // bukan quantity
+                        'quantity' => $item['qty'],
                         'subtotal' => $item['subtotal'],
                     ]);
                 }
@@ -192,102 +202,109 @@ class TransaksiController extends Controller
             Log::info('=== MIDTRANS NOTIFICATION CALLBACK ===');
             Log::info('Request Method: ' . $request->method());
             Log::info('Request Headers:', $request->headers->all());
-            Log::info('Request Content: ' . $request->getContent());
+            Log::info('Raw Body: ' . $request->getContent());
 
-            // ✅ CARA 1: Manual parsing (lebih reliable)
-            $notificationPayload = $request->getContent();
-            Log::info('Raw Notification Payload: ' . $notificationPayload);
+            // Ambil body JSON
+            $payload = $request->getContent();
 
-            if (empty($notificationPayload)) {
-                Log::error('Empty notification payload');
-                return response()->json(['error' => 'Empty payload'], 400);
+            // Kalau test dari Midtrans kadang kosong, kita tetap return 200 agar tidak dianggap gagal
+            if (empty($payload)) {
+                Log::warning('⚠️ Empty payload received (possibly from test notification)');
+                return response()->json(['message' => 'OK (empty payload received)'], 200);
             }
 
-            $notif = json_decode($notificationPayload);
-
+            // Decode JSON
+            $notif = json_decode($payload, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                Log::error('JSON decode error: ' . json_last_error_msg());
-                return response()->json(['error' => 'Invalid JSON'], 400);
+                Log::error('❌ JSON decode error: ' . json_last_error_msg());
+                return response()->json(['error' => 'Invalid JSON format'], 400);
             }
 
-            // ✅ Extract data dari payload
-            $transactionStatus = $notif->transaction_status ?? null;
-            $orderId = $notif->order_id ?? null;
-            $paymentType = $notif->payment_type ?? null;
-            $fraudStatus = $notif->fraud_status ?? null;
+            // Konfigurasi Midtrans
+            \Midtrans\Config::$serverKey = config('services.midtrans.serverKey');
+            \Midtrans\Config::$isProduction = config('services.midtrans.isProduction');
+            \Midtrans\Config::$isSanitized = true;
+            \Midtrans\Config::$is3ds = true;
+
+            // Dapatkan notifikasi dari SDK
+            $notifObject = new \Midtrans\Notification();
+
+            $transactionStatus = $notifObject->transaction_status ?? null;
+            $orderId = $notifObject->order_id ?? null;
+            $paymentType = $notifObject->payment_type ?? null;
+            $fraudStatus = $notifObject->fraud_status ?? null;
+            $grossAmount = $notifObject->gross_amount ?? null;
 
             Log::info('Parsed Notification:', [
                 'order_id' => $orderId,
                 'transaction_status' => $transactionStatus,
                 'payment_type' => $paymentType,
-                'fraud_status' => $fraudStatus
+                'fraud_status' => $fraudStatus,
+                'gross_amount' => $grossAmount,
             ]);
 
-            // ✅ Validasi data penting
-            if (!$orderId || !$transactionStatus) {
-                Log::error('Missing required fields in notification');
-                return response()->json(['error' => 'Missing required fields'], 400);
+            // Jika tidak ada order_id, balas sukses tapi log
+            if (!$orderId) {
+                Log::warning('⚠️ No order_id in notification payload');
+                return response()->json(['message' => 'No order_id found'], 200);
             }
 
-            // ✅ Cari transaksi
-            $transaction = Transaction::where('midtrans_order_id', $orderId)->first();
-
+            // Cek transaksi di DB
+            $transaction = \App\Models\Transaction::where('midtrans_order_id', $orderId)->first();
             if (!$transaction) {
-                Log::error("Transaction not found for order_id: " . $orderId);
-                return response()->json(['message' => 'Transaction not found'], 404);
+                Log::warning("⚠️ Transaction not found for order_id: {$orderId}");
+                return response()->json(['message' => 'Transaction not found'], 200);
             }
 
-            Log::info("Transaction found - ID: {$transaction->id}, Current Status: {$transaction->status}");
+            $oldStatus = $transaction->status;
+            $newStatus = $oldStatus;
 
-            // ✅ Update status transaksi
-            $newStatus = $transaction->status; // default ke status lama
+            // Update status berdasarkan notifikasi
+            switch ($transactionStatus) {
+                case 'capture':
+                    $newStatus = ($paymentType === 'credit_card' && $fraudStatus === 'challenge')
+                        ? 'pending'
+                        : 'paid';
+                    break;
 
-            if ($transactionStatus == 'capture') {
-                if ($paymentType == 'credit_card') {
-                    $newStatus = ($fraudStatus == 'challenge') ? 'pending' : 'paid';
-                } else {
+                case 'settlement':
                     $newStatus = 'paid';
-                }
-            } elseif ($transactionStatus == 'settlement') {
-                $newStatus = 'paid';
-            } elseif ($transactionStatus == 'pending') {
-                $newStatus = 'pending';
-            } elseif (in_array($transactionStatus, ['deny', 'expire', 'cancel'])) {
-                $newStatus = 'failed';
+                    break;
+
+                case 'pending':
+                    $newStatus = 'pending';
+                    break;
+
+                case 'deny':
+                case 'expire':
+                case 'cancel':
+                    $newStatus = 'failed';
+                    break;
             }
 
-            // ✅ Update hanya jika status berubah
-            if ($transaction->status !== $newStatus) {
+            if ($oldStatus !== $newStatus) {
                 $transaction->update(['status' => $newStatus]);
-                Log::info("Transaction status updated: {$transaction->status} -> {$newStatus}");
-
-                // ✅ Kirim email notifikasi atau proses lain di sini
-                // $this->sendPaymentNotification($transaction);
+                Log::info("✅ Transaction status updated: {$oldStatus} → {$newStatus}");
             } else {
-                Log::info("No status change needed. Current: {$transaction->status}");
+                Log::info("ℹ️ No status change (still {$oldStatus})");
             }
 
             Log::info('=== NOTIFICATION PROCESSED SUCCESSFULLY ===');
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Notification processed',
-                'order_id' => $orderId,
-                'transaction_status' => $transactionStatus
-            ]);
+            return response()->json(['message' => 'Notification processed successfully'], 200);
 
         } catch (\Exception $e) {
-            Log::error('NOTIFICATION ERROR: ' . $e->getMessage());
-            Log::error('File: ' . $e->getFile());
-            Log::error('Line: ' . $e->getLine());
-            Log::error('Trace: ' . $e->getTraceAsString());
+            Log::error('💥 MIDTRANS NOTIFICATION ERROR: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
 
             return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to process notification: ' . $e->getMessage()
+                'error' => 'Exception occurred',
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
+
 
     // 📌 Callback redirect ke user
     public function finish(Request $request)

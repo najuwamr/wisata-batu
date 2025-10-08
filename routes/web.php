@@ -56,7 +56,9 @@ Route::prefix('pesan-tiket')->group(function () {
 });
 // ----- PAYMENT -----
 
-
+Route::get('/contoh-e-tiket', function () {
+    return view('customer.tiket.e-tiket');
+});
 
 // ----- ADMIN -----
 Route::prefix('admin')->group(function () {
