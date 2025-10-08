@@ -3,7 +3,7 @@
 @section('title', 'Pembayaran')
 
 @section('content')
-<div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 mt-6" 
+<div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 mt-6"
      x-data="paymentForm()" x-cloak>
     <h2 class="text-2xl font-bold mb-4 text-center">Pembayaran</h2>
 
@@ -64,7 +64,7 @@
         </template>
 
         {{-- Tombol Submit --}}
-        <button type="submit" 
+        <button type="submit"
                 class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
                 x-bind:disabled="!selected || loading">
             <span x-show="!loading" x-text="selected ? 'Bayar Sekarang' : 'Pilih Metode Pembayaran'"></span>
@@ -77,7 +77,7 @@
         <div class="mt-5 p-4 bg-green-50 border border-green-300 rounded">
             <h3 class="text-lg font-semibold mb-2">Nomor Virtual Account</h3>
             <p class="text-gray-700 mb-1">Bank: <span class="font-bold" x-text="result.bank"></span></p>
-            <p class="text-gray-700 mb-1">Nomor VA: 
+            <p class="text-gray-700 mb-1">Nomor VA:
                 <span class="font-mono text-blue-600 text-xl" x-text="result.va_number"></span>
             </p>
             <p>Total: Rp <span x-text="result.amount"></span></p>

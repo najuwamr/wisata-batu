@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use Illuminate\Http\Request;
-use App\Models\Transaction;
-use App\Models\TransactionDetail;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
