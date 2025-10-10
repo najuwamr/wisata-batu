@@ -205,7 +205,7 @@
 
 
     <section
-        class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[2rem]">
+        class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[2rem] z-0">
         <!-- Background Elements -->
         <div class="absolute inset-0">
             <!-- Floating Circles -->
@@ -409,34 +409,32 @@
 
 
     {{-- =================== Peta =================== --}}
-    <section class="relative w-full bg-gradient-to-tr overflow-hidden z-[-2] from-blue-100 via-purple-50 to-blue-100">
+    <section class="relative w-full bg-gradient-to-tr overflow-hidden from-blue-100 via-purple-50 to-blue-100 rounded-t-[2rem] -mt-7">
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto">
             <div class="relative w-full md:w-full flex justify-end items-end">
                 <div class="relative w-full">
                     <div class="relative">
+                        <img src="{{ asset('assets/customer/koi2.jpg') }}" alt="Background Peta"
+                            class="absolute inset-0 w-full h-full object-cover z-0">
+
+                        <div class="absolute inset-0 bg-gradient-to-br from-black/70  via-black/50 to-transparent z-0"></div>
+
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
-                            class="w-full h-auto object-cover" loading="lazy">
+                            class="relative w-full h-auto object-cover z-10" loading="lazy">
                     </div>
 
                     <div class="hidden lg:block">
-                        {{-- Kolam Renang --}}
-                        <div class="absolute top-[40%] left-[43%] animate-float">
+                        <div class="absolute top-[40%] left-[43%] z-20">
                             <div class="group relative cursor-pointer">
-                                <!-- Marker dengan animasi pulsa -->
-                                <div
-                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 16 16"
-                                    class="drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-blue-800"
-                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentCOlor" class="text-blue-400"
+                                        d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
                                 </svg>
-                                <!-- Tooltip -->
                                 <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50 pointer-events-none">
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none z-70">
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95 z-50">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Kolam Renang</h3>
                                     <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
@@ -448,144 +446,52 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{-- Bianglala --}}
-                        <div class="absolute top-[51%] left-[36%] animate-float" style="animation-delay: 0.5s;">
+                        <div class="absolute top-[38%] left-[50%] z-20">
                             <div class="group relative cursor-pointer">
-                                <div
-                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 16 16"
-                                    class="drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-blue-800"
-                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentCOlor" class="text-blue-400"
+                                        d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
                                 </svg>
                                 <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50 pointer-events-none">
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none hover:z-40">
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
-                                    </div>
-                                    <h3 class="text-lg font-bold text-slate-800">Bianglala</h3>
-                                    <img src="{{ asset('assets/customer/bianglala.jpg') }}" alt="Bianglala"
-                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
-                                    <p class="mt-3 text-sm text-slate-700">
-                                        Nikmati pemandangan kota Batu dari ketinggian 30 meter di atas Bianglala.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Dinosaurus --}}
-                        <div class="absolute top-[35%] left-[45%] animate-float" style="animation-delay: 0.5s;">
-                            <div class="group relative cursor-pointer">
-                                <div
-                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 16 16"
-                                    class="drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-blue-800"
-                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
-                                </svg>
-                                <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50 pointer-events-none">
-                                    <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95 z-50">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Dinosaurus</h3>
-                                    <img src="{{ asset('assets/customer/dinosaurus.png') }}" alt="Dinosaurus"
+                                    <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
                                         class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
                                     <p class="mt-3 text-sm text-slate-700">
-                                        Kumpulan replika hewan prasejarah dengan ukuran hampir menyerupai aslinya dengan
-                                        pemandangan taman indah.
+                                        3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
+                                        air di sini dingin sekali!
                                     </p>
                                 </div>
                             </div>
                         </div>
-
-                        {{-- Sky Bike --}}
-                        <div class="absolute top-[34%] left-[16%] animate-float" style="animation-delay: 0.5s;">
+                        <div class="absolute top-[33%] left-[17%] ">
                             <div class="group relative cursor-pointer">
-                                <div
-                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 16 16"
-                                    class="drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-blue-800"
-                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentCOlor" class="text-blue-400"
+                                        d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
                                 </svg>
                                 <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50 pointer-events-none">
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none hover:z-40">
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95 z-50">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Sky Bike</h3>
-                                    <img src="{{ asset('assets/customer/skybike.jpg') }}" alt="Sky Bike"
+                                    <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
                                         class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
                                     <p class="mt-3 text-sm text-slate-700">
-                                        Bersepeda sembari melihat Taman Selecta yang indah.
+                                        3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
+                                        air di sini dingin sekali!
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Roller Coaster --}}
-                        <div class="absolute top-[45%] left-[28%] animate-float" style="animation-delay: 0.5s;">
-                            <div class="group relative cursor-pointer">
-                                <div
-                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 16 16"
-                                    class="drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-blue-800"
-                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
-                                </svg>
-                                <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50 pointer-events-none">
-                                    <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
-                                    </div>
-                                    <h3 class="text-lg font-bold text-slate-800">Roller Coaster</h3>
-                                    <img src="{{ asset('assets/customer/skybike.jpg') }}" alt="Roller Coaster"
-                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
-                                    <p class="mt-3 text-sm text-slate-700">
-                                        Roller Coaster memiliki 10 baris dengan tiap baris maksimal 2 penumpang. Cukup bikin
-                                        deg-degan!
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
 
-                        {{-- Akoirium --}}
-                        <div class="absolute top-[39%] left-[53%] animate-float" style="animation-delay: 0.5s;">
-                            <div class="group relative cursor-pointer">
-                                <div
-                                    class="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 16 16"
-                                    class="drop-shadow-lg transition-all duration-300 group-hover:scale-125 relative z-10">
-                                    <path fill="currentColor" class="text-blue-800"
-                                        d="m7.539 14.841l.003.003l.002.002a.755.755 0 0 0 .912 0l.002-.002l.003-.003l.012-.009a5.57 5.57 0 0 0 .19-.153a15.588 15.588 0 0 0 2.046-2.082C11.81 11.235 13 9.255 13 7A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082a8.916 8.916 0 0 0 .189.153zM8 8.5a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
-                                </svg>
-                                <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 z-50 pointer-events-none">
-                                    <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/90">
-                                    </div>
-                                    <h3 class="text-lg font-bold text-slate-800">Akoirium</h3>
-                                    <img src="{{ asset('assets/customer/akoirium.jpeg') }}" alt="Akoirium"
-                                        class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
-                                    <p class="mt-3 text-sm text-slate-700">
-                                        Roller Coaster memiliki 10 baris dengan tiap baris maksimal 2 penumpang. Cukup bikin
-                                        deg-degan!
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -910,8 +816,9 @@
             </div>
         </div>
     </section>
+
     <section
-        class="bg-blue-50 p-4 md:min-h-[1000px] relative -mt-10 z-0 overflow-hidden rounded-t-[3rem] rounded-b-[1.7rem] shadow-sm">
+        class="bg-blue-50 p-4 md:min-h-[1000px] relative md:-mt-10 z-0 overflow-hidden rounded-t-[3rem] rounded-b-[1.7rem] shadow-sm">
         <div class="flex justify-between items-center p-7">
             <div class="flex-col items-center">
                 <h1
@@ -970,8 +877,8 @@
 
 
 
-
-    <section class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center">
+    <section
+        class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center rounded-t-[2rem] md:-mt-10">
         <div class="container mx-auto pt-10">
             <h2 class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug"
                 data-aos="fade-left">
@@ -1002,7 +909,7 @@
             </div>
         </div>
     </section>
-    {{-- Promo --}}
+
 
 
 

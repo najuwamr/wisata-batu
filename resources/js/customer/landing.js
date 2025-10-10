@@ -130,15 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // GSAP Animations
-    if (typeof gsap !== 'undefined') {
-        // Tambahkan animasi GSAP di sini jika diperlukan
-        gsap.from(".hero-title", {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            ease: "power3.out"
-        });
-    }
+   
 });
 
 // Fungsi untuk promo (pastikan tersedia secara global)
