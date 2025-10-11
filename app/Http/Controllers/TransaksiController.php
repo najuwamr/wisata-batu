@@ -11,6 +11,7 @@ use Midtrans\CoreApi;
 use Illuminate\Support\Str;
 use Midtrans\Notification;
 use Illuminate\Support\Facades\Log;
+use Midtrans\Transaction as MidtransTransaction;
 
 class TransaksiController extends Controller
 {
@@ -26,6 +27,8 @@ class TransaksiController extends Controller
         $orderId = 'ORDER-' . strtoupper(uniqid());
         $grossAmount = $checkout['total'] ?? $request->gross_amount;
 
+        session(['midtrans_order_id' => $orderId]);
+
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
@@ -35,6 +38,9 @@ class TransaksiController extends Controller
                 'first_name' => $checkout['name'],
                 'email' => $checkout['email'],
                 'phone' => $checkout['whatsapp'],
+            ],
+            'callbacks' => [
+                'finish' => url('/payment/finish?order_id=' . $orderId),
             ],
         ];
 
@@ -185,6 +191,7 @@ class TransaksiController extends Controller
                 return response()->json([
                     'status' => 'redirect',
                     'url' => $charge->actions[0]->url,
+                    'order_id' => $orderId,
                 ]);
             }
 
@@ -305,26 +312,35 @@ class TransaksiController extends Controller
         }
     }
 
-
     // 📌 Callback redirect ke user
     public function finish(Request $request)
     {
+        // Ambil order_id dari query kalau ada
+        $orderId = $request->query('order_id');
+
+        // Ambil transaksi sesuai order_id, kalau gak ada ambil yang terakhir
+        $transaction = Transaction::when($orderId, function ($query) use ($orderId) {
+                return $query->where('midtrans_order_id', $orderId);
+            })
+            ->with('customer') // pastikan relasi ke customer ada
+            ->latest()
+            ->first();
+
+        if (!$transaction) {
+            return redirect()->route('checkout.pembayaran')->with('error', 'Transaksi tidak ditemukan.');
+        }
+
+        // Update status biar gak pending
+        if ($transaction->status === 'pending') {
+            $transaction->update(['status' => 'paid']);
+        }
+
+        // Kirim ke view
         return view('customer.finish', [
-            'message' => 'Pembayaran berhasil! Terima kasih 🎉'
+            'transaction' => $transaction,
+            'customer' => $transaction->customer, // kirim juga relasinya
         ]);
     }
 
-    public function unfinish(Request $request)
-    {
-        return view('customer.finish', [
-            'message' => 'Pembayaran belum selesai. Silakan lanjutkan pembayaran.'
-        ]);
-    }
 
-    public function error(Request $request)
-    {
-        return view('customer.finish', [
-            'message' => 'Terjadi kesalahan saat pembayaran. Coba lagi.'
-        ]);
-    }
 }

@@ -48,7 +48,7 @@ class CheckoutController extends Controller
     public function pembayaran()
     {
         $checkout = session('checkout_data');
-        // dd(session()->all());
+        // dd($checkout);
 
         if (!$checkout) {
             return redirect()->route('keranjang')->with('error', 'Data checkout belum lengkap.');

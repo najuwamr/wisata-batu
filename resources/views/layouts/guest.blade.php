@@ -18,6 +18,8 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     <!-- Vite Resources -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/customer/landing.js'])
     @vite('resources/js/sweetalert.js')
@@ -55,7 +57,7 @@
         </script>
     @endif
 
-    @if (session('success'))
+    {{-- @if (session('success'))
         <script>
             Swal.fire({
                 icon: 'success',
@@ -65,7 +67,7 @@
                 showConfirmButton: false
             });
         </script>
-    @endif
+    @endif --}}
 
     @if (session('error'))
         <script>

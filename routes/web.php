@@ -41,10 +41,10 @@ Route::delete('/keranjang/clear', [KeranjangController::class, 'clear'])->name('
 // ----- CHECKOUT & TRANSAKSI -----
 Route::post('/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
 Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
-Route::get('/checkout/payment', [CheckoutController::class, 'pembayaran'])->name('checkout.pembayaran');
+Route::get('/checkout/pembayaran', [CheckoutController::class, 'pembayaran'])->name('checkout.pembayaran');
 Route::post('/checkout/charge', [TransaksiController::class, 'charge'])->name('checkout.charge');
 Route::post('/payment/notification', [TransaksiController::class, 'notification']);
-Route::get('/payment/finish', [TransaksiController::class, 'finish']);
+Route::get('/payment/finish', [TransaksiController::class, 'finish'])->name('checkout.finish');
 Route::get('/payment/unfinish', [TransaksiController::class, 'unfinish']);
 Route::get('/payment/error', [TransaksiController::class, 'error']);
 
