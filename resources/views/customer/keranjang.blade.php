@@ -70,7 +70,7 @@
                 {{-- Keranjang --}}
                 <div class="bg-white rounded-2xl shadow-lg p-6 relative">
                     <!-- Decorative Icon -->
-                   
+
 
                     <h2 class="font-bold text-xl md:text-2xl text-blue-900 mb-6 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
