@@ -409,7 +409,8 @@
 
 
     {{-- =================== Peta =================== --}}
-    <section class="relative w-full bg-gradient-to-tr overflow-hidden from-blue-100 via-purple-50 to-blue-100 rounded-t-[2rem] -mt-7">
+    <section
+        class="relative w-full bg-gradient-to-tr overflow-hidden from-blue-100 via-purple-50 to-blue-100 rounded-t-[2rem] -mt-7">
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto">
             <div class="relative w-full md:w-full flex justify-end items-end">
                 <div class="relative w-full">
@@ -417,7 +418,8 @@
                         <img src="{{ asset('assets/customer/koi2.jpg') }}" alt="Background Peta"
                             class="absolute inset-0 w-full h-full object-cover z-0">
 
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/70  via-black/50 to-transparent z-0"></div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-black/70  via-black/50 to-transparent z-0">
+                        </div>
 
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
                             class="relative w-full h-auto object-cover z-10" loading="lazy">
@@ -817,62 +819,210 @@
         </div>
     </section>
 
-    <section
-        class="bg-blue-50 p-4 md:min-h-[1000px] relative md:-mt-10 z-0 overflow-hidden rounded-t-[3rem] rounded-b-[1.7rem] shadow-sm">
-        <div class="flex justify-between items-center p-7">
-            <div class="flex-col items-center">
-                <h1
-                    class="text-left p-5 text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-green-500 via-blue-400 to-lime-500">
-                    Berita <span
-                        class="text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600">Selecta!</span>
-                </h1>
-                <div
-                    class="w-full h-1 bg-gradient-to-r from-blue-300 via-green-300 to-blue-600 rounded-full mx-auto md:mx-0 mb-4">
-                </div>
+    <section class="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 md:py-24 overflow-hidden">
+        <!-- Background Decorative Elements -->
+        <div class="absolute inset-0 overflow-hidden z-0">
+            <div
+                class="absolute -top-24 -right-24 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse">
             </div>
-            <a href=""
-                class="md:text-md text-center font-reguler text-blue-700 underline p-4 flex items-center gap-2">
-                Selengkapnya
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                    fill="currentColor" class="text-blue-700">
-                    <g fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-miterlimit="10" d="m15.813 8.187l-7.626 7.626" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16.111 15.155V8.917a1.028 1.028 0 0 0-1.028-1.028H8.845" />
-                        <rect width="18.5" height="18.5" x="2.75" y="2.75" rx="6" />
-                    </g>
-                </svg>
-            </a>
+            <div
+                class="absolute -bottom-24 -left-24 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-1000">
+            </div>
+            <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-500">
+            </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-10"> <!-- Card Besar -->
-            <div
-                class="md:col-span-2 md:row-span-2 bg-[#FFFCFB] rounded-2xl shadow-lg flex flex-row overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
-                <div class="p-6 flex flex-col justify-between w-1/2">
-                    <h3 class="text-sm uppercase font-bold">SELECTA NEWS</h3>
-                    <p class="text-2xl font-bold mt-2">"Sekarang Selecta punya wahana baru!"</p> <button
-                        class="mt-6 px-4 py-2 bg-[#093FB4] rounded-lg text-[#FFD8D8] text-sm font-semibold hover:bg-gray-200 transition">
-                        MORE INFO >> </button>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header Section -->
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 lg:mb-16">
+                <div class="flex-1 mb-6 lg:mb-0">
+                    <div
+                        class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        UPDATE TERBARU
+                    </div>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600">Berita</span>
+                        <span
+                            class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Selecta!</span>
+                    </h1>
+                    <div class="w-24 h-1.5 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mb-4"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl">
+                        Temukan informasi terbaru, promo spesial, dan acara menarik di Taman Rekreasi Selecta. Selalu ada
+                        yang baru untuk pengalaman liburan tak terlupakan!
+                    </p>
                 </div>
-                <div class="w-1/2"> <img src="{{ asset('assets/customer/berita1.webp') }}"
-                        class="w-full h-full object-cover" /> </div>
-            </div> <!-- Card Kecil 1 -->
-            <div
-                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
-                <img src="{{ asset('assets/customer/berita2.webp') }}" class="w-full h-40 object-cover" />
-                <div class="p-4">
-                    <h3 class="text-sm uppercase font-bold">Family Time!</h3>
-                    <p class="text-lg font-semibold mt-2">"Taman cantik sayang kalo ga foto-foto!"</p>
+
+                <a href="#"
+                    class="group flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 hover:scale-105">
+                    <span>Lihat Semua Berita</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- News Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Featured News Card -->
+                <div class="lg:col-span-2 group">
+                    <div
+                        class="bg-white rounded-3xl shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('assets/customer/berita1.webp') }}" alt="Wahana Baru Selecta"
+                                class="w-full h-64 md:h-80 object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full">BARU!</span>
+                            </div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                        </div>
+                        <div class="p-6 md:p-8 flex flex-col flex-grow">
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                2 Hari Lalu
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">"Sekarang Selecta Punya Wahana
+                                Baru yang Seru!"</h3>
+                            <p class="text-gray-600 mb-6 flex-grow">
+                                Rasakan sensasi petualangan baru dengan wahana terbaru kami. Didesain khusus untuk
+                                memberikan pengalaman tak terlupakan bagi seluruh keluarga.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <a href="#"
+                                    class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:shadow-md transform transition-all duration-300 hover:-translate-y-0.5">
+                                    Baca Selengkapnya
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                                <div class="flex space-x-2">
+                                    <span
+                                        class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">Wahana</span>
+                                    <span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Baru</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div> <!-- Card Kecil 2 -->
-            <div
-                class="bg-[#FFFCFB] rounded-2xl shadow-lg overflow-hidden transform transition-all hover:-translate-y-1 duration-400">
-                <img src="{{ asset('assets/customer/berita3.jpg') }}" class="w-full h-40 object-cover" />
-                <div class="p-4">
-                    <h3 class="text-sm uppercase font-bold">Family Time!</h3>
-                    <p class="text-lg font-semibold mt-2">"50k dapet apa aja si?"</p>
+
+                <!-- Small News Cards -->
+                <div class="space-y-8">
+                    <!-- News Card 1 -->
+                    <div class="group">
+                        <div
+                            class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl h-full">
+                            <div class="relative overflow-hidden">
+                                <img src="{{ asset('assets/customer/berita2.webp') }}" alt="Family Time di Selecta"
+                                    class="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-700">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center text-xs text-gray-500 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    5 Hari Lalu
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-2">"Taman Cantik Sayang Kalau Tidak
+                                    Foto-Foto!"</h3>
+                                <p class="text-gray-600 text-sm mb-4">
+                                    Jelajahi spot foto terbaik di Selecta yang Instagramable. Dapatkan momen terindah
+                                    bersama keluarga.
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <a href="#"
+                                        class="text-blue-600 font-medium text-sm hover:text-blue-800 transition-colors">
+                                        Baca Selengkapnya
+                                    </a>
+                                    <span
+                                        class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">Foto</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Card 2 -->
+                    <div class="group">
+                        <div
+                            class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl h-full">
+                            <div class="relative overflow-hidden">
+                                <img src="{{ asset('assets/customer/berita3.jpg') }}" alt="Promo Selecta"
+                                    class="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-700">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center text-xs text-gray-500 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    1 Minggu Lalu
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-2">"50K Dapat Apa Saja Sih di Selecta?"</h3>
+                                <p class="text-gray-600 text-sm mb-4">
+                                    Temukan semua yang bisa Anda nikmati dengan budget terjangkau. Banyak wahana seru dengan
+                                    harga hemat.
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <a href="#"
+                                        class="text-blue-600 font-medium text-sm hover:text-blue-800 transition-colors">
+                                        Baca Selengkapnya
+                                    </a>
+                                    <span
+                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">Promo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Bottom CTA -->
+            <div class="mt-16 text-center">
+                <p class="text-gray-600 mb-6">Masih penasaran dengan berita dan promo lainnya?</p>
+                <a href="#"
+                    class="inline-flex items-center px-8 py-3 border-2 border-blue-600 text-blue-600 font-bold rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:-translate-y-1">
+                    Lihat Semua Berita
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
     </section>
 
 
