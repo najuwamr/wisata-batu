@@ -152,28 +152,47 @@
                         </div>
                     </div>
                     @endforeach
-
-                    <!-- Diskon Promo -->
-                    @if (($totalDiscount ?? 0) > 0)
-                    <div class="flex justify-between items-center py-3 border-b border-gray-100 bg-green-50 -mx-4 px-4">
-                        <div>
-                            <p class="font-semibold text-green-800">BANKBCA</p>
-                            <p class="text-sm text-green-600">{{ $promoName ?? 'Diskon' }} ({{ $discountPercent ?? 0 }}%)</p>
-                        </div>
-                        <p class="font-semibold text-green-800">-Rp {{ number_format($totalDiscount ?? 0, 0, ',', '.') }}</p>
-                    </div>
-                    @endif
                 </div>
 
-                <!-- Total -->
-                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6">
+                <!-- Ringkasan Biaya -->
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 space-y-2">
+                    <!-- Subtotal -->
                     <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold text-blue-900">Total</span>
-                        <span class="text-2xl font-bold text-blue-900">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                        <span class="text-gray-700 font-semibold">Subtotal</span>
+                        <span class="text-gray-700 font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                    </div>
+
+                    <!-- Biaya Layanan -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-700 font-semibold">Biaya Layanan</span>
+                        <span class="text-gray-700 font-semibold">Rp {{ number_format($layanan, 0, ',', '.') }}</span>
+                    </div>
+
+                    <!-- Diskon Promo (dinamis) -->
+                    @if (!empty($promos) && count($promos) > 0)
+                        @foreach ($promos as $promo)
+                            <div class="flex justify-between items-center bg-green-50 p-2 rounded">
+                                <div>
+                                    <p class="text-green-800 font-semibold">{{ $promo['name'] ?? 'Promo' }}</p>
+                                    <p class="text-sm text-green-600">
+                                        {{ $promo['description'] ?? '' }} ({{ $promo['percent'] ?? 0 }}%)
+                                    </p>
+                                </div>
+                                <span class="text-green-800 font-semibold">-Rp {{ number_format($promo['discount'] ?? 0, 0, ',', '.') }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+
+                    <!-- Total -->
+                    <div class="border-t border-blue-200 pt-2 mt-2 flex justify-between items-center font-bold text-blue-900 text-2xl">
+                        <span>Total</span>
+                        <span>
+                            Rp {{ number_format(($subtotal + $layanan), 0, ',', '.') }}
+                        </span>
                     </div>
                 </div>
 
-                <!-- Info Promo -->
+                <!-- Info Promo Kode (optional) -->
                 @if($promoCode)
                 <div class="mt-6 p-4 bg-green-50 rounded-xl">
                     <p class="text-sm text-green-800">

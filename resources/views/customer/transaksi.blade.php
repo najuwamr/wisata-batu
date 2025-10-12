@@ -53,7 +53,7 @@
             }">
 
         <!-- Informasi Customer -->
-        <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 mb-6">
+        <div class="bg-blue-50 rounded-2xl p-6 mb-6">
             <h3 class="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -61,25 +61,30 @@
                 </svg>
                 Informasi Pemesan
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm md:text-base">
+                <div class="flex flex-col space-y-1 break-words">
                     <p class="text-gray-600">Nama</p>
                     <p class="font-semibold text-gray-900">{{ $checkout['name'] }}</p>
                 </div>
-                <div>
+
+                <div class="flex flex-col space-y-1 break-words">
                     <p class="text-gray-600">Email</p>
-                    <p class="font-semibold text-gray-900">{{ $checkout['email'] }}</p>
+                    <p class="font-semibold text-gray-900 break-all">{{ $checkout['email'] }}</p>
                 </div>
-                <div>
+
+                <div class="flex flex-col space-y-1 break-words">
                     <p class="text-gray-600">WhatsApp</p>
                     <p class="font-semibold text-gray-900">{{ $checkout['whatsapp'] }}</p>
                 </div>
-                <div>
+
+                <div class="flex flex-col space-y-1 break-words">
                     <p class="text-gray-600">Tanggal Kunjungan</p>
                     <p class="font-semibold text-gray-900">{{ \Carbon\Carbon::parse($checkout['date'])->translatedFormat('d F Y') }}</p>
                 </div>
+
                 @if(!empty($checkout['promo']))
-                <div class="md:col-span-2">
+                <div class="md:col-span-2 flex flex-col space-y-1">
                     <p class="text-gray-600">Kode Promo</p>
                     <p class="font-semibold text-green-600">{{ $checkout['promo'] }}</p>
                 </div>
@@ -95,18 +100,33 @@
                 @foreach($checkout['cart_items'] as $item)
                 <div class="flex justify-between items-center text-sm">
                     <span>{{ $item['name'] }} ({{ $item['qty'] }}x)</span>
-                    <span class="font-semibold">Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</span>
+                    <span class="text-right">
+                        @if(!empty($item['discount']) && $item['discount'] > 0)
+                        <span class="font-semibold text-gray-900">Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</span>
+                            <span class="text-gray-400 line-through text-xs font-extralight block">Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</span>
+                        @else
+                            <span class="font-semibold text-gray-900">Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</span>
+                        @endif
+                    </span>
                 </div>
                 @endforeach
             </div>
         </div>
         @endif
 
+        <!-- Biaya Layanan -->
+        <div class="bg-gray-50 rounded-xl p-4 mb-6 flex justify-between items-center text-sm">
+            <span>Biaya Layanan</span>
+            <span class="font-semibold">Rp {{ number_format($checkout['layanan'] ?? 0, 0, ',', '.') }}</span>
+        </div>
+
         <!-- Total Pembayaran -->
         <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 mb-6">
             <div class="flex justify-between items-center">
                 <span class="text-lg font-bold text-green-900">Total Pembayaran</span>
-                <span class="text-2xl font-bold text-green-900">Rp {{ number_format($checkout['total'], 0, ',', '.') }}</span>
+                <span class="text-2xl font-bold text-green-900">
+                    Rp {{ number_format(($checkout['total'] ?? 0), 0, ',', '.') }}
+                </span>
             </div>
         </div>
 
@@ -205,11 +225,11 @@
 
                     <div class="border-2 border-gray-200 rounded-xl p-4 hover:border-orange-500 transition-all cursor-pointer"
                             @click="selected = 'shopeepay'"
-                            :class="{'border-orange-500 bg-green-50': selected === 'shopeepay'}">
+                            :class="{'border-orange-500 bg-orange-50': selected === 'shopeepay'}">
                         <div class="flex items-center gap-3">
                             <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center"
-                                    :class="{'border-orange-500 bg-orange-500': selected === 'gopay'}">
-                                <div x-show="selected === 'gopay'" class="w-2 h-2 bg-white rounded-full"></div>
+                                    :class="{'border-orange-500 bg-orange-500': selected === 'shopeepay'}">
+                                <div x-show="selected === 'shopeepay'" class="w-2 h-2 bg-white rounded-full"></div>
                             </div>
                             <div class="flex-1">
                                 <p class="font-semibold text-gray-900">ShopeePay</p>
@@ -322,7 +342,9 @@
                     </div>
                     <div class="flex justify-between items-center pt-3 border-t border-green-200">
                         <span class="text-gray-700">Total:</span>
-                        <span class="text-xl font-bold text-green-900">Rp <span x-text="result.amount"></span></span>
+                       <span class="text-xl font-bold text-green-900">
+                            Rp <span x-text="new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2 }).format(result.amount)"></span>
+                        </span>
                     </div>
                 </div>
             </div>

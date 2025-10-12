@@ -19,13 +19,19 @@ class KeranjangController extends Controller
             END
         ")->get();
 
-        return view('customer.keranjang', compact('cart', 'tiket'));
+        $layanan = 3000;
+
+        $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['qty']);
+
+        $total = $subtotal + $layanan;
+
+        return view('customer.keranjang', compact('cart', 'tiket', 'layanan', 'subtotal', 'total'));
     }
 
     public function tambah(Request $request)
     {
         $request->validate([
-            'ticket_id' => 'required|uuid|exists:ticket,id', // Ganti ke 'ticket'
+            'ticket_id' => 'required|uuid|exists:ticket,id',
             'qty'       => 'required|integer|min:1',
         ]);
 
@@ -124,6 +130,7 @@ class KeranjangController extends Controller
         $cartWithDiscount = [];
         $total = 0;
         $totalDiscount = 0;
+        $layanan = 3000; // biaya layanan tetap, bisa diubah sesuai kebutuhan
 
         foreach ($cart as $item) {
             $itemSubtotal = $item['price'] * $item['qty'];
@@ -139,16 +146,19 @@ class KeranjangController extends Controller
                 'id' => $item['ticket_id'],
                 'name' => $item['name'],
                 'qty' => $item['qty'],
-                'price' => $item['price'], // Harga asli
-                'discount' => $discountAmount, // Jumlah diskon
-                'subtotal' => $itemSubtotal, // Subtotal setelah diskon
+                'price' => $item['price'],
+                'discount' => $discountAmount,
+                'subtotal' => $itemSubtotal,
             ];
 
             $total += $itemSubtotal;
             $totalDiscount += $discountAmount;
         }
 
-        // SIMPAN KE SESSION - pakai $cartWithDiscount yang sudah ada perhitungan promo
+        // Total akhir termasuk biaya layanan
+        $totalWithLayanan = $total + $layanan;
+
+        // SIMPAN KE SESSION
         session([
             'checkout_data' => [
                 'date' => $date,
@@ -156,14 +166,18 @@ class KeranjangController extends Controller
                 'promo_name' => $promo->name ?? null,
                 'discount_percent' => $promo->discount_percent ?? 0,
                 'total_discount' => $totalDiscount,
-                'total' => $total,
-                'cart_items' => $cartWithDiscount // INI YANG SUDAH ADA PERHITUNGAN PROMO
+                'subtotal' => $total,
+                'layanan' => $layanan,
+                'total' => $totalWithLayanan,
+                'cart_items' => $cartWithDiscount
             ]
         ]);
 
         return view('customer.checkout', [
             'cart' => $cartWithDiscount,
-            'total' => $total,
+            'subtotal' => $total,
+            'layanan' => $layanan,
+            'total' => $totalWithLayanan,
             'totalDiscount' => $totalDiscount,
             'promoCode' => $promoCode,
             'promoName' => $promo->name ?? null,

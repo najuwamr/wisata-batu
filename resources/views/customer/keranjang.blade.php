@@ -138,16 +138,16 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center text-gray-700 text-sm">
                                     <span>Subtotal</span>
-                                    <span>Rp {{ number_format(collect($cart)->sum(fn($i) => $i['price'] * $i['qty']), 0, ',', '.') }}</span>
+                                    <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between items-center text-gray-700 text-sm">
                                     <span>Biaya Layanan</span>
-                                    <span>Rp 0</span>
+                                    <span>Rp {{ number_format($layanan, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="border-t border-blue-200 pt-2 mt-2">
                                     <div class="flex justify-between items-center font-bold text-blue-900">
                                         <span>Total</span>
-                                        <span class="text-lg">Rp {{ number_format(collect($cart)->sum(fn($i) => $i['price'] * $i['qty']), 0, ',', '.') }}</span>
+                                        <span class="text-lg">Rp {{ number_format($total, 0, ',', '.') }}</span>
                                     </div>
                                 </div>
                             </div>

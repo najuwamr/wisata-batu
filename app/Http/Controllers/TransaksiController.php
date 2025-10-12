@@ -9,11 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Midtrans\CoreApi;
 use Illuminate\Support\Str;
-use Illuminates\Support\Facades\Storage;
-use Midtrans\Notification;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage as FacadesStorage;
-use Midtrans\Transaction as MidtransTransaction;
+use Midtrans\Notification;
+// use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TransaksiController extends Controller
 {
@@ -207,106 +206,66 @@ class TransaksiController extends Controller
     // 📌 Webhook dari Midtrans
     public function notification(Request $request)
     {
-        // Simpan notifikasi mentah dari Midtrans (untuk dicek manual kalau perlu)
-        FacadesStorage::put('midtrans_notification.json', json_encode($request->all(), JSON_PRETTY_PRINT));
+        $notif = new Notification();
 
-        $data = $request->all();
+        $orderId = $notif->order_id;
+        $transactionStatus = $notif->transaction_status;
 
-        try {
-            // Ambil data penting dari payload Midtrans
-            $orderId = $data['order_id'] ?? null;
-            $transactionStatus = $data['transaction_status'] ?? null;
-            $paymentType = $data['payment_type'] ?? null;
-            $transactionTime = $data['transaction_time'] ?? now();
+        $transaction = Transaction::with(['customer', 'transactionDetail.ticket'])->where('midtrans_order_id', $orderId)->first();
 
-            // Validasi minimal
-            if (!$orderId) {
-                return response()->json(['message' => 'Missing order_id'], 400);
-            }
-
-            // Cari transaksi di database
-            $transaction = Transaction::where('order_id', $orderId)->first();
-
-            if (!$transaction) {
-                return response()->json(['message' => 'Transaction not found'], 404);
-            }
-
-            // Mapping status dari Midtrans ke ENUM kamu
-            $statusMap = [
-                'capture'   => 'paid',
-                'settlement'=> 'paid',
-                'pending'   => 'pending',
-                'deny'      => 'failed',
-                'cancel'    => 'failed',
-                'expire'    => 'failed',
-                'failure'   => 'failed',
-                // 'redeemed' nanti diatur manual oleh sistem kamu
-            ];
-
-            $finalStatus = $statusMap[$transactionStatus] ?? 'failed';
-
-            // Update status transaksi di database
-            $transaction->update([
-                'status' => $finalStatus,
-                'payment_type' => $paymentType,
-                'transaction_time' => $transactionTime,
-            ]);
-
-            // Simpan hasil pemrosesan agar bisa dicek di file storage
-            $result = [
-                'order_id' => $orderId,
-                'from' => $transactionStatus,
-                'mapped_to' => $finalStatus,
-                'payment_type' => $paymentType,
-                'updated_at' => now()->toDateTimeString(),
-            ];
-            FacadesStorage::put('midtrans_processed.json', json_encode($result, JSON_PRETTY_PRINT));
-
-            return response()->json(['message' => 'Notification processed successfully'], 200);
-
-        } catch (\Throwable $e) {
-            // Simpan error ke file biar bisa dilihat tanpa pakai Log
-            $error = [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-                'time' => now()->toDateTimeString(),
-            ];
-            FacadesStorage::put('midtrans_error.json', json_encode($error, JSON_PRETTY_PRINT));
-
-            return response()->json(['message' => 'Error processing notification'], 500);
+        if (!$transaction) {
+            Log::warning("Notifikasi Midtrans: Transaksi tidak ditemukan untuk order_id {$orderId}");
+            return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
         }
+
+        Log::info("Notifikasi Midtrans diterima untuk Order ID: {$orderId}, Status: {$transactionStatus}");
+
+        // 🧩 Konversi status Midtrans → sistem internal
+        $status = match ($transactionStatus) {
+            'settlement', 'capture' => 'paid',
+            'pending' => 'pending',
+            'deny', 'cancel', 'expire' => 'failed',
+            default => $transaction->status,
+        };
+
+        if ($transaction->status !== $status) {
+            $transaction->status = $status;
+            $transaction->save();
+
+            Log::info("Transaksi {$orderId} diupdate ke status {$status}");
+        }
+
+        return response()->json(['message' => 'Notifikasi berhasil diproses']);
     }
 
 
     // 📌 Callback redirect ke user
-    public function finish(Request $request)
+    public function finish($orderId)
     {
-        // Ambil order_id dari query kalau ada
-        $orderId = $request->query('order_id');
+        $transaction = Transaction::with(['customer', 'transactionDetail.ticket'])
+            ->where('midtrans_order_id', $orderId)
+            ->firstOrFail();
 
-        // Ambil transaksi sesuai order_id, kalau gak ada ambil yang terakhir
-        $transaction = Transaction::when($orderId, function ($query) use ($orderId) {
-                return $query->where('midtrans_order_id', $orderId);
-            })
-            ->with('customer') // pastikan relasi ke customer ada
-            ->latest()
-            ->first();
+        $qrCode = null;
 
-        if (!$transaction) {
-            return redirect()->route('checkout.pembayaran')->with('error', 'Transaksi tidak ditemukan.');
+        // Jika sudah paid, buat payload QR
+        if ($transaction->status === 'paid') {
+            $ticketItems = $transaction->transactionDetail->map(function ($detail) {
+                return [
+                    'ticket_name' => $detail->ticket->name ?? '-',
+                    'qty' => $detail->quantity ?? 0,
+                ];
+            })->toArray();
+
+            $payload = $transaction->code;
+
+            $encrypted = Crypt::encrypt($payload);
+            $qrCode = base64_encode($encrypted);
         }
 
-        // Update status biar gak pending
-        if ($transaction->status === 'pending') {
-            $transaction->update(['status' => 'paid']);
-        }
-
-        // Kirim ke view
-        return view('customer.finish', [
-            'transaction' => $transaction,
-            'customer' => $transaction->customer, // kirim juga relasinya
-        ]);
+        return view('customer.finish', compact('transaction', 'qrCode'));
     }
+
 
 
 }
