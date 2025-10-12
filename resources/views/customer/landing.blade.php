@@ -15,7 +15,7 @@
         </video>
 
         {{-- Overlay hitam --}}
-        <div class="absolute inset-0 bg-black/50 z-10"></div>
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
 
         {{-- Logo + CTA --}}
         <div class="relative flex flex-col justify-center items-center h-full z-20">
@@ -201,7 +201,7 @@
         </div>
     </section>
 
-    {{-- promo --}}
+
 
 
     <section
@@ -403,97 +403,80 @@
         </div>
     </section>
 
-
-
-
-
-
-    {{-- =================== Peta =================== --}}
     <section
-        class="relative w-full bg-gradient-to-tr overflow-hidden from-blue-100 via-purple-50 to-blue-100 rounded-t-[2rem] -mt-7">
+        class="relative w-full bg-gradient-to-tr overflow-hidden rounded-t-[2rem] -mt-7 ">
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto">
             <div class="relative w-full md:w-full flex justify-end items-end">
                 <div class="relative w-full">
                     <div class="relative">
-                        <img src="{{ asset('assets/customer/koi2.jpg') }}" alt="Background Peta"
+                        <img src="{{ asset('assets/customer/awan4.jpg') }}" alt="Background Peta"
                             class="absolute inset-0 w-full h-full object-cover z-0">
-
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/70  via-black/50 to-transparent z-0">
+                        <div class="absolute inset-0 bg-gradient-to-br from-black/20 via-black/10 to-transparent z-0">
                         </div>
-
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
                             class="relative w-full h-auto object-cover z-10" loading="lazy">
                     </div>
-
                     <div class="hidden lg:block">
                         <div class="absolute top-[40%] left-[43%] z-20">
                             <div class="group relative cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 24 24">
+                                    viewBox="0 0 24 24" class="relative z-10">
                                     <path fill="currentCOlor" class="text-blue-400"
                                         d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
                                 </svg>
                                 <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none z-70">
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none group-hover:z-30">
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95 z-50">
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Kolam Renang</h3>
                                     <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
                                         class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
-                                    <p class="mt-3 text-sm text-slate-700">
-                                        3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
-                                        air di sini dingin sekali!
-                                    </p>
+                                    <p class="mt-3 text-sm text-slate-700">3 kolam renang dengan kedalaman mulai 0.5 meter
+                                        hingga 3 meter. Hati-hati ya karena air di sini dingin sekali!</p>
                                 </div>
                             </div>
                         </div>
                         <div class="absolute top-[38%] left-[50%] z-20">
                             <div class="group relative cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 24 24">
+                                    viewBox="0 0 24 24" class="relative z-10">
                                     <path fill="currentCOlor" class="text-blue-400"
                                         d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
                                 </svg>
                                 <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none hover:z-40">
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none group-hover:z-30">
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95 z-50">
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Dinosaurus</h3>
                                     <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
                                         class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
-                                    <p class="mt-3 text-sm text-slate-700">
-                                        3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
-                                        air di sini dingin sekali!
-                                    </p>
+                                    <p class="mt-3 text-sm text-slate-700">3 kolam renang dengan kedalaman mulai 0.5 meter
+                                        hingga 3 meter. Hati-hati ya karena air di sini dingin sekali!</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="absolute top-[33%] left-[17%] ">
+                        <div class="absolute top-[33%] left-[17%] z-20">
                             <div class="group relative cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                                    viewBox="0 0 24 24">
+                                    viewBox="0 0 24 24" class="relative z-10">
                                     <path fill="currentCOlor" class="text-blue-400"
                                         d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z" />
                                 </svg>
                                 <div
-                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none hover:z-40">
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out origin-bottom bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-amber-300/50 pointer-events-none group-hover:z-30">
                                     <div
-                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95 z-50">
+                                        class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/95">
                                     </div>
                                     <h3 class="text-lg font-bold text-slate-800">Sky Bike</h3>
                                     <img src="{{ asset('assets/customer/kolamrenang.jpg') }}" alt="Kolam Renang"
                                         class="w-full h-36 object-cover rounded-lg mt-2 shadow-md" loading="lazy">
-                                    <p class="mt-3 text-sm text-slate-700">
-                                        3 kolam renang dengan kedalaman mulai 0.5 meter hingga 3 meter. Hati-hati ya karena
-                                        air di sini dingin sekali!
-                                    </p>
+                                    <p class="mt-3 text-sm text-slate-700">3 kolam renang dengan kedalaman mulai 0.5 meter
+                                        hingga 3 meter. Hati-hati ya karena air di sini dingin sekali!</p>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -819,7 +802,7 @@
         </div>
     </section>
 
-    <section class="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 md:py-24 overflow-hidden">
+    <section class="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 md:py-24 overflow-hidden md:-mt-8 md:rounded-t-[2rem]">
         <!-- Background Decorative Elements -->
         <div class="absolute inset-0 overflow-hidden z-0">
             <div

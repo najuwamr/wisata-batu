@@ -57,7 +57,7 @@
             <div class="text-center md:text-left">
                 <h3 class="font-bold text-xl mb-6 text-white">Lokasi</h3>
                 <div class="bg-blue-800 rounded-lg p-6">
-                    <div class="flex items-start gap-3 mb-4">
+                    <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
                             <svg class="w-5 h-5 text-blue-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
@@ -66,14 +66,14 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="font-bold text-white text-lg mb-2">PT. Selecta</h4>
-                            <p class="text-blue-200 text-sm leading-relaxed">
+                            <h4 class="font-bold text-white text-lg text-left">PT. Selecta</h4>
+                            <p class="text-blue-200 text-sm leading-relaxed text-left">
                                 Desa Tulungrejo, Kecamatan Bumiaji<br>
                                 Kota Batu, Jawa Timur
                             </p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 text-blue-200 text-sm">
+                    <div class="flex gap-2 text-blue-200 text-sm justify-end items-center">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
