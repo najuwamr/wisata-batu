@@ -43,7 +43,7 @@ Route::post('/checkout', [KeranjangController::class, 'checkout'])->name('keranj
 Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/checkout/pembayaran', [CheckoutController::class, 'pembayaran'])->name('checkout.pembayaran');
 Route::post('/checkout/charge', [TransaksiController::class, 'charge'])->name('checkout.charge');
-Route::post('/payment/notification', [TransaksiController::class, 'notification']);
+// Route::post('/payment/notification', [TransaksiController::class, 'notification']);
 Route::get('/payment/finish', [TransaksiController::class, 'finish'])->name('checkout.finish');
 Route::get('/payment/unfinish', [TransaksiController::class, 'unfinish']);
 Route::get('/payment/error', [TransaksiController::class, 'error']);

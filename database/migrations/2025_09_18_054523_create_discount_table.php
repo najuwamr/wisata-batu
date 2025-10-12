@@ -16,11 +16,15 @@ return new class extends Migration
             $table->string('name');
             $table->string('code')->unique();
             $table->integer('discount_percent');
-            $table->integer('qty');
-            $table->datetime('valid_until'); //periode promo sampai tanggal ...
+            $table->integer('max_disc_amount');
+            $table->integer('total_qty')->nullable(); // harus diisi jika nonperiodik
+            $table->integer('daily_qty')->nullable(); // harus diisi jika nonperiodik
+            $table->datetime('start_date'); //periode promo dari tanggal ...
+            $table->datetime('end_date'); //periode promo sampai tanggal ...
             $table->text('description');
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->enum('category',['periodik', 'nonperiodik']);
             $table->timestamps();
         });
     }
