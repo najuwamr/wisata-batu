@@ -1,5 +1,5 @@
 <nav id="navbar"
-    class="fixed z-[9999] bg-white shadow-xl w-full transform -translate-y-full transition-transform duration-300 ease-in-out">
+    class="fixed z-[9999] bg-white shadow-xl w-full transform -translate-y-full transition-transform duration-300 ease-in-out rounded-b-[1rem]">
     <div class="flex items-center justify-between px-6 py-3">
         <div class="flex items-center space-x-8">
             <div class="flex-shrink-0">
