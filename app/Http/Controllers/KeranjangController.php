@@ -109,10 +109,8 @@ class KeranjangController extends Controller
         if ($promoCode) {
             $promo = Promo::where('code', $promoCode)
                 ->where('is_active', true)
-                ->where(function ($q) {
-                    $today = now()->toDateString();
-                    $q->whereNull('valid_until')->orWhere('valid_until', '>=', $today);
-                })
+                ->whereDate('start_date', '<=', now())
+                ->whereDate('end_date', '>=', now())
                 ->with('tickets:id')
                 ->first();
 

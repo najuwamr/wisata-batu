@@ -52,6 +52,30 @@
             @enderror
         </div>
 
+        <div class="mb-4">
+            <label class="block mb-1 font-semibold">Fasilitas</label>
+
+            <div class="grid grid-cols-2 gap-2">
+                @foreach ($fasilitas as $item)
+                    <label class="flex items-center space-x-2 border rounded p-2 cursor-pointer hover:bg-gray-50">
+                        <input
+                            type="checkbox"
+                            name="fasilitas[]"
+                            value="{{ $item->id }}"
+                            {{ (is_array(old('fasilitas')) && in_array($item->id, old('fasilitas'))) ? 'checked' : '' }}
+                            class="accent-green-600"
+                        >
+                        <span>{{ $item->nama }}</span>
+                    </label>
+                @endforeach
+            </div>
+
+            @error('fasilitas')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+
         {{-- Deskripsi --}}
         <div class="mb-4">
             <label class="block mb-1 font-semibold">Deskripsi</label>
