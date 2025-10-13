@@ -91,14 +91,38 @@
                 <p class="text-sm text-gray-600">Simpan atau cetak e-ticket ini untuk ditunjukkan di lokasi</p>
             </div>
             @include('customer.tiket.e-tiket', ['transaction' => $transaction, 'qrCode' => $qrCode])
-            
+
+            <!-- Tata Cara Penggunaan -->
+            <div class="text-sm leading-relaxed my-6 text-gray-700">
+                <p class="font-semibold text-gray-900 mb-3">TATA CARA PENGGUNAAN :</p>
+                <ol class="list-decimal list-inside space-y-2 pl-2">
+                    <li class="pl-1">Tunjukkan e-ticket ini kepada petugas saat tiba di lokasi</li>
+                    <li class="pl-1">Pastikan QR Code dapat terlihat jelas untuk dipindai</li>
+                    <li class="pl-1">Petugas akan memverifikasi sebelum masuk</li>
+                    <li class="pl-1">QR Code hanya dapat digunakan sekali untuk masuk</li>
+                    <li class="pl-1">Jaga kerahasiaan e-ticket Anda</li>
+                </ol>
+            </div>
+
+            <!-- Catatan -->
+            <div class="text-sm border-t border-gray-300 pt-4 text-gray-700">
+                <p class="font-semibold text-gray-900 mb-2">CATATAN :</p>
+                <ul class="list-disc list-inside space-y-1 pl-2">
+                    <li class="pl-1">E-tiket berlaku sesuai tanggal kunjungan</li>
+                    <li class="pl-1">Tidak dapat direfund atau diubah jadwal</li>
+                    <li class="pl-1">Pastikan data sudah sesuai sebelum datang</li>
+                </ul>
+            </div>
+
             {{-- Action Buttons --}}
             <div class="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-                <button onclick="window.print()" class="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 transition duration-200 font-medium flex items-center justify-center gap-2">
+                <button id="download-ticket"
+                    class="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition duration-200 font-medium flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/>
                     </svg>
-                    Cetak E-Ticket
+                    Unduh E-Ticket
                 </button>
                 <a href="{{ route('Beranda') }}" class="bg-gray-600 text-white px-5 py-2.5 rounded-lg hover:bg-gray-700 transition duration-200 font-medium text-center">
                     Kembali ke Beranda
@@ -129,4 +153,62 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('download-ticket');
+    const etiket = document.getElementById('etiket');
+
+    if (!btn || !etiket) return;
+
+    btn.addEventListener('click', async function() {
+        btn.disabled = true;
+        btn.textContent = 'Mengunduh...';
+
+        try {
+            // Tambahkan style override hanya untuk tabel tiket
+            const styleOverride = document.createElement('style');
+            styleOverride.textContent = `
+                #etiket .ticket-table,
+                #etiket .ticket-table * {
+                    color: #000 !important;
+                    background-color: #fff !important;
+                    border-color: #000 !important;
+                    filter: grayscale(100%) brightness(110%) contrast(120%) !important;
+                }
+            `;
+            document.head.appendChild(styleOverride);
+
+            await new Promise(r => setTimeout(r, 200));
+
+            // Render e-ticket
+            const canvas = await html2canvas(etiket, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+            });
+
+            // Unduh hasil
+            const link = document.createElement('a');
+            link.download = 'E-Ticket-{{ $transaction->code }}.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            styleOverride.remove();
+
+        } catch (error) {
+            console.error('Gagal membuat e-ticket:', error);
+            alert('Terjadi kesalahan saat membuat e-ticket.');
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Unduh E-Ticket';
+    });
+});
+</script>
+
+
+
+
 @endsection
