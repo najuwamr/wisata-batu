@@ -11,8 +11,10 @@ use Midtrans\CoreApi;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\EticketMail;
 use Midtrans\Notification;
-// use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TransaksiController extends Controller
 {
@@ -206,12 +208,14 @@ class TransaksiController extends Controller
     // 📌 Webhook dari Midtrans
     public function notification(Request $request)
     {
-        $notif = new Notification();
+        $notif = new \Midtrans\Notification();
 
         $orderId = $notif->order_id;
         $transactionStatus = $notif->transaction_status;
 
-        $transaction = Transaction::with(['customer', 'transactionDetail.ticket'])->where('midtrans_order_id', $orderId)->first();
+        $transaction = \App\Models\Transaction::with(['customer', 'transactionDetail.ticket'])
+            ->where('midtrans_order_id', $orderId)
+            ->first();
 
         if (!$transaction) {
             Log::warning("Notifikasi Midtrans: Transaksi tidak ditemukan untuk order_id {$orderId}");
@@ -233,6 +237,24 @@ class TransaksiController extends Controller
             $transaction->save();
 
             Log::info("Transaksi {$orderId} diupdate ke status {$status}");
+        }
+
+        // ✉️ Jika status sudah paid, kirim e-ticket ke email
+        if (in_array($status, ['paid'])) {
+            try {
+                // Generate PDF dari view etiket yang sudah kamu punya
+                $pdf = Pdf::loadView('guest.etiket', [
+                    'transaction' => $transaction
+                ]);
+
+                // Kirim email ke customer
+                Mail::to($transaction->customer->email)
+                    ->send(new EticketMail($transaction, $pdf->output()));
+
+                Log::info("E-Ticket dikirim ke {$transaction->customer->email}");
+            } catch (\Exception $e) {
+                Log::error("Gagal mengirim E-Ticket: " . $e->getMessage());
+            }
         }
 
         return response()->json(['message' => 'Notifikasi berhasil diproses']);
