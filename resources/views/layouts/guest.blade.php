@@ -22,7 +22,7 @@
 
     <!-- Vite Resources -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/customer/landing.js'])
-    @vite('resources/js/sweetalert.js')
+
 </head>
 
 <body>
