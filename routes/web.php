@@ -3,6 +3,7 @@
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EtiketController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PromoController;
@@ -45,6 +46,8 @@ Route::get('/checkout/pembayaran', [CheckoutController::class, 'pembayaran'])->n
 Route::post('/checkout/charge', [TransaksiController::class, 'charge'])->name('checkout.charge');
 // Route::post('/payment/notification', [TransaksiController::class, 'notification']);
 Route::get('/payment/finish/{order_id}', [TransaksiController::class, 'finish'])->name('checkout.finish');
+
+Route::get('/preview/etiket/{transaction}', [EtiketController::class, 'preview'])->name('preview.etiket');
 
 // ----- PEMESANAN TIKET -----
 Route::prefix('pesan-tiket')->group(function () {
