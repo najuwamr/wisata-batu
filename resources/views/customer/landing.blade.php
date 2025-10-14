@@ -6,25 +6,17 @@
 
 
 @section('content')
-    {{-- =================== HERO VIDEO =================== --}}
     <section class="relative md:w-full md:h-screen h-1/2 overflow-hidden">
         <video autoplay muted loop playsinline webkit-playsinline preload="auto"
             class="absolute inset-0 w-full h-full object-cover z-0">
             <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4">
             Browser Anda tidak mendukung video.
         </video>
-
-        {{-- Overlay hitam --}}
         <div class="absolute inset-0 bg-black/30 z-10"></div>
-
-        {{-- Logo + CTA --}}
         <div class="relative flex flex-col justify-center items-center h-full z-20">
             <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic" class="w-1/2 md:w-1/3 mb-6">
-
         </div>
-
-        {{-- Wave --}}
-        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20">
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20 sm:block hidden">
             <svg class="block w-full h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100"
                 preserveAspectRatio="none">
                 <path fill="currentColor" class="text-blue-50" d="M0,30 C360,90 1080,-30 1440,60 L1440,100 L0,100Z"></path>
@@ -32,35 +24,25 @@
         </div>
     </section>
 
-
-    {{-- =================== TIKET =================== --}}
     <section class="w-full bg-gradient-to-br from-blue-50 to-indigo-50 py-16 md:py-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <!-- Left Content -->
                 <div class="order-2 lg:order-1" data-aos="fade-right">
-                    <!-- Badge -->
                     <div
                         class="inline-flex items-center px-4 py-2 rounded-full bg-white shadow-sm border border-blue-100 mb-6">
                         <span class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
                         <span class="text-sm font-medium text-blue-600">Tersedia Sekarang</span>
                     </div>
-
-                    <!-- Heading -->
                     <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                         <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Pilihan</span>
                         <span class="block text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-600 ">Tiket
                             Terbaik</span>
                     </h2>
-
-                    <!-- Description -->
                     <p class="text-md text-gray-400 max-w-md mb-8 leading-relaxed">
                         Temukan pengalaman tak terlupakan dengan tiket pilihan kami.
                         Pilih yang sesuai dengan kebutuhan Anda dan nikmati momen spesial.
                     </p>
-
-                    <!-- CTA Button -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-10">
                         <a href="{{ route('guest.tiket') }}"
                             class="group relative inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:from-red-600 hover:to-red-700 transform hover:-translate-y-1">
@@ -73,8 +55,6 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </a>
-
-                        <!-- Stats -->
                         <div class="flex items-center gap-6 text-sm text-gray-500">
                             <div class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20"
@@ -96,8 +76,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Navigation Controls -->
                     <div class="flex items-center gap-4">
                         <button
                             class="swiper-button-prev-features group w-14 h-14 bg-white rounded-full items-center justify-center shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-300 hover:bg-blue-50 hover:scale-105 hidden md:flex">
@@ -118,13 +96,9 @@
                         <span class="text-sm text-gray-500 ml-2 hidden md:inline">Geser untuk melihat lebih banyak</span>
                     </div>
                 </div>
-
-                <!-- Right Content - Slider -->
                 <div class="order-1 lg:order-2 relative max-w-8xl" data-aos="fade-left">
-                    <!-- Floating Elements -->
                     <div class="absolute -top-4 -right-4 w-24 h-24 bg-yellow-100 rounded-full opacity-70 blur-xl"></div>
                     <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-purple-100 rounded-full opacity-60 blur-xl"></div>
-
                     <div class="relative z-10">
                         <div class="swiper mySwiperFeatures">
                             <div class="swiper-wrapper">
@@ -132,15 +106,12 @@
                                     <div class="swiper-slide">
                                         <div
                                             class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 h-full flex flex-col transform hover:-translate-y-2 w-full">
-                                            <!-- Image with Overlay -->
                                             <div class="relative overflow-hidden">
                                                 <img src="{{ asset('images/' . $tiket->image) }}" alt="{{ $tiket->name }}"
                                                     class="w-full h-[200px] object-cover transition-transform duration-700 group-hover:scale-110">
                                                 <div
                                                     class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                                 </div>
-
-                                                <!-- Price Badge -->
                                                 <div
                                                     class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl px-3 py-2 shadow-lg">
                                                     <span class="text-lg font-bold text-blue-600">
@@ -148,16 +119,11 @@
                                                     </span>
                                                 </div>
                                             </div>
-
-                                            <!-- Content -->
-                                            <div class="p-5 flex-1 flex flex-col">
+                                            <div class="p-5 flex flex-col max-w-4xl">
                                                 <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
                                                     {{ $tiket->name }}</h3>
-
-
-                                                <!-- CTA Button -->
                                                 <a href="{{ route('guest.tiket.detail', $tiket->id) }}"
-                                                    class="mt-auto group/btn w-1/3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg transform group-hover:scale-105">
+                                                    class="mt-auto group/btn w-1/2 md:w-1/3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg transform group-hover:scale-105">
                                                     <span>Pilih Tiket</span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                         viewBox="0 0 24 24"
@@ -190,8 +156,6 @@
                                 @endforelse
                             </div>
                         </div>
-
-                        <!-- Pagination Dots -->
                         <div class="flex justify-center mt-6">
                             <div class="swiper-pagination-features flex space-x-2"></div>
                         </div>
@@ -205,20 +169,14 @@
 
 
     <section
-        class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[2rem] z-0">
-        <!-- Background Elements -->
+        class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[1rem] md:rounded-t-[2rem] z-0">
         <div class="absolute inset-0">
-            <!-- Floating Circles -->
             <div class="absolute top-10 left-10 w-20 h-20 bg-pink-500/10 rounded-full blur-xl"></div>
             <div class="absolute top-1/3 right-20 w-16 h-16 bg-blue-500/10 rounded-full blur-lg"></div>
             <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl"></div>
             <div class="absolute bottom-10 right-10 w-12 h-12 bg-cyan-500/10 rounded-full blur-lg"></div>
-
-            <!-- Gradient Overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
         </div>
-
-        <!-- Wave Divider -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
             <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path
@@ -228,10 +186,8 @@
         </div>
 
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
-            <!-- Kolom Kiri: Swiper Slider -->
             <div class="w-full">
                 <div class="relative">
-                    <!-- Swiper Container -->
                     <div class="swiper mySwiperPromo rounded-3xl">
                         <div class="swiper-wrapper">
                             @foreach ($promo as $item)
@@ -243,16 +199,12 @@
                                             <div class="relative">
                                                 <img src="{{ asset('images/' . $item->image) }}" alt="{{ $item->name }}"
                                                     class="w-full h-64 sm:h-72 md:h-80 object-cover" />
-
-                                                <!-- Discount Badge -->
                                                 <div class="absolute top-4 right-4">
                                                     <div
                                                         class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg animate-pulse">
                                                         {{ $item->discount_percent }}% OFF
                                                     </div>
                                                 </div>
-
-                                                <!-- Time Badge -->
                                                 <div class="absolute top-4 left-4">
                                                     <div
                                                         class="bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
@@ -260,7 +212,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="p-6 sm:p-8">
                                                 <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
                                                     {{ $item->name }}</h3>
@@ -289,9 +240,7 @@
                                     </div>
                                 </div>
                             @endforeach
-
                             @if ($promo->count() === 0)
-                                <!-- Empty State -->
                                 <div class="swiper-slide">
                                     <div
                                         class="bg-white/10 backdrop-blur-lg rounded-3xl p-1 border border-white/20 shadow-2xl h-full">
@@ -317,8 +266,6 @@
                                 </div>
                             @endif
                         </div>
-
-                        <!-- Navigation Buttons -->
                         <div
                             class="swiper-button-next-promo absolute top-1/2 right-4 transform -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all duration-300 cursor-pointer">
                             <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -333,36 +280,25 @@
                                     d="M15 19l-7-7 7-7"></path>
                             </svg>
                         </div>
-
-                        <!-- Pagination -->
                         <div class="swiper-pagination-promo mt-6 flex justify-center space-x-2"></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Kolom Kanan: Text & Navigasi -->
             <div class="flex flex-col justify-center text-center lg:text-left space-y-6">
-                <!-- Badge -->
                 <div
                     class="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mx-auto lg:mx-0">
                     <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
                     <span class="text-white font-semibold text-sm">Promo Terbatas</span>
                 </div>
-
-                <!-- Heading -->
                 <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
                     Promo
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500">
                         Spesial 🔥
                     </span>
                 </h2>
-
-                <!-- Description -->
                 <p class="text-lg text-white/80 max-w-md mx-auto lg:mx-0 leading-relaxed">
                     Dapatkan penawaran terbaik untuk pengalaman tak terlupakan di Selecta! Diskon menarik menanti Anda.
                 </p>
-
-                <!-- Stats -->
                 <div class="flex flex-wrap gap-6 justify-center lg:justify-start">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-white">{{ $promo->count() }}+</div>
@@ -377,8 +313,6 @@
                         <div class="text-white/60 text-sm">Tersedia</div>
                     </div>
                 </div>
-
-                <!-- CTA Button -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
                     <a href="{{ route('guest.promo') }}"
                         class="group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 text-lg">
@@ -392,8 +326,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Bottom Wave -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden rotate-180">
             <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path
@@ -403,15 +335,14 @@
         </div>
     </section>
 
-    <section
-        class="relative w-full bg-gradient-to-tr overflow-hidden rounded-t-[2rem] -mt-7 ">
+    <section class="relative w-full bg-gradient-to-tr overflow-hidden rounded-t-[2rem] -mt-7 ">
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto">
             <div class="relative w-full md:w-full flex justify-end items-end">
                 <div class="relative w-full">
                     <div class="relative">
                         <img src="{{ asset('assets/customer/awan4.jpg') }}" alt="Background Peta"
                             class="absolute inset-0 w-full h-full object-cover z-0">
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/20 via-black/10 to-transparent z-0">
+                        <div class="absolute inset-0 bg-gradient-to-bl from-black/10 to-transparent z-0">
                         </div>
                         <img src="{{ asset('assets/customer/peta1.png') }}" alt="Peta Wahana Selecta"
                             class="relative w-full h-auto object-cover z-10" loading="lazy">
@@ -480,9 +411,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <!-- Bagian Informasi -->
             <div
                 class="w-full md:w-1/2 bg-gradient-to-br from-blue-950 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-[2rem] ">
                 <div class="text-center md:text-left">
@@ -514,8 +442,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Security</span>
                     </div>
-
-                    <!-- Toilet -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -528,8 +454,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Toilet</span>
                     </div>
-
-                    <!-- Mushola -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -543,8 +467,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Mushola</span>
                     </div>
-
-                    <!-- Informasi -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -558,8 +480,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Informasi</span>
                     </div>
-
-                    <!-- Kedai -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -573,8 +493,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Kedai</span>
                     </div>
-
-                    <!-- Paseban -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -588,8 +506,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Paseban</span>
                     </div>
-
-                    <!-- Souvenir -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -610,8 +526,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Souvenir</span>
                     </div>
-
-                    <!-- Kamar Mandi Air Panas -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -630,8 +544,6 @@
                             class="text-xs transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Kamar
                             Mandi Air Panas</span>
                     </div>
-
-                    <!-- Pasar Wisata -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -645,8 +557,6 @@
                             class="text-sm transition-all duration-300 group-hover:text-amber-300 group-hover:font-medium">Pasar
                             Wisata</span>
                     </div>
-
-                    <!-- Kamar Bilas -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -665,8 +575,6 @@
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Kamar
                             Bilas</span>
                     </div>
-
-                    <!-- P3K & Laktasi -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -681,8 +589,6 @@
                             class="text-xs transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">P3K
                             & Laktasi</span>
                     </div>
-
-                    <!-- Parkir -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -696,8 +602,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Parkir</span>
                     </div>
-
-                    <!-- Resto -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -711,8 +615,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Resto</span>
                     </div>
-
-                    <!-- Penitipan Barang -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -726,8 +628,6 @@
                             class="text-xs transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Penitipan
                             Barang</span>
                     </div>
-
-                    <!-- Area Terbuka -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -742,8 +642,6 @@
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Area
                             Terbuka</span>
                     </div>
-
-                    <!-- Gazebo -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -758,8 +656,6 @@
                         <span
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Gazebo</span>
                     </div>
-
-                    <!-- Live Music -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -774,8 +670,6 @@
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Live
                             Music</span>
                     </div>
-
-                    <!-- Foto -->
                     <div
                         class="flex items-center space-x-3 group cursor-pointer transform transition-all duration-300 hover:-translate-y-1">
                         <div
@@ -790,8 +684,6 @@
                             class="text-sm transition-all duration-300 group-hover:text-blue-300 group-hover:font-medium">Foto</span>
                     </div>
                 </div>
-
-                <!-- Tombol Aksi -->
                 <div class="mt-12 text-center md:text-left">
                     <button
                         class="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95">
@@ -802,8 +694,11 @@
         </div>
     </section>
 
-    <section class="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 md:py-24 overflow-hidden md:-mt-8 md:rounded-t-[2rem]">
-        <!-- Background Decorative Elements -->
+    {{-- Selecta 360 --}}
+
+
+    <section
+        class="relative bg-gradient-to-br from-[#daf5fe] via-white to-indigo-50 py-16 md:py-24 overflow-hidden md:rounded-t-[2rem]">
         <div class="absolute inset-0 overflow-hidden z-0">
             <div
                 class="absolute -top-24 -right-24 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse">
@@ -817,11 +712,10 @@
         </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Section -->
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 lg:mb-16">
                 <div class="flex-1 mb-6 lg:mb-0">
                     <div
-                        class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-4">
+                        class="inline-flex items-center px-4 py-2 rounded-full bg-white text-blue-800 text-sm font-medium mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fill-rule="evenodd"
@@ -832,9 +726,9 @@
                     </div>
                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
                         <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600">Berita</span>
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-green-500 to-blue-500">Berita</span>
                         <span
-                            class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Selecta!</span>
+                            class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Selecta!</span>
                     </h1>
                     <div class="w-24 h-1.5 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mb-4"></div>
                     <p class="text-lg text-gray-600 max-w-2xl">
@@ -842,7 +736,6 @@
                         yang baru untuk pengalaman liburan tak terlupakan!
                     </p>
                 </div>
-
                 <a href="#"
                     class="group flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 hover:scale-105">
                     <span>Lihat Semua Berita</span>
@@ -855,10 +748,7 @@
                     </svg>
                 </a>
             </div>
-
-            <!-- News Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Featured News Card -->
                 <div class="lg:col-span-2 group">
                     <div
                         class="bg-white rounded-3xl shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
@@ -909,10 +799,7 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Small News Cards -->
                 <div class="space-y-8">
-                    <!-- News Card 1 -->
                     <div class="group">
                         <div
                             class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl h-full">
@@ -950,8 +837,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- News Card 2 -->
                     <div class="group">
                         <div
                             class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl h-full">
@@ -990,8 +875,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Bottom CTA -->
             <div class="mt-16 text-center">
                 <p class="text-gray-600 mb-6">Masih penasaran dengan berita dan promo lainnya?</p>
                 <a href="#"
@@ -1009,17 +892,14 @@
     </section>
 
 
-
     <section
         class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center rounded-t-[2rem] md:-mt-10">
         <div class="container mx-auto pt-10">
-            <h2 class="md:w-2/3 w-full text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug"
+            <h2 class=" text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug"
                 data-aos="fade-left">
                 Apa kata mereka tentang <span
                     class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-[#6ECCFF]">Selecta?</span>
             </h2>
-
-            <!-- Swiper Container -->
             <div class="swiper mySwiperReview">
                 <div class="swiper-wrapper">
                     @foreach ($review as $item)
@@ -1036,12 +916,44 @@
                         </div>
                     @endforeach
                 </div>
-
-                <!-- Pagination -->
                 <div class="swiper-pagination mt-6"></div>
             </div>
         </div>
     </section>
+    <section class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex items-center justify-center py-16">
+        <div class="tour w-full max-w-6xl px-4">
+            <div class="text-center mb-12" data-aos="fade-down">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+                    Virtual Tour <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">Selecta
+                        360°</span>
+                </h1>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Jelajahi keindahan Selecta dengan pengalaman imersif 360 derajat
+                </p>
+            </div>
+
+            <!-- Container untuk panorama -->
+            <div class="image-container w-full h-[500px] md:h-[600px] bg-gray-800 rounded-2xl overflow-hidden shadow-2xl relative"
+                data-aos="fade-up">
+                <!-- Loading State -->
+                <div id="loading" class="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
+                    <div class="text-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                        <p class="text-white text-lg">Memuat Virtual Tour...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="text-center mt-6" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-gray-400 text-sm">
+                    🖱️ Drag untuk melihat sekitar • 🔍 Scroll untuk zoom • 🔄 Otomatis berputar
+                </p>
+            </div>
+        </div>
+    </section>
+
 
 
 

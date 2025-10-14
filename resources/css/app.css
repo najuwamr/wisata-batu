@@ -15,6 +15,14 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+@layer utilities {
+  @media (min-width: 1024px) and (max-width: 1180px) {
+    .ipad\:flex-col {
+      flex-direction: column !important;
+    }
+  }
+}
+
 /* Pastikan animasi float didefinisikan */
 
 

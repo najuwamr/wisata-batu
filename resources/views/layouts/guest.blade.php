@@ -19,9 +19,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="//unpkg.com/alpinejs" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/customer/landing.js'])
 
     <!-- Vite Resources -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/customer/landing.js'])
+
 
 </head>
 
@@ -31,9 +32,13 @@
     @include('components.footer')
 
     <!-- JavaScript Libraries -->
+
+    <script src="{{ asset('js/three.min.js') }}"></script>
+    <script src="{{ asset('js/panolens.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 
     <!-- Inisialisasi AOS -->
     <script>
@@ -56,18 +61,6 @@
             });
         </script>
     @endif
-
-    {{-- @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: "{{ session('success') }}",
-                timer: 2000,
-                showConfirmButton: false
-            });
-        </script>
-    @endif --}}
 
     @if (session('error'))
         <script>
