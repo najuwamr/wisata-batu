@@ -7,12 +7,13 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Midtrans\CoreApi;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Spatie\LaravelPdf\Facades\Pdf;
 use App\Mail\EticketMail;
 use Midtrans\Notification;
 
@@ -72,7 +73,7 @@ class TransaksiController extends Controller
             case 'shopeepay':
                 $params['payment_type'] = $paymentType;
                 $params[$paymentType] = [
-                    'callback_url' => url('/payment/finish'),
+                    'callback_url' => url('/payment/finish/' . $orderId),
                 ];
                 break;
 
@@ -169,6 +170,9 @@ class TransaksiController extends Controller
             // 5️⃣ Response hasil pembayaran
             if (isset($charge->va_numbers)) {
                 $va = $charge->va_numbers[0];
+
+                session()->forget(['checkout_data', 'cart']);
+
                 return response()->json([
                     'status' => 'success',
                     'type' => 'va',
@@ -180,6 +184,9 @@ class TransaksiController extends Controller
             }
 
             if (isset($charge->bill_key)) {
+
+                session()->forget(['checkout_data', 'cart']);
+
                 return response()->json([
                     'status' => 'success',
                     'type' => 'mandiri',
@@ -191,6 +198,9 @@ class TransaksiController extends Controller
             }
 
             if (isset($charge->actions)) {
+
+                session()->forget(['checkout_data', 'cart']);
+
                 return response()->json([
                     'status' => 'redirect',
                     'url' => $charge->actions[0]->url,
@@ -208,7 +218,7 @@ class TransaksiController extends Controller
     // 📌 Webhook dari Midtrans
     public function notification(Request $request)
     {
-        $notif = new \Midtrans\Notification();
+        $notif = new Notification();
 
         $orderId = $notif->order_id;
         $transactionStatus = $notif->transaction_status;
@@ -240,17 +250,38 @@ class TransaksiController extends Controller
         }
 
         // ✉️ Jika status sudah paid, kirim e-ticket ke email
-        if (in_array($status, ['paid'])) {
+        if ($status === 'paid') {
             try {
-                // Generate PDF dari view etiket yang sudah kamu punya
-                $pdf = Pdf::loadView('guest.etiket', [
-                    'transaction' => $transaction
-                ]);
+                // --- QR Code data terenkripsi ---
+                $payload = $transaction->code;
+                $encrypted = Crypt::encrypt($payload);
+                $qrCode = base64_encode($encrypted);
 
-                // Kirim email ke customer
+                // --- Path file PDF sementara ---
+                $tempPath = storage_path('app/temp/etiket-' . $transaction->code . '.pdf');
+
+                $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+                $cssFile = public_path('build/' . $manifest['resources/css/app.css']['file']);
+
+                // --- Generate PDF ---
+                Pdf::view('customer.your-e-tiket', [
+                    'transaction' => $transaction,
+                    'qrCode' => $qrCode ?? null,
+                ])
+                ->format('A4')
+                ->withBrowsershot(function ($browsershot) use ($cssFile) {
+                    $browsershot->setOption('userStyleSheet', $cssFile);
+                })
+                ->save($tempPath);
+
+                // --- Kirim email dengan attachment PDF ---
                 Mail::to($transaction->customer->email)
-                    ->send(new EticketMail($transaction, $pdf->output()));
+                    ->send(new EticketMail($transaction, $tempPath));
 
+                // --- Hapus file sementara ---
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
                 Log::info("E-Ticket dikirim ke {$transaction->customer->email}");
             } catch (\Exception $e) {
                 Log::error("Gagal mengirim E-Ticket: " . $e->getMessage());
@@ -259,7 +290,6 @@ class TransaksiController extends Controller
 
         return response()->json(['message' => 'Notifikasi berhasil diproses']);
     }
-
 
     // 📌 Callback redirect ke user
     public function finish($orderId)
