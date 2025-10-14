@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // GSAP Animations
-   
+
 });
 
 // Fungsi untuk promo (pastikan tersedia secara global)
@@ -178,3 +178,42 @@ window.sharePromo = function() {
         copyPromoCode('PROMOCODE');
     }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("🟢 Inisialisasi panorama...");
+
+    // Cek apakah PANOLENS sudah tersedia
+    if (typeof PANOLENS === "undefined") {
+        console.error("❌ PANOLENS belum ter-load. Pastikan urutan script benar.");
+        return;
+    }
+
+    const imageContainer = document.querySelector(".image-container");
+    if (!imageContainer) {
+        console.error("❌ .image-container tidak ditemukan di DOM");
+        return;
+    }
+
+    const imagePath = "/assets/360/ex3.jpg";
+    console.log("🖼️ Path panorama:", imagePath);
+
+    const panorama = new PANOLENS.ImagePanorama(imagePath);
+    const viewer = new PANOLENS.Viewer({
+        container: imageContainer,
+        autoRotate: true,
+        autoRotateSpeed: 0.3,
+        controlBar: true,
+    });
+
+    viewer.add(panorama);
+
+    panorama.addEventListener("load", () => {
+        console.log("✅ Panorama berhasil dimuat");
+        document.getElementById("loading").style.display = "none";
+    });
+
+    panorama.addEventListener("error", (err) => {
+        console.error("❌ Gagal memuat panorama:", err);
+    });
+});
+
