@@ -694,7 +694,119 @@
         </div>
     </section>
 
+
     {{-- Selecta 360 --}}
+    <section class="bg-slate-50 min-h-screen flex items-center justify-center py-12 font-poppins background">
+        <div class="w-full max-w-4xl px-4">
+            <div class="text-center mb-10">
+                <div class="flex items-center justify-center mb-4">
+
+                    <h1
+                        class="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-600 via-red-500 to-amber-500">
+                        Selecta <span
+                            class="text-transparent bg-clip-text bg-gradient-to-br from-blue-500 via-blue-600 to-violet-700">
+                            360
+                        </span>
+
+                    </h1>
+                </div>
+                <p class="text-slate-500 text-lg md:max-w-1/2 mx-auto">
+                    Jelajahi keindahan Selecta dengan pengalaman virtual 360 derajat yang menyenangkan.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-2 mb-8 ring-1 ring-slate-200">
+                <div
+                    class="image-container w-full h-[400px] md:h-[500px] bg-slate-100 rounded-xl overflow-hidden relative">
+                    <div id="loading" class="absolute inset-0 flex items-center justify-center bg-white z-10">
+                        <div class="text-center">
+                            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-500 mx-auto mb-4"></div>
+                            <p class="text-slate-500 tracking-wider">Memuat virtual tour...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-600 mb-10">
+                <div class=" bg-amber-50 rounded-full px-4 py-2 border border-slate-200">
+                    <span>Drag untuk melihat sekitar</span>
+                </div>
+                <div class=" gap-3 bg-sky-50 rounded-full px-4 py-2 border border-slate-200">
+                    <span>Scroll untuk zoom</span>
+                </div>
+                <div class=" gap-3 bg-violet-50 rounded-full px-4 py-2 border border-slate-200">
+                    <span>Otomatis berputar</span>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-4 mb-12">
+                <button
+                    class="bg-white hover:bg-blue-600 hover:text-white  font-bold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 border-2 border-blue-500 flex items-center gap-2 text-blue-500">
+
+                    <span>Lihat 360 Lainnya</span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" d="M14 12H4m10 0l-4 4m4-4l-4-4m10-4v16" />
+                    </svg>
+                </button>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div
+                    class="bg-white border border-slate-200 rounded-xl p-6 text-center transition-all duration-300 hover:border-sky-400 hover:shadow-lg transform hover:-translate-y-2">
+                    <div
+                        class="w-12 h-12 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M12 7C6.48 7 2 9.24 2 12c0 2.24 2.94 4.13 7 4.77v2.02c0 .45.54.67.85.35l2.79-2.79c.2-.2.2-.51 0-.71l-2.79-2.79a.5.5 0 0 0-.85.36v1.52c-3.15-.56-5-1.9-5-2.73c0-1.06 3.04-3 8-3s8 1.94 8 3c0 .66-1.2 1.68-3.32 2.34c-.41.13-.68.51-.68.94c0 .67.65 1.16 1.28.96C20.11 15.36 22 13.79 22 12c0-2.76-4.48-5-10-5z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-slate-800 text-lg mb-2">Interaktif 360°</h3>
+                    <p class="text-slate-500 text-sm">Jelajahi setiap sudut dengan kebebasan penuh</p>
+                </div>
+
+                <div
+                    class="bg-white border border-slate-200 rounded-xl p-6 text-center transition-all duration-300 hover:border-violet-400 hover:shadow-lg transform hover:-translate-y-2">
+                    <div
+                        class="w-12 h-12 bg-violet-100 text-violet-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
+                            <path fill="currentColor"
+                                d="M8 5C6.172 5 4.996 6.074 4.5 7.063c-.2.394-.305.769-.375 1.093C2.906 8.54 2 9.664 2 11v13c0 1.645 1.355 3 3 3h7c1.32 0 2.52-.797 3.063-2h1.874A3.38 3.38 0 0 0 20 27h7c1.645 0 3-1.355 3-3V11c0-1.336-.906-2.46-2.125-2.844a4.5 4.5 0 0 0-.375-1.094C27.004 6.079 25.82 5 24 5zm0 2h16c1.148 0 1.457.422 1.719.938L25.75 8H6.25l.031-.063C6.54 7.426 6.84 7 8 7zm-3 3h22c.566 0 1 .434 1 1v13c0 .566-.434 1-1 1h-7a1.361 1.361 0 0 1-1.25-.844l-1.031-2.75v-.031l-.032-.031a1.871 1.871 0 0 0-1.718-1.157a1.91 1.91 0 0 0-1.75 1.157l-.031.031v.063l-.938 2.718A1.365 1.365 0 0 1 12 25H5c-.566 0-1-.434-1-1V11c0-.566.434-1 1-1zm5 3c-2.2 0-4 1.8-4 4s1.8 4 4 4s4-1.8 4-4s-1.8-4-4-4zm12 0c-2.2 0-4 1.8-4 4s1.8 4 4 4s4-1.8 4-4s-1.8-4-4-4zm-12 2c1.117 0 2 .883 2 2s-.883 2-2 2s-2-.883-2-2s.883-2 2-2zm12 0c1.117 0 2 .883 2 2s-.883 2-2 2s-2-.883-2-2s.883-2 2-2zm-6.031 7.438l.219.562h-.407z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-slate-800 text-lg mb-2">Mode VR</h3>
+                    <p class="text-slate-500 text-sm">Rasakan pengalaman yang lebih nyata dan imersif</p>
+                </div>
+
+                <div
+                    class="bg-white border border-slate-200 rounded-xl p-6 text-center transition-all duration-300 hover:border-amber-400 hover:shadow-lg transform hover:-translate-y-2">
+                    <div
+                        class="w-12 h-12 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"
+                                d="M8.496 4.439L4.247 6.91a1 1 0 0 0-.497.864V18.26a1 1 0 0 0 1.503.865l3.243-1.887a1.5 1.5 0 0 1 1.508 0l3.992 2.322a1.5 1.5 0 0 0 1.508 0l4.249-2.472a1 1 0 0 0 .497-.864V5.739a1 1 0 0 0-1.503-.865l-3.243 1.887a1.5 1.5 0 0 1-1.508 0L10.004 4.44a1.5 1.5 0 0 0-1.508 0Zm.754.311v11.8m5.5-9.1v11.8" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-slate-800 text-lg mb-2">Panduan Tur</h3>
+                    <p class="text-slate-500 text-sm">Temukan semua spot menarik dengan mudah</p>
+                </div>
+            </div>
+
+            <div class="bg-sky-50 rounded-xl p-5 border border-sky-200">
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-lightbulb text-sky-500 text-xl mt-1"></i>
+                    <div>
+                        <p class="text-sky-800 font-semibold mb-1">Tips untuk pengalaman terbaik</p>
+                        <p class="text-sky-700/80 text-sm">Gunakan headphone untuk audio yang jernih dan pastikan koneksi
+                            internet Anda stabil.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
 
     <section
@@ -890,8 +1002,6 @@
             </div>
         </div>
     </section>
-
-
     <section
         class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center rounded-t-[2rem] md:-mt-10">
         <div class="container mx-auto pt-10">
@@ -920,49 +1030,4 @@
             </div>
         </div>
     </section>
-    <section class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex items-center justify-center py-16">
-        <div class="tour w-full max-w-6xl px-4">
-            <div class="text-center mb-12" data-aos="fade-down">
-                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-                    Virtual Tour <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">Selecta
-                        360°</span>
-                </h1>
-                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
-                    Jelajahi keindahan Selecta dengan pengalaman imersif 360 derajat
-                </p>
-            </div>
-
-            <!-- Container untuk panorama -->
-            <div class="image-container w-full h-[500px] md:h-[600px] bg-gray-800 rounded-2xl overflow-hidden shadow-2xl relative"
-                data-aos="fade-up">
-                <!-- Loading State -->
-                <div id="loading" class="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
-                    <div class="text-center">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                        <p class="text-white text-lg">Memuat Virtual Tour...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Instructions -->
-            <div class="text-center mt-6" data-aos="fade-up" data-aos-delay="200">
-                <p class="text-gray-400 text-sm">
-                    🖱️ Drag untuk melihat sekitar • 🔍 Scroll untuk zoom • 🔄 Otomatis berputar
-                </p>
-            </div>
-        </div>
-    </section>
-
-
-
-
-
-
-
-
-
-
-
-
 @endsection

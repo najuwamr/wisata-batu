@@ -9,7 +9,6 @@
             </div>
 
             <ul class="hidden lg:flex items-center space-x-6 font-poppins font-medium text-blue-700">
-                <!-- Tiket & Promo Dropdown -->
                 <li class="relative group">
                     <button class="flex items-center space-x-1 hover:text-blue-700 transition-colors duration-200 py-2">
                         <span class="text-[#ff0f0f]">Tiket & Promo</span>
@@ -19,8 +18,6 @@
                                 stroke-width="2.5" d="m7 10l5 5m0 0l5-5" />
                         </svg>
                     </button>
-
-                    <!-- Dropdown Menu -->
                     <div
                         class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-left scale-95 group-hover:scale-100">
                         <div class="p-4">
@@ -93,8 +90,6 @@
                                 stroke-width="2.5" d="m7 10l5 5m0 0l5-5" />
                         </svg>
                     </button>
-
-                    <!-- Dropdown Menu -->
                     <div
                         class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-left scale-95 group-hover:scale-100">
                         <div class="p-4">
@@ -156,8 +151,6 @@
                         </div>
                     </div>
                 </li>
-
-                <!-- Informasi Dropdown -->
                 <li class="relative group">
                     <button
                         class="flex items-center space-x-1 hover:text-blue-700 transition-colors duration-200 py-2">
@@ -208,9 +201,6 @@
                                         <p class="text-sm text-gray-500">Cari tahu kabar terbaru</p>
                                     </div>
                                 </a>
-
-
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -239,14 +229,13 @@
             </button>
 
             <div
-                class="flex items-center bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-2 rounded-full space-x-2 shadow-md hover:shadow-lg transition-shadow duration-200">
-                <input type="text" placeholder="Cari disini"
-                    class="bg-transparent focus:outline-none text-sm placeholder-white w-32 lg:w-40">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                    class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
-                </svg>
+                class="bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-00 hover:-translate-y-1 hover:scale-105 ">
+                <a href="{{ route('keranjang') }}" class="flex items-center gap-2">Pesan Tiket <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                        height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd"
+                            d="M8 7V6a4 4 0 1 1 8 0v1h3c.552 0 1 .449 1 1.007v12.001c0 1.1-.895 1.992-1.994 1.992H5.994A1.994 1.994 0 0 1 4 20.008v-12C4 7.45 4.445 7 5 7zm1.2 0h5.6V6a2.8 2.8 0 0 0-5.6 0zM8 8.2H5.2v11.808c0 .436.356.792.794.792h12.012a.794.794 0 0 0 .794-.792V8.2H16V11h-1.2V8.2H9.2V11H8z" />
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
@@ -317,7 +306,8 @@
 
         <!-- Mobile Search & Language -->
         <div class="mt-6 space-y-4">
-            <div class="flex items-center bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-3 rounded-full space-x-2">
+            <div
+                class="flex items-center bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-3 rounded-full space-x-2">
                 <input type="text" placeholder="Cari disini"
                     class="bg-transparent focus:outline-none text-sm placeholder-white w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"

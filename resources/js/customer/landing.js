@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const imagePath = "/assets/360/ex3.jpg";
+    const imagePath = "/assets/360/ex4.jpeg";
     console.log("🖼️ Path panorama:", imagePath);
 
     const panorama = new PANOLENS.ImagePanorama(imagePath);
