@@ -171,7 +171,7 @@ class TransaksiController extends Controller
             if (isset($charge->va_numbers)) {
                 $va = $charge->va_numbers[0];
 
-                session()->forget(['checkout_data', 'cart']);
+                session()->forget(['cart']);
 
                 return response()->json([
                     'status' => 'success',
@@ -185,7 +185,7 @@ class TransaksiController extends Controller
 
             if (isset($charge->bill_key)) {
 
-                session()->forget(['checkout_data', 'cart']);
+                session()->forget(['cart']);
 
                 return response()->json([
                     'status' => 'success',
@@ -199,7 +199,7 @@ class TransaksiController extends Controller
 
             if (isset($charge->actions)) {
 
-                session()->forget(['checkout_data', 'cart']);
+                session()->forget(['cart']);
 
                 return response()->json([
                     'status' => 'redirect',
@@ -256,6 +256,8 @@ class TransaksiController extends Controller
                 // ✉️ Kirim e-ticket HANYA SEKALI saat pertama kali berubah jadi paid
                 if ($status === 'paid') {
                     try {
+                        session()->forget(['checkout_data']);
+
                         // --- QR Code terenkripsi ---
                         $payload = $transaction->code;
                         $encrypted = Crypt::encrypt($payload);
@@ -300,6 +302,8 @@ class TransaksiController extends Controller
                     } catch (\Exception $e) {
                         Log::error("Gagal mengirim E-Ticket untuk {$orderId}: " . $e->getMessage());
                     }
+                } elseif ($status === 'failed') {
+                    session()->forget(['checkout_data']);
                 }
             } else {
                 // 🚫 Status tidak berubah, jadi lewati semua proses
