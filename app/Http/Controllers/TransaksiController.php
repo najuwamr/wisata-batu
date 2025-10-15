@@ -218,78 +218,101 @@ class TransaksiController extends Controller
     // 📌 Webhook dari Midtrans
     public function notification(Request $request)
     {
-        $notif = new Notification();
+        try {
+            $notif = new \Midtrans\Notification();
 
-        $orderId = $notif->order_id;
-        $transactionStatus = $notif->transaction_status;
+            $orderId = $notif->order_id ?? $request->input('order_id');
+            $transactionStatus = $notif->transaction_status ?? $request->input('transaction_status');
 
-        $transaction = \App\Models\Transaction::with(['customer', 'transactionDetail.ticket'])
-            ->where('midtrans_order_id', $orderId)
-            ->first();
-
-        if (!$transaction) {
-            Log::warning("Notifikasi Midtrans: Transaksi tidak ditemukan untuk order_id {$orderId}");
-            return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
-        }
-
-        Log::info("Notifikasi Midtrans diterima untuk Order ID: {$orderId}, Status: {$transactionStatus}");
-
-        // 🧩 Konversi status Midtrans → sistem internal
-        $status = match ($transactionStatus) {
-            'settlement', 'capture' => 'paid',
-            'pending' => 'pending',
-            'deny', 'cancel', 'expire' => 'failed',
-            default => $transaction->status,
-        };
-
-        if ($transaction->status !== $status) {
-            $transaction->status = $status;
-            $transaction->save();
-
-            Log::info("Transaksi {$orderId} diupdate ke status {$status}");
-        }
-
-        // ✉️ Jika status sudah paid, kirim e-ticket ke email
-        if ($status === 'paid') {
-            try {
-                // --- QR Code data terenkripsi ---
-                $payload = $transaction->code;
-                $encrypted = Crypt::encrypt($payload);
-                $qrCode = base64_encode($encrypted);
-
-                // --- Path file PDF sementara ---
-                $tempPath = storage_path('app/temp/etiket-' . $transaction->code . '.pdf');
-
-                $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
-                $cssFile = public_path('build/' . $manifest['resources/css/app.css']['file']);
-
-                // --- Generate PDF ---
-                Pdf::view('customer.your-e-tiket', [
-                    'transaction' => $transaction,
-                    'qrCode' => $qrCode ?? null,
-                ])
-                ->format('A4')
-                ->withBrowsershot(function ($browsershot) use ($cssFile) {
-                    $browsershot->setOption('userStyleSheet', $cssFile);
-                })
-                ->save($tempPath);
-
-                // --- Kirim email dengan attachment PDF ---
-                Mail::to($transaction->customer->email)
-                    ->send(new EticketMail($transaction, $tempPath));
-
-                // --- Hapus file sementara ---
-                if (file_exists($tempPath)) {
-                    unlink($tempPath);
-                }
-                Log::info("E-Ticket dikirim ke {$transaction->customer->email}");
-            } catch (\Exception $e) {
-                Log::error("Gagal mengirim E-Ticket: " . $e->getMessage());
+            if (!$orderId) {
+                Log::error("Notifikasi Midtrans tidak memiliki order_id yang valid.");
+                return response()->json(['message' => 'order_id tidak valid'], 400);
             }
-        }
 
-        return response()->json(['message' => 'Notifikasi berhasil diproses']);
+            $transaction = Transaction::with(['customer', 'transactionDetail.ticket'])
+                ->where('midtrans_order_id', $orderId)
+                ->first();
+
+            if (!$transaction) {
+                Log::warning("Notifikasi Midtrans: Transaksi tidak ditemukan untuk order_id {$orderId}");
+                return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
+            }
+
+            Log::info("Notifikasi Midtrans diterima untuk Order ID: {$orderId}, Status: {$transactionStatus}");
+
+            $status = match ($transactionStatus) {
+                'settlement', 'capture' => 'paid',
+                'pending' => 'pending',
+                'deny', 'cancel', 'expire' => 'failed',
+                default => $transaction->status,
+            };
+
+            if ($transaction->status !== $status) {
+                $transaction->status = $status;
+                $transaction->saveOrFail(); // ✅ biar pasti tersimpan atau error
+
+                Log::info("Transaksi {$orderId} diupdate ke status {$status}");
+
+                // ✉️ Kirim e-ticket HANYA SEKALI saat pertama kali berubah jadi paid
+                if ($status === 'paid') {
+                    try {
+                        // --- QR Code terenkripsi ---
+                        $payload = $transaction->code;
+                        $encrypted = Crypt::encrypt($payload);
+                        $qrCode = base64_encode($encrypted);
+
+                        // --- Path file PDF sementara ---
+                        $tempPath = storage_path('app/temp/etiket-' . $transaction->code . '.pdf');
+
+                        // --- Ambil file CSS dari manifest ---
+                        $manifestPath = public_path('build/manifest.json');
+                        $manifest = file_exists($manifestPath)
+                            ? json_decode(file_get_contents($manifestPath), true)
+                            : null;
+
+                        $cssFile = $manifest && isset($manifest['resources/css/app.css']['file'])
+                            ? public_path('build/' . $manifest['resources/css/app.css']['file'])
+                            : null;
+
+                        // --- Generate PDF e-ticket ---
+                        Pdf::view('customer.your-e-tiket', [
+                            'transaction' => $transaction,
+                            'qrCode' => $qrCode,
+                        ])
+                        ->format('A4')
+                        ->withBrowsershot(function ($browsershot) use ($cssFile) {
+                            if ($cssFile && file_exists($cssFile)) {
+                                $browsershot->setOption('userStyleSheet', $cssFile);
+                            }
+                        })
+                        ->save($tempPath);
+
+                        // --- Kirim email dengan e-ticket ---
+                        Mail::to($transaction->customer->email)
+                            ->send(new EticketMail($transaction, $tempPath));
+
+                        // --- Hapus file sementara ---
+                        if (file_exists($tempPath)) {
+                            unlink($tempPath);
+                        }
+
+                        Log::info("E-Ticket dikirim ke {$transaction->customer->email}");
+                    } catch (\Exception $e) {
+                        Log::error("Gagal mengirim E-Ticket untuk {$orderId}: " . $e->getMessage());
+                    }
+                }
+            } else {
+                // 🚫 Status tidak berubah, jadi lewati semua proses
+                Log::info("Transaksi {$orderId} sudah berstatus {$status}, lewati pengiriman ulang.");
+            }
+
+            return response()->json(['message' => 'Notifikasi berhasil diproses'], 200);
+        } catch (\Exception $e) {
+            Log::error("Gagal memproses notifikasi Midtrans: " . $e->getMessage());
+            return response()->json(['message' => 'Terjadi kesalahan internal'], 500);
+        }
     }
+
 
     // 📌 Callback redirect ke user
     public function finish($orderId)

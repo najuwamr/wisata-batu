@@ -70,12 +70,12 @@ class CustomerController extends Controller
         try {
             $encodedData = $request->input('qr_data'); // hasil scan kamera
             $decoded = base64_decode($encodedData);
-            $customerData = Crypt::decryptString($decoded);
-            $customer = json_decode($customerData, true);
+            $orderData = Crypt::decryptString($decoded);
+            $order = json_decode($orderData, true);
 
             return response()->json([
                 'status'   => 'success',
-                'data'     => $customer
+                'data'     => $order
             ]);
         } catch (\Exception $e) {
             return response()->json([
