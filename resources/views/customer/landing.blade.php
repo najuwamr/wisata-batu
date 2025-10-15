@@ -12,7 +12,7 @@
             <source src="{{ asset('assets/customer/vid-profil.mp4') }}" type="video/mp4">
             Browser Anda tidak mendukung video.
         </video>
-        <div class="absolute inset-0 bg-black/30 z-10"></div>
+        <div class="absolute inset-0 bg-black/30 z-10 "></div>
         <div class="relative flex flex-col justify-center items-center h-full z-20">
             <img src="{{ asset('assets/customer/truly6.png') }}" alt="Truly Picnic" class="w-1/2 md:w-1/3 mb-6">
         </div>
@@ -170,13 +170,7 @@
 
     <section
         class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[1rem] md:rounded-t-[2rem] z-0">
-        <div class="absolute inset-0">
-            <div class="absolute top-10 left-10 w-20 h-20 bg-pink-500/10 rounded-full blur-xl"></div>
-            <div class="absolute top-1/3 right-20 w-16 h-16 bg-blue-500/10 rounded-full blur-lg"></div>
-            <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl"></div>
-            <div class="absolute bottom-10 right-10 w-12 h-12 bg-cyan-500/10 rounded-full blur-lg"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-        </div>
+
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
             <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path
@@ -335,7 +329,7 @@
         </div>
     </section>
 
-    <section class="relative w-full bg-gradient-to-tr overflow-hidden rounded-t-[2rem] -mt-7 ">
+    <section class="relative w-full overflow-hidden rounded-t-[2rem] -mt-7 ">
         <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto">
             <div class="relative w-full md:w-full flex justify-end items-end">
                 <div class="relative w-full">
@@ -696,7 +690,16 @@
 
 
     {{-- Selecta 360 --}}
-    <section class="bg-slate-50 min-h-screen flex items-center justify-center py-12 font-poppins background">
+    <section
+        class="bg-gradient-to-bl from-blue-900 via-blue-950 to-slate-950 min-h-screen flex items-center justify-center py-12 font-poppins rounded-t-[2rem] -mt-7 overflow-hidden z-0">
+
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="fill-white/10"></path>
+            </svg>
+        </div>
         <div class="w-full max-w-4xl px-4">
             <div class="text-center mb-10">
                 <div class="flex items-center justify-center mb-4">
@@ -793,7 +796,7 @@
                 </div>
             </div>
 
-            <div class="bg-sky-50 rounded-xl p-5 border border-sky-200">
+            <div class="bg-sky-50 rounded-full p-5 border border-sky-200">
                 <div class="flex items-start gap-4">
                     <i class="fas fa-lightbulb text-sky-500 text-xl mt-1"></i>
                     <div>
@@ -810,7 +813,7 @@
 
 
     <section
-        class="relative bg-gradient-to-br from-[#daf5fe] via-white to-indigo-50 py-16 md:py-24 overflow-hidden md:rounded-t-[2rem]">
+        class="relative bg-gradient-to-br from-[#daf5fe] via-white to-indigo-50 py-16 md:py-24 overflow-hidden md:rounded-t-[2rem] -mt-6">
         <div class="absolute inset-0 overflow-hidden z-0">
             <div
                 class="absolute -top-24 -right-24 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse">
