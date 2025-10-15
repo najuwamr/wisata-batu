@@ -77,7 +77,7 @@
                             @endforeach
                         </ul>
                     </td>
-                    <td class="px-4 py-2 border-b-4 border-gray-100">{{ $transaction->status->name ?? '-' }}</td>
+                    <td class="px-4 py-2 border-b-4 border-gray-100">{{ $transaction->status ?? '-' }}</td>
                     <td class="px-4 py-2 border-b-4 border-gray-100">
                         <a href="#" class="text-blue-700 font-semibold hover:underline">
                             Lihat Detail

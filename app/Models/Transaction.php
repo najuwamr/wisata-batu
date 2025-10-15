@@ -21,7 +21,7 @@ class Transaction extends Model
         'midtrans_tr_id',
         'customer_id',
         'payment_methode_id',
-        'status_transaction_id',
+        'status',
         'total_price',
     ];
 
