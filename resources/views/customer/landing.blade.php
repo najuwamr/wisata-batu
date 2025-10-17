@@ -691,7 +691,7 @@
 
     {{-- Selecta 360 --}}
     <section
-        class="bg-gradient-to-bl from-blue-900 via-blue-950 to-slate-950 min-h-screen flex items-center justify-center py-12 font-poppins rounded-t-[2rem] -mt-7 overflow-hidden z-0">
+        class="relative bg-gradient-to-bl from-white via-sky-50 to-slate-50 min-h-screen flex items-center justify-center py-12 font-poppins md:rounded-t-[2rem] md:-mt-7 overflow-hidden">
 
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
             <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
