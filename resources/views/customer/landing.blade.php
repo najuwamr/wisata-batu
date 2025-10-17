@@ -219,10 +219,11 @@
                                                         Berakhir:
                                                         {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
                                                     </div>
+
                                                     <a href="{{ route('promo.show', $item->id) }}"
-                                                        class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg flex items-center gap-2">
+                                                        class="w-full md:w-1/2 md:px-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg flex justify-center items-center gap-1">
                                                         Lihat Detail
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        <svg class="w-10 h-10" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2" d="M13 7l5 5m0 0l-5 5"></path>
@@ -284,7 +285,7 @@
                     <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
                     <span class="text-white font-semibold text-sm">Promo Terbatas</span>
                 </div>
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                <h2 class="text-4xl sm:text-5xl lg:text-5xl font-black text-white leading-tight">
                     Promo
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500">
                         Spesial 🔥
@@ -307,7 +308,7 @@
                         <div class="text-white/60 text-sm">Tersedia</div>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <div class="flex flex-col lg:flex-row gap-4 pt-4 max-w-4xl">
                     <a href="{{ route('guest.promo') }}"
                         class="group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 text-lg">
                         <span>Lihat Semua Promo</span>
@@ -330,7 +331,7 @@
     </section>
 
     <section class="relative w-full overflow-hidden rounded-t-[2rem] -mt-7 ">
-        <div class="flex flex-col md:flex-row w-full max-w-screen-7xl mx-auto">
+        <div class="flex flex-col xl:flex-row w-full max-w-screen-7xl mx-auto">
             <div class="relative w-full md:w-full flex justify-end items-end">
                 <div class="relative w-full">
                     <div class="relative">
@@ -406,7 +407,7 @@
                 </div>
             </div>
             <div
-                class="w-full md:w-1/2 bg-gradient-to-br from-blue-950 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-[2rem] ">
+                class="w-full xl:w-1/2 bg-gradient-to-br from-blue-950 to-blue-950 flex flex-col justify-center text-white p-8 md:p-16 shadow-[2rem] ">
                 <div class="text-center md:text-left">
                     <h1
                         class="font-black text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-green-200 via-blue-200 to-lime-200  mb-2">
@@ -692,20 +693,11 @@
     {{-- Selecta 360 --}}
     <section
         class="relative bg-gradient-to-bl from-white via-sky-50 to-slate-50 min-h-screen flex items-center justify-center py-12 font-poppins md:rounded-t-[2rem] md:-mt-7 overflow-hidden">
-
-        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
-            <svg class="relative block w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path
-                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                    class="fill-white/10"></path>
-            </svg>
-        </div>
         <div class="w-full max-w-4xl px-4">
-            <div class="text-center mb-10">
+            <div class="text-center mb-10 flex-col items-center">
                 <div class="flex items-center justify-center mb-4">
-
                     <h1
-                        class="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-600 via-red-500 to-amber-500">
+                        class="text-4xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-600 via-red-500 to-amber-500">
                         Selecta <span
                             class="text-transparent bg-clip-text bg-gradient-to-br from-blue-500 via-blue-600 to-violet-700">
                             360
@@ -713,7 +705,7 @@
 
                     </h1>
                 </div>
-                <p class="text-slate-500 text-lg md:max-w-1/2 mx-auto">
+                <p class="text-slate-500 text-sm md:max-w-1/2 mx-auto">
                     Jelajahi keindahan Selecta dengan pengalaman virtual 360 derajat yang menyenangkan.
                 </p>
             </div>
@@ -734,7 +726,7 @@
                 <div class=" bg-amber-50 rounded-full px-4 py-2 border border-slate-200">
                     <span>Drag untuk melihat sekitar</span>
                 </div>
-                <div class=" gap-3 bg-sky-50 rounded-full px-4 py-2 border border-slate-200">
+                <div class=" gap-3 bg-sky-100 rounded-full px-4 py-2 border border-slate-200">
                     <span>Scroll untuk zoom</span>
                 </div>
                 <div class=" gap-3 bg-violet-50 rounded-full px-4 py-2 border border-slate-200">
@@ -816,7 +808,7 @@
         class="relative bg-gradient-to-br from-[#daf5fe] via-white to-indigo-50 py-16 md:py-24 overflow-hidden md:rounded-t-[2rem] -mt-6">
         <div class="absolute inset-0 overflow-hidden z-0">
             <div
-                class="absolute -top-24 -right-24 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse">
+                class="absolute -top-24 -right-24 w-72 h-72 bg-[#a0f3b2] rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse">
             </div>
             <div
                 class="absolute -bottom-24 -left-24 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-1000">
