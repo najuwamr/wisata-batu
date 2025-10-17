@@ -11,7 +11,7 @@
         <!-- Logo tengah -->
         <div class="mx-0">
             <img src="{{ asset('assets/customer/selecta-logo1.png') }}" alt="Logo Selecta"
-                 class="h-18 my-0.5 mx-auto object-contain">
+                class="h-18 my-0.5 mx-auto object-contain">
         </div>
 
         <!-- Kode kanan -->
@@ -47,12 +47,13 @@
         </div>
 
         <div class="flex justify-center items-center mx-auto lg:mx-0">
-            @if($transaction->status === 'paid')
+            @if ($transaction->status === 'paid')
                 <div class="bg-white p-2 rounded-md border ">
                     {!! QrCode::size(120)->generate($qrCode) !!}
                 </div>
             @else
-                <div class="h-28 w-28 sm:h-32 sm:w-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+                <div
+                    class="h-28 w-28 sm:h-32 sm:w-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
                     <span class="text-xs font-extralight text-center">QR Code<br>Belum Tersedia</span>
                 </div>
             @endif
@@ -70,7 +71,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y">
-                    @foreach($transaction->transactionDetail as $detail)
+                    @foreach ($transaction->transactionDetail as $detail)
                         <tr class="hover:bg-gray-50">
                             <td class="px-3 py-2 sm:px-4 sm:py-3">{{ $detail->ticket->name ?? 'Tiket' }}</td>
                             <td class="px-3 py-2 sm:px-4 sm:py-3 text-center font-medium">{{ $detail->quantity }}</td>

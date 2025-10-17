@@ -180,55 +180,79 @@
                             {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
                         </p>
                     </div>
-                    @endforeach
-                </div>
 
-                <!-- Ringkasan Biaya -->
-                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 space-y-2">
-                    <!-- Subtotal -->
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-700 font-semibold">Subtotal</span>
-                        <span class="text-gray-700 font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
-                    </div>
-
-                    <!-- Biaya Layanan -->
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-700 font-semibold">Biaya Layanan</span>
-                        <span class="text-gray-700 font-semibold">Rp {{ number_format($layanan, 0, ',', '.') }}</span>
-                    </div>
-
-                    <!-- Diskon Promo (dinamis) -->
-                    @if (!empty($promos) && count($promos) > 0)
-                        @foreach ($promos as $promo)
-                            <div class="flex justify-between items-center bg-green-50 p-2 rounded">
-                                <div>
-                                    <p class="text-green-800 font-semibold">{{ $promo['name'] ?? 'Promo' }}</p>
-                                    <p class="text-sm text-green-600">
-                                        {{ $promo['description'] ?? '' }} ({{ $promo['percent'] ?? 0 }}%)
-                                    </p>
+                    <!-- Daftar Item -->
+                    <div class="space-y-4 mb-6">
+                        @foreach ($cart as $item)
+                            <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-900">{{ $item['name'] }}</p>
+                                    <p class="text-sm text-gray-500">{{ $item['qty'] }}x</p>
                                 </div>
-                                <span class="text-green-800 font-semibold">-Rp {{ number_format($promo['discount'] ?? 0, 0, ',', '.') }}</span>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-900">Rp
+                                        {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</p>
+                                    @if (!empty($item['discount']) && $item['discount'] > 0)
+                                        <p class="text-sm text-green-600">-Rp
+                                            {{ number_format($item['discount'], 0, ',', '.') }}</p>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
-                    @endif
-
-                    <!-- Total -->
-                    <div class="border-t border-blue-200 pt-2 mt-2 flex justify-between items-center font-bold text-blue-900 text-2xl">
-                        <span>Total</span>
-                        <span>
-                            Rp {{ number_format(($subtotal + $layanan), 0, ',', '.') }}
-                        </span>
                     </div>
 
-                <!-- Info Promo Kode (optional) -->
-                @if($promoCode)
-                <div class="mt-6 p-4 bg-green-50 rounded-xl">
-                    <p class="text-sm text-green-800">
-                        <strong>Kode Promo:</strong> {{ $promoCode }}
-                    </p>
-                    <p class="text-sm text-green-600 mt-1">
-                        Diskon {{ $discountPercent ?? 0 }}% berhasil diterapkan
-                    </p>
+                    <!-- Ringkasan Biaya -->
+                    <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 space-y-2">
+                        <!-- Subtotal -->
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-700 font-semibold">Subtotal</span>
+                            <span class="text-gray-700 font-semibold">Rp
+                                {{ number_format($subtotal, 0, ',', '.') }}</span>
+                        </div>
+
+                        <!-- Biaya Layanan -->
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-700 font-semibold">Biaya Layanan</span>
+                            <span class="text-gray-700 font-semibold">Rp {{ number_format($layanan, 0, ',', '.') }}</span>
+                        </div>
+
+                        <!-- Diskon Promo (dinamis) -->
+                        @if (!empty($promos) && count($promos) > 0)
+                            @foreach ($promos as $promo)
+                                <div class="flex justify-between items-center bg-green-50 p-2 rounded">
+                                    <div>
+                                        <p class="text-green-800 font-semibold">{{ $promo['name'] ?? 'Promo' }}</p>
+                                        <p class="text-sm text-green-600">
+                                            {{ $promo['description'] ?? '' }} ({{ $promo['percent'] ?? 0 }}%)
+                                        </p>
+                                    </div>
+                                    <span class="text-green-800 font-semibold">-Rp
+                                        {{ number_format($promo['discount'] ?? 0, 0, ',', '.') }}</span>
+                                </div>
+                            @endforeach
+                        @endif
+
+                        <!-- Total -->
+                        <div
+                            class="border-t border-blue-200 pt-2 mt-2 flex justify-between items-center font-bold text-blue-900 text-2xl">
+                            <span>Total</span>
+                            <span>
+                                Rp {{ number_format($subtotal + $layanan, 0, ',', '.') }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Info Promo Kode (optional) -->
+                    @if ($promoCode)
+                        <div class="mt-6 p-4 bg-green-50 rounded-xl">
+                            <p class="text-sm text-green-800">
+                                <strong>Kode Promo:</strong> {{ $promoCode }}
+                            </p>
+                            <p class="text-sm text-green-600 mt-1">
+                                Diskon {{ $discountPercent ?? 0 }}% berhasil diterapkan
+                            </p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
