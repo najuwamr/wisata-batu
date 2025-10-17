@@ -161,12 +161,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                             </svg>
-                            <button class="cursor-pointer">Pesan Tiket Sekarang</button>
+                            <button class="cursor-pointer">Pesan Tiket</button>
                         </a>
 
-                        <p class="text-center text-blue-100 text-sm mt-4">
-                            ✅ Pembayaran aman & terjamin
-                        </p>
+                        
                     </div>
 
                     <!-- Info Card -->
