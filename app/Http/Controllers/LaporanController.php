@@ -55,11 +55,10 @@ class LaporanController extends Controller
                 Log::info("QR berhasil didekripsi: " . $decrypted);
             } catch (\Exception $e) {
                 $decrypted = $decodedText;
-                Log::info("QR tidak bisa didekripsi (pakai mentah): " . $decrypted);
+                Log::info("QR tidak bisa didekripsi: " . $decrypted);
             }
 
-            // 🔎 Cari transaksi
-            $transaction = \App\Models\Transaction::with(['customer', 'transactionDetail.ticket'])
+            $transaction = Transaction::with(['customer', 'transactionDetail.ticket'])
                 ->where('code', $decrypted)
                 ->first();
 

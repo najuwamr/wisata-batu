@@ -19,10 +19,19 @@ class Transaction extends Model
         'tanggal_kedatangan',
         'midtrans_order_id',
         'midtrans_tr_id',
+        'total_price',
+        'status',
         'customer_id',
         'payment_methode_id',
-        'status',
-        'total_price',
+        'synced_to_sheets',
+        'spreadsheet_id',
+    ];
+
+    protected $casts = [
+        'id' => 'string',
+        'tanggal_kedatangan' => 'datetime',
+        'synced_to_sheets' => 'boolean',
+        'total_price' => 'integer',
     ];
 
     protected static function booted()
