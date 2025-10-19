@@ -180,7 +180,7 @@ window.sharePromo = function() {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("🟢 Inisialisasi panorama...");
+    console.log(" Inisialisasi panorama...");
 
     // Cek apakah PANOLENS sudah tersedia
     if (typeof PANOLENS === "undefined") {
