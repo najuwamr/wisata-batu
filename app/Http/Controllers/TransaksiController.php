@@ -219,7 +219,7 @@ class TransaksiController extends Controller
     public function notification(Request $request)
     {
         try {
-            $notif = new \Midtrans\Notification();
+            $notif = new Notification();
 
             $orderId = $notif->order_id ?? $request->input('order_id');
             $transactionStatus = $notif->transaction_status ?? $request->input('transaction_status');

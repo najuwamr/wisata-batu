@@ -34,16 +34,16 @@
                 :class="{
                     'bg-indigo-300 font-semibold': isToday(date),
                     'bg-blue-50 text-blue-900 font-bold': isSelected(date),
-                    'hover:bg-blue-900 hover:text-blue-50 cursor-pointer': !isSelected(date) && !isPast(date),
-                    'opacity-50 cursor-not-allowed pointer-events-none': isPast(date)
+                    'hover:bg-blue-900 hover:text-blue-50 cursor-pointer': !isSelected(date) && !isPast(date) && !isBeyondLimit(date),
+                    'opacity-50 cursor-not-allowed pointer-events-none': isPast(date) || isBeyondLimit(date)
                 }"
                 x-text="date"
-                @click="!isPast(date) && selectDate(date)">
+                @click="!isPast(date) && !isBeyondLimit(date) && selectDate(date)">
             </div>
         </template>
     </div>
 
-    {{-- Output tanggal terpilih --}}
+    {{-- Output tanggal terpilih --}} 
     <div class="mt-3 text-xs" x-show="selectedDate">
         <span class="font-semibold">Tanggal Kedatangan: </span>
         <span x-text="selectedDate ? selectedDate.toLocaleDateString('id-ID', {
@@ -58,15 +58,21 @@ function calendar() {
     return {
         month: new Date().getMonth(),
         year: new Date().getFullYear(),
-        selectedDate: null, // jangan lupa tambahkan ini biar binding x-show jalan
-
+        selectedDate: null,
         startDay: 'sunday',
 
-        selectDate(day) {
-            this.selectedDate = new Date(this.year, this.month, day);
+        // 🔒 Batas tanggal: mulai hari ini sampai 30 hari ke depan
+        minDate: new Date(),
+        maxDate: new Date(new Date().setDate(new Date().getDate() + 30)),
 
-            // kirim event global, form di luar bisa nangkap
-            const iso = this.selectedDate.toISOString().slice(0, 10);
+        selectDate(day) {
+            const date = new Date(this.year, this.month, day);
+
+            if (date < this.minDate || date > this.maxDate) return; // stop jika di luar rentang
+
+            this.selectedDate = date;
+
+            const iso = date.toISOString().slice(0, 10);
             this.$dispatch('date-selected', { date: iso });
         },
 
@@ -109,22 +115,34 @@ function calendar() {
                 this.year === this.selectedDate.getFullYear();
         },
 
+        // 🚫 Batas bawah (tanggal sebelum hari ini)
         isPast(day) {
-            let today = new Date();
-            let check = new Date(this.year, this.month, day);
-            return check < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const check = new Date(this.year, this.month, day);
+            return check < new Date(this.minDate.getFullYear(), this.minDate.getMonth(), this.minDate.getDate());
+        },
+
+        // 🚫 Batas atas (lebih dari 30 hari ke depan)
+        isBeyondLimit(day) {
+            const check = new Date(this.year, this.month, day);
+            return check > this.maxDate;
         },
 
         prevMonth() {
+            const prev = new Date(this.year, this.month - 1);
+            // ❌ Jangan mundur ke bulan sebelum hari ini
+            if (prev < this.minDate) return;
             if (this.month === 0) { this.month = 11; this.year--; }
             else { this.month--; }
         },
 
         nextMonth() {
+            const next = new Date(this.year, this.month + 1, 1);
+            // ❌ Jangan maju kalau semua tanggal di bulan itu > maxDate
+            if (next > this.maxDate) return;
             if (this.month === 11) { this.month = 0; this.year++; }
             else { this.month++; }
         }
     }
 }
-
 </script>
+
