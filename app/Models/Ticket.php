@@ -23,7 +23,7 @@ class Ticket extends Model
         'is_active'
     ];
 
-    public function transactionDetails()
+    public function transactionDetail()
     {
         return $this->hasMany(TransactionDetail::class, 'ticket_id');
     }

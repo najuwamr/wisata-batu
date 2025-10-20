@@ -37,6 +37,7 @@ return [
 
     'google' => [
         'drive_folder_id' => env('GOOGLE_DRIVE_FOLDER_ID'),
-        'credentials_path' => storage_path('app/google/credentials.json'),
+        'google_application_credential' => env('GOOGLE_APPLICATION_CREDENTIALS'),
+        'api_key' => env('GOOGLE_API_KEY'), 
     ],
 ];

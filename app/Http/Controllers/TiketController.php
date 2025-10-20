@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aset;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,14 @@ class TiketController extends Controller
     {
         $tiketAktif = Ticket::where('is_active', true)->get();
         $tiketNonAktif = Ticket::where('is_active', false)->get();
-        $promoAktif = collect();
-        $promoNonAktif = collect();
-        $tab = 'tiket';
-        return view('admin.tiket-and-promo', compact('tiketAktif', 'tiketNonAktif', 'promoNonAktif', 'promoAktif', 'tab'));
+        return view('admin.tiket', compact('tiketAktif', 'tiketNonAktif',));
     }
 
     public function tambah_Tiket()
     {
-        return view('admin.tambah-tiket');
+        // Ambil semua aset untuk ditampilkan sebagai fasilitas
+        $assets = Aset::all();
+        return view('admin.tambah-tiket', compact('assets'));
     }
 
     public function insert_Tiket(Request $request)
@@ -30,8 +30,9 @@ class TiketController extends Controller
             'price' => 'required|numeric|min:0',
             'category' => 'required|in:tiket,parkir',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ],
-        [
+            'aset' => 'nullable|array',
+            'aset.*' => 'exists:aset,id',
+        ], [
             'name.required' => 'Nama tiket wajib diisi.',
             'price.required' => 'Harga tiket wajib diisi.',
             'price.numeric' => 'Harga tiket harus berupa angka.',
@@ -41,6 +42,7 @@ class TiketController extends Controller
             'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',
             'description.required' => 'Deskripsi tiket wajib diisi.',
+            'aset.*.exists' => 'Fasilitas yang dipilih tidak valid.',
         ]);
 
         if ($request->hasFile('image')) {
@@ -50,15 +52,26 @@ class TiketController extends Controller
             $validated['image'] = $filename;
         }
 
-        Ticket::create($validated);
+        // Simpan tiket baru
+        $ticket = Ticket::create($validated);
 
-        return redirect()->route('admin.get.tiket')->with('success', 'Tiket berhasil ditambahkan.');
+        // Simpan relasi fasilitas jika ada
+        if ($request->has('aset')) {
+            $ticket->aset()->sync($request->aset);
+        }
+
+        return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil ditambahkan.');
     }
 
     public function edit_tiket($id)
     {
-        $data = Ticket::findOrFail($id);
-        return response()->json($data);
+        $data = Ticket::with('assets')->findOrFail($id);
+        $assets = Aset::all();
+
+        return response()->json([
+            'ticket' => $data,
+            'assets' => $assets
+        ]);
     }
 
     public function update_tiket(Request $request, $id)
@@ -67,20 +80,28 @@ class TiketController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'category' => 'required|in:tiket,parkir',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'assets' => 'nullable|array',
+            'assets.*' => 'exists:asets,id'
         ], [
             'name.required' => 'Nama tiket wajib diisi.',
             'price.required' => 'Harga tiket wajib diisi.',
             'price.numeric' => 'Harga tiket harus berupa angka.',
             'price.min' => 'Harga tiket tidak boleh negatif.',
+            'category.required' => 'Kategori wajib diisi.',
+            'category.in' => 'Kategori harus tiket atau parkir.',
             'image.image' => 'File harus berupa gambar.',
             'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',
             'description.required' => 'Deskripsi tiket wajib diisi.',
+            'assets.array' => 'Aset harus berupa array.',
+            'assets.*.exists' => 'Aset yang dipilih tidak valid.',
         ]);
 
         $tiket = Ticket::findOrFail($id);
 
+        // Handle image upload
         if ($request->hasFile('image')) {
             if ($tiket->image && file_exists(public_path('images/' . $tiket->image))) {
                 unlink(public_path('images/' . $tiket->image));
@@ -89,18 +110,26 @@ class TiketController extends Controller
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images'), $filename);
-
             $validated['image'] = $filename;
         } else {
             $validated['image'] = $tiket->image;
         }
 
+        // Update ticket
         $tiket->update([
             'name' => $validated['name'],
             'description' => $validated['description'],
             'price' => $validated['price'],
+            'category' => $validated['category'],
             'image' => $validated['image'],
         ]);
+
+        // Sync assets (many-to-many relationship)
+        if ($request->has('assets')) {
+            $tiket->assets()->sync($request->assets);
+        } else {
+            $tiket->assets()->detach(); // Remove all assets if none selected
+        }
 
         return back()->with('success', 'Tiket berhasil diperbarui.');
     }
@@ -111,7 +140,7 @@ class TiketController extends Controller
         $tiket->is_active = false;
         $tiket->save();
 
-        return redirect()->route('admin.get.tiket')->with('success', 'Tiket berhasil dihapus, Anda dapat mengaktifkannya kembali.');
+        return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil dihapus, Anda dapat mengaktifkannya kembali.');
     }
 
     public function restore($id)
@@ -120,7 +149,7 @@ class TiketController extends Controller
         $tiket->is_active = true;
         $tiket->save();
 
-        return redirect()->route('admin.get.tiket')->with('success', 'Tiket berhasil diaktifkan kembali.');
+        return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil diaktifkan kembali.');
     }
 
     public function index_tiket()

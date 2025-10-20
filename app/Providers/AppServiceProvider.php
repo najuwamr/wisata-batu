@@ -6,8 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Transaction;
-use App\Observers\TransactionObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +29,5 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        Transaction::observe(TransactionObserver::class);
     }
 }

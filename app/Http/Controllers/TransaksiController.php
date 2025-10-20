@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use App\Services\GoogleSheetsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,13 @@ use Midtrans\Notification;
 
 class TransaksiController extends Controller
 {
+    protected $sheetsService;
+
+    public function __construct(GoogleSheetsService $sheetsService)
+    {
+        $this->sheetsService = $sheetsService;
+    }
+
     public function charge(Request $request)
     {
         // dd(session()->all());
@@ -211,7 +219,7 @@ class TransaksiController extends Controller
             return response()->json(['status' => 'unknown', 'data' => $charge]);
 
         } catch (\Exception $e) {
-        DB::rollBack();
+            DB::rollBack();
         }
     }
 
@@ -220,12 +228,11 @@ class TransaksiController extends Controller
     {
         try {
             $notif = new Notification();
-
             $orderId = $notif->order_id ?? $request->input('order_id');
             $transactionStatus = $notif->transaction_status ?? $request->input('transaction_status');
 
             if (!$orderId) {
-                Log::error("Notifikasi Midtrans tidak memiliki order_id yang valid.");
+                Log::error("❌ Notifikasi Midtrans tidak memiliki order_id yang valid.");
                 return response()->json(['message' => 'order_id tidak valid'], 400);
             }
 
@@ -234,89 +241,138 @@ class TransaksiController extends Controller
                 ->first();
 
             if (!$transaction) {
-                Log::warning("Notifikasi Midtrans: Transaksi tidak ditemukan untuk order_id {$orderId}");
+                Log::warning("⚠️ Transaksi tidak ditemukan untuk order_id {$orderId}");
                 return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
             }
 
-            Log::info("Notifikasi Midtrans diterima untuk Order ID: {$orderId}, Status: {$transactionStatus}");
+            Log::info("📩 Notifikasi Midtrans diterima untuk {$orderId}, status: {$transactionStatus}");
 
-            $status = match ($transactionStatus) {
+            // Tentukan status baru
+            $newStatus = match ($transactionStatus) {
                 'settlement', 'capture' => 'paid',
                 'pending' => 'pending',
                 'deny', 'cancel', 'expire' => 'failed',
                 default => $transaction->status,
             };
 
-            if ($transaction->status !== $status) {
-                $transaction->status = $status;
-                $transaction->saveOrFail(); // ✅ biar pasti tersimpan atau error
+            $oldStatus = $transaction->status;
 
-                Log::info("Transaksi {$orderId} diupdate ke status {$status}");
+            // Update status jika berubah
+            if ($oldStatus !== $newStatus) {
+                $transaction->update(['status' => $newStatus]);
+                Log::info("🔁 Status transaksi {$orderId} diupdate dari {$oldStatus} ke {$newStatus}");
+            }
 
-                // ✉️ Kirim e-ticket HANYA SEKALI saat pertama kali berubah jadi paid
-                if ($status === 'paid') {
+            // 🚀 Jalankan hanya saat pertama kali berubah ke "paid"
+            if ($newStatus === 'paid' && $oldStatus !== 'paid') {
+                session()->forget(['checkout_data']);
+
+                /**
+                 * === SYNC KE GOOGLE SHEETS ===
+                 */
+                if (!$transaction->synced_to_sheets) {
                     try {
-                        session()->forget(['checkout_data']);
+                        $this->syncToGoogleSheets($transaction);
+                        Log::info("✅ Transaksi {$transaction->code} berhasil di-sync ke Google Sheets");
+                    } catch (\Throwable $e) {
+                        Log::error("❌ Gagal sync ke Google Sheets untuk {$transaction->code}: {$e->getMessage()}");
+                    }
+                } else {
+                    Log::info("⏩ Transaksi {$transaction->code} sudah di-sync ke Google Sheets, dilewati.");
+                }
 
-                        // --- QR Code terenkripsi ---
-                        $payload = $transaction->code;
-                        $encrypted = Crypt::encrypt($payload);
-                        $qrCode = base64_encode($encrypted);
+                /**
+                 * === KIRIM EMAIL E-TICKET ===
+                 */
+                try {
+                    $payload = $transaction->code;
+                    $encrypted = Crypt::encrypt($payload);
+                    $qrCode = base64_encode($encrypted);
+                    $tempPath = storage_path('app/temp/etiket-' . $transaction->code . '.pdf');
 
-                        // --- Path file PDF sementara ---
-                        $tempPath = storage_path('app/temp/etiket-' . $transaction->code . '.pdf');
+                    // Path ke CSS (kalau kamu pakai vite atau laravel mix)
+                    $manifestPath = public_path('build/manifest.json');
+                    $manifest = file_exists($manifestPath) ? json_decode(file_get_contents($manifestPath), true) : null;
+                    $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
+                    $cssPath = $cssFile ? public_path('build/' . $cssFile) : null;
 
-                        // --- Ambil file CSS dari manifest ---
-                        $manifestPath = public_path('build/manifest.json');
-                        $manifest = file_exists($manifestPath)
-                            ? json_decode(file_get_contents($manifestPath), true)
-                            : null;
-
-                        $cssFile = $manifest && isset($manifest['resources/css/app.css']['file'])
-                            ? public_path('build/' . $manifest['resources/css/app.css']['file'])
-                            : null;
-
-                        // --- Generate PDF e-ticket ---
-                        Pdf::view('customer.your-e-tiket', [
-                            'transaction' => $transaction,
-                            'qrCode' => $qrCode,
-                        ])
+                    Pdf::view('customer.your-e-tiket', [
+                        'transaction' => $transaction,
+                        'qrCode' => $qrCode,
+                    ])
                         ->format('A4')
-                        ->withBrowsershot(function ($browsershot) use ($cssFile) {
-                            if ($cssFile && file_exists($cssFile)) {
-                                $browsershot->setOption('userStyleSheet', $cssFile);
+                        ->withBrowsershot(function ($browsershot) use ($cssPath) {
+                            if ($cssPath && file_exists($cssPath)) {
+                                $browsershot->setOption('userStyleSheet', $cssPath);
                             }
                         })
                         ->save($tempPath);
 
-                        // --- Kirim email dengan e-ticket ---
-                        Mail::to($transaction->customer->email)
-                            ->send(new EticketMail($transaction, $tempPath));
+                    Mail::to($transaction->customer->email)
+                        ->send(new EticketMail($transaction, $tempPath));
 
-                        // --- Hapus file sementara ---
-                        if (file_exists($tempPath)) {
-                            unlink($tempPath);
-                        }
+                    if (file_exists($tempPath)) unlink($tempPath);
 
-                        Log::info("E-Ticket dikirim ke {$transaction->customer->email}");
-                    } catch (\Exception $e) {
-                        Log::error("Gagal mengirim E-Ticket untuk {$orderId}: " . $e->getMessage());
-                    }
-                } elseif ($status === 'failed') {
-                    session()->forget(['checkout_data']);
+                    Log::info("📧 E-ticket {$transaction->code} dikirim ke {$transaction->customer->email}");
+                } catch (\Throwable $e) {
+                    Log::error("❌ Gagal mengirim e-ticket {$transaction->code}: {$e->getMessage()}");
                 }
+            } elseif (in_array($newStatus, ['failed', 'cancel', 'expire'])) {
+                session()->forget(['checkout_data']);
+                Log::info("🚫 Transaksi {$transaction->code} gagal atau dibatalkan.");
             } else {
-                // 🚫 Status tidak berubah, jadi lewati semua proses
-                Log::info("Transaksi {$orderId} sudah berstatus {$status}, lewati pengiriman ulang.");
+                Log::info("ℹ️ Transaksi {$transaction->code} status {$newStatus}, tidak ada tindakan lanjut.");
             }
 
             return response()->json(['message' => 'Notifikasi berhasil diproses'], 200);
-        } catch (\Exception $e) {
-            Log::error("Gagal memproses notifikasi Midtrans: " . $e->getMessage());
+
+        } catch (\Throwable $e) {
+            Log::error("🔥 Gagal memproses notifikasi Midtrans: {$e->getMessage()}", [
+                'trace' => $e->getTraceAsString(),
+            ]);
             return response()->json(['message' => 'Terjadi kesalahan internal'], 500);
         }
     }
 
+
+    /**
+     * 🔥 Sync transaction ke Google Sheets
+     */
+    protected function syncToGoogleSheets(Transaction $transaction)
+    {
+        // Cek apakah sudah pernah di-sync
+        if ($transaction->synced_to_sheets) {
+            Log::info("Transaction {$transaction->code} sudah pernah di-sync, skip.");
+            return;
+        }
+
+        try {
+            Log::info("Syncing transaction {$transaction->code} to Google Sheets");
+
+            $result = $this->sheetsService->addPaidTransaction($transaction);
+
+            // Update flag synced
+            $transaction->update([
+                'synced_to_sheets' => true,
+                'spreadsheet_id' => $result['spreadsheet_id'],
+            ]);
+
+            Log::info("Transaction {$transaction->code} synced successfully", [
+                'spreadsheet_id' => $result['spreadsheet_id'],
+                'sheet_name' => $result['sheet_name'],
+                'rows_added' => $result['rows_added']
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error("Failed to sync transaction {$transaction->code} to Google Sheets", [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Jangan throw error supaya payment tetap tercatat
+            // Bisa retry manual nanti dengan command
+        }
+    }
 
     // 📌 Callback redirect ke user
     public function finish($orderId)
@@ -344,7 +400,4 @@ class TransaksiController extends Controller
 
         return view('customer.finish', compact('transaction', 'qrCode'));
     }
-
-
-
 }
