@@ -14,7 +14,7 @@ class PromoController extends Controller
         $tiketAktif = collect();
         $tiketNonAktif = collect();
         $tab = 'promo';
-        return view('admin.tiket-and-promo', compact('promoAktif', 'promoNonAktif', 'tiketAktif', 'tiketNonAktif', 'tab'));
+        return view('admin.promo', compact('promoAktif', 'promoNonAktif', 'tiketAktif', 'tiketNonAktif', 'tab'));
     }
 
     public function tambah_Promo()
