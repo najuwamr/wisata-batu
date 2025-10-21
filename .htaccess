@@ -1,9 +1,31 @@
 <IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # -------------------------------------------------
+    # 1️⃣ Pastikan semua request masuk ke folder /public
+    # -------------------------------------------------
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # -------------------------------------------------
+    # 2️⃣ Perbaiki path asset agar bisa diakses via /assets/
+    # -------------------------------------------------
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+
+    # -------------------------------------------------
+    # 3️⃣ Izinkan akses langsung ke file build/ dan storage/
+    # -------------------------------------------------
+    RewriteRule ^build/(.*)$ public/build/$1 [L]
+    RewriteRule ^storage/(.*)$ public/storage/$1 [L]
+
+    # -------------------------------------------------
+    # 4️⃣ Handle trailing slash dan header Laravel
+    # -------------------------------------------------
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
-    RewriteEngine On
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -13,13 +35,13 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # Redirect Trailing Slashes If Not A Folder...
+    # Redirect trailing slashes if not a folder
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # Laravel Front Controller
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteRule ^ public/index.php [L]
 </IfModule>
