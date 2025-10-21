@@ -3,12 +3,9 @@
 @section('title', '| Manajemen Tiket')
 
 @section('content')
-<div class="md:ml-64 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" x-data="{ 
+<div class="md:ml-64 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" x-data="{
     showNonAktif: false,
     showDetailModal: false,
-    showEditModal: false,
-    showDeleteModal: false,
-    showTambahModal: false,
     selectedTicket: null
 }">
     <!-- Header Section -->
@@ -39,20 +36,20 @@
 
             <!-- Kolom kanan: tombol -->
             <div class="flex items-center justify-end gap-3">
-                <a href="{{ route('admin.promo.get') }}" 
+                <a href="{{ route('admin.promo.get') }}"
                 class="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                     </svg>
                     Promo
                 </a>
-                <button @click="showTambahModal = true"
+                <a href="{{route('admin.tiket.tambah')}}"
                         class="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     Tambah Tiket
-                </button>
+                </a>
             </div>
         </div>
         <div class="w-full h-1 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500"></div>
@@ -68,9 +65,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
-                <input type="text" 
+                <input type="text"
                        id="searchInput"
-                       placeholder="Cari tiket berdasarkan nama..." 
+                       placeholder="Cari tiket berdasarkan nama..."
                        class="block w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
             </div>
         </div>
@@ -96,7 +93,7 @@
                         <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100">
                             <!-- Image -->
                             <div class="relative h-48 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                                <img src="{{ asset('images/' . $tiket->image) }}" 
+                                <img src="{{ asset('images/' . $tiket->image) }}"
                                      alt="{{ $tiket->name }}"
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                 <div class="absolute top-3 right-3">
@@ -130,16 +127,17 @@
 
                                 <!-- Action Buttons -->
                                 <div class="flex gap-2">
-                                    {{-- Detail --}}
-                                    <a href="{{ route('admin.tiket.edit', $tiket->id) }}"
-                                    class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1">
+                                    <!-- Tombol Detail -->
+                                    <button
+                                        @click='selectedTicket = @json($tiket); showDetailModal = true'
+                                        class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                         </svg>
                                         Detail
-                                    </a>
+                                    </button>
 
                                     {{-- Edit --}}
                                     <a href="{{ route('admin.tiket.edit', $tiket->id) }}"
@@ -153,7 +151,8 @@
                                     </a>
 
                                     {{-- Hapus (soft delete) --}}
-                                    <form action="{{ route('admin.tiket.delete', $tiket->id) }}" method="POST" class="flex-1">
+                                    <form action="{{ route('admin.tiket.delete', $tiket->id) }}" method="POST" class="flex-1"
+                                        onsubmit="return confirm('Yakin ingin menghapus tiket ini? Data akan dinonaktifkan.');">
                                         @csrf
                                         <button type="submit"
                                                 class="w-full bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1">
@@ -169,6 +168,56 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+                <div x-show="showDetailModal" x-cloak
+                    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+                    x-transition>
+                    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col">
+                        <!-- Header Gambar -->
+                        <div class="relative flex-shrink-0">
+                            <img :src="'/images/' + selectedTicket.image"
+                                alt=""
+                                class="w-full h-56 object-cover">
+                            <button @click="showDetailModal = false"
+                                    class="absolute top-3 right-3 bg-white rounded-full p-2 shadow">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Konten Scrollable -->
+                        <div class="p-6 overflow-y-auto flex-1">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2" x-text="selectedTicket.name"></h2>
+                            <p class="text-sm text-gray-500 mb-4" x-text="selectedTicket.description"></p>
+
+                            <!-- Fasilitas -->
+                            <template x-if="selectedTicket.aset && selectedTicket.aset.length > 0">
+                                <div class="mb-4">
+                                    <p class="text-sm font-semibold text-gray-700 mb-1">Fasilitas:</p>
+                                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                        <template x-for="fasilitas in selectedTicket.aset" :key="fasilitas.id">
+                                            <li x-text="fasilitas.name"></li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <p class="text-xs text-gray-500">Harga</p>
+                                    <p class="font-bold text-lg text-blue-600"
+                                        x-text="'Rp ' + new Intl.NumberFormat('id-ID').format(selectedTicket.price)"></p>
+                                </div>
+                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-semibold"
+                                    x-text="selectedTicket.category"></span>
+                            </div>
+
+                            <p class="text-xs text-gray-400"
+                                x-text="'Diperbarui pada: ' + new Date(selectedTicket.updated_at).toLocaleDateString('id-ID')"></p>
+                        </div>
+                    </div>
                 </div>
             @else
                 <div class="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-200">
@@ -207,8 +256,8 @@
                     <button @click="showNonAktif = !showNonAktif"
                             class="flex items-center gap-2 text-gray-600 hover:text-gray-800 font-medium transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-gray-100">
                         <span x-text="showNonAktif ? 'Sembunyikan' : 'Tampilkan'"></span>
-                        <svg class="w-5 h-5 transition-transform duration-300" 
-                             :class="{ 'rotate-180': showNonAktif }" 
+                        <svg class="w-5 h-5 transition-transform duration-300"
+                             :class="{ 'rotate-180': showNonAktif }"
                              fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -216,7 +265,7 @@
                 </div>
             </div>
 
-            <div x-show="showNonAktif" 
+            <div x-show="showNonAktif"
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 transform -translate-y-4"
                  x-transition:enter-end="opacity-100 transform translate-y-0"
@@ -227,10 +276,10 @@
                             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 opacity-75">
                                 <!-- Image with Overlay -->
                                 <div class="relative h-48 overflow-hidden bg-gray-200">
-                                    <img src="{{ asset('images/' . $tiket->image) }}" 
-                                         alt="{{ $tiket->name }}"
+                                    <img src="{{ asset('images/' . $tiket->image) }}"
+                                         alt="{{ $tiket->name }}" loading="lazy"
                                          class="w-full h-full object-cover grayscale">
-                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                                         <span class="bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                                             Nonaktif
                                         </span>
@@ -299,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const cards = document.querySelectorAll('[class*="grid"] > div');
-            
+
             cards.forEach(card => {
                 const text = card.textContent.toLowerCase();
                 if (text.includes(searchTerm)) {

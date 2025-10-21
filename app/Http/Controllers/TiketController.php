@@ -5,171 +5,187 @@ namespace App\Http\Controllers;
 use App\Models\Aset;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class TiketController extends Controller
 {
-    public function get_Tiket()
+    /**
+     * Tampilkan daftar tiket aktif & nonaktif
+     */
+    public function get_tiket()
     {
-        $tiketAktif = Ticket::where('is_active', true)->get();
-        $tiketNonAktif = Ticket::where('is_active', false)->get();
-        return view('admin.tiket', compact('tiketAktif', 'tiketNonAktif',));
+        $tiketAktif = Ticket::with('aset')
+            ->where('is_active', true)
+            ->get();
+
+        $tiketNonAktif = Ticket::with('aset')
+            ->where('is_active', false)
+            ->get();
+
+        return view('admin.tiket', compact('tiketAktif', 'tiketNonAktif'));
     }
 
-    public function tambah_Tiket()
+    /**
+     * Form tambah tiket
+     */
+    public function tambah_tiket()
     {
-        // Ambil semua aset untuk ditampilkan sebagai fasilitas
-        $assets = Aset::all();
-        return view('admin.tambah-tiket', compact('assets'));
+        $aset = Aset::select('id', 'name')->get();
+        return view('admin.tiket-form', [
+            'ticket' => null,
+            'aset' => $aset,
+            'isEdit' => false
+        ]);
     }
 
-    public function insert_Tiket(Request $request)
+    /**
+     * Simpan tiket baru
+     */
+    public function insert_tiket(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'required|in:tiket,parkir',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'aset' => 'nullable|array',
-            'aset.*' => 'exists:aset,id',
-        ], [
-            'name.required' => 'Nama tiket wajib diisi.',
-            'price.required' => 'Harga tiket wajib diisi.',
-            'price.numeric' => 'Harga tiket harus berupa angka.',
-            'price.min' => 'Harga tiket tidak boleh negatif.',
-            'image.required' => 'Gambar tiket wajib diunggah.',
-            'image.image' => 'File harus berupa gambar.',
-            'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
-            'image.max' => 'Ukuran gambar maksimal 2MB.',
-            'description.required' => 'Deskripsi tiket wajib diisi.',
-            'aset.*.exists' => 'Fasilitas yang dipilih tidak valid.',
+            'price'       => 'required|numeric|min:0',
+            'category'    => 'required|in:tiket,parkir,lainnya',
+            'image'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'aset'        => 'nullable|array',
+            'aset.*'      => 'exists:aset,id',
         ]);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $validated['image'] = $filename;
-        }
+        // Upload gambar
+        $filename = time() . '_' . $request->file('image')->getClientOriginalName();
+        $request->file('image')->move(public_path('images'), $filename);
+        $validated['image'] = $filename;
 
         // Simpan tiket baru
         $ticket = Ticket::create($validated);
 
-        // Simpan relasi fasilitas jika ada
-        if ($request->has('aset')) {
-            $ticket->aset()->sync($request->aset);
+        // Relasi aset (fasilitas)
+        if (!empty($validated['aset'])) {
+            $ticket->aset()->sync($validated['aset']);
         }
 
         return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil ditambahkan.');
     }
 
+    /**
+     * Ambil data tiket untuk form edit
+     */
     public function edit_tiket($id)
     {
-        $data = Ticket::with('assets')->findOrFail($id);
-        $assets = Aset::all();
+        $ticket = Ticket::with('aset:id,name')->findOrFail($id);
+        $aset = Aset::select('id', 'name')->get();
 
-        return response()->json([
-            'ticket' => $data,
-            'assets' => $assets
+        return view('admin.tiket-form', [
+            'ticket' => $ticket,
+            'aset' => $aset,
+            'isEdit' => true
         ]);
     }
 
+    /**
+     * Update tiket
+     */
     public function update_tiket(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'required|in:tiket,parkir',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'assets' => 'nullable|array',
-            'assets.*' => 'exists:asets,id'
-        ], [
-            'name.required' => 'Nama tiket wajib diisi.',
-            'price.required' => 'Harga tiket wajib diisi.',
-            'price.numeric' => 'Harga tiket harus berupa angka.',
-            'price.min' => 'Harga tiket tidak boleh negatif.',
-            'category.required' => 'Kategori wajib diisi.',
-            'category.in' => 'Kategori harus tiket atau parkir.',
-            'image.image' => 'File harus berupa gambar.',
-            'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
-            'image.max' => 'Ukuran gambar maksimal 2MB.',
-            'description.required' => 'Deskripsi tiket wajib diisi.',
-            'assets.array' => 'Aset harus berupa array.',
-            'assets.*.exists' => 'Aset yang dipilih tidak valid.',
-        ]);
-
         $tiket = Ticket::findOrFail($id);
 
-        // Handle image upload
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'required|string',
+            'price'       => 'required|numeric|min:0',
+            'category'    => 'required|in:tiket,parkir,lainnya',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aset'        => 'nullable|array',
+            'aset.*'      => 'exists:aset,id',
+        ]);
+
+        // Hanya update gambar jika ada file baru
         if ($request->hasFile('image')) {
-            if ($tiket->image && file_exists(public_path('images/' . $tiket->image))) {
-                unlink(public_path('images/' . $tiket->image));
+            // Hapus gambar lama jika ada
+            if ($tiket->image && File::exists(public_path('images/' . $tiket->image))) {
+                File::delete(public_path('images/' . $tiket->image));
             }
 
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
+            $filename = time() . '_' . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path('images'), $filename);
             $validated['image'] = $filename;
         } else {
-            $validated['image'] = $tiket->image;
+            // Gunakan gambar lama jika tidak ada upload baru
+            unset($validated['image']);
         }
 
-        // Update ticket
-        $tiket->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-            'category' => $validated['category'],
-            'image' => $validated['image'],
-        ]);
+        // Update tiket
+        $tiket->update($validated);
 
-        // Sync assets (many-to-many relationship)
-        if ($request->has('assets')) {
-            $tiket->assets()->sync($request->assets);
-        } else {
-            $tiket->assets()->detach(); // Remove all assets if none selected
-        }
+        // Sync aset (fasilitas)
+        $tiket->aset()->sync($validated['aset'] ?? []);
 
-        return back()->with('success', 'Tiket berhasil diperbarui.');
+        return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil diperbarui.');
     }
 
+    /**
+     * Soft delete tiket (nonaktifkan)
+     */
     public function delete($id)
     {
-        $tiket = Ticket::findOrFail($id);
-        $tiket->is_active = false;
-        $tiket->save();
-
-        return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil dihapus, Anda dapat mengaktifkannya kembali.');
+        Ticket::where('id', $id)->update(['is_active' => false]);
+        return back()->with('success', 'Tiket berhasil dinonaktifkan.');
     }
 
+    /**
+     * Pulihkan tiket yang nonaktif
+     */
     public function restore($id)
     {
-        $tiket = Ticket::findOrFail($id);
-        $tiket->is_active = true;
-        $tiket->save();
-
-        return redirect()->route('admin.tiket.get')->with('success', 'Tiket berhasil diaktifkan kembali.');
+        Ticket::where('id', $id)->update(['is_active' => true]);
+        return back()->with('success', 'Tiket berhasil diaktifkan kembali.');
     }
 
+    /**
+     * Hapus permanen tiket
+     */
+    public function destroy($id)
+    {
+        $tiket = Ticket::findOrFail($id);
+
+        if ($tiket->image && File::exists(public_path('images/' . $tiket->image))) {
+            File::delete(public_path('images/' . $tiket->image));
+        }
+
+        $tiket->aset()->detach();
+        $tiket->delete();
+
+        return back()->with('success', 'Tiket berhasil dihapus permanen.');
+    }
+
+    /**
+     * Halaman customer - daftar tiket aktif
+     */
     public function index_tiket()
     {
-        $tiket = Ticket::where('is_active', true)->where('category', 'tiket')->get();
+        $tiket = Ticket::select('id', 'name', 'price', 'image')
+            ->where('is_active', true)
+            ->where('category', 'tiket')
+            ->get();
+
         return view('customer.tiket.tiket', compact('tiket'));
     }
 
+    /**
+     * Halaman detail tiket customer
+     */
     public function detail_tiket($id)
     {
-        // Ambil tiket yang aktif berdasarkan ID
         $ticket = Ticket::where('is_active', true)->findOrFail($id);
 
-        // Ambil tiket lainnya (exclude current ticket, random order, limit 3)
         $otherTickets = Ticket::where('is_active', true)
             ->where('category', 'tiket')
             ->where('id', '!=', $id)
             ->inRandomOrder()
             ->limit(3)
-            ->get();
+            ->get(['id', 'name', 'price', 'image']);
 
         return view('customer.tiket.detail-tiket', compact('ticket', 'otherTickets'));
     }
