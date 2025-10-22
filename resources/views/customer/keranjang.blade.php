@@ -154,11 +154,19 @@
                         </div>
 
                         {{-- Form Checkout --}}
-                        <form action="{{ route('keranjang.checkout') }}" method="POST" x-data="{ date: '', promo: '' }"
-                            @date-selected.window="date = $event.detail.date" class="space-y-4">
+                        <form action="{{ route('keranjang.checkout') }}" method="POST"
+                            x-data="{
+                                date: localStorage.getItem('selectedDate') || '',
+                                promo: ''
+                            }"
+                            @date-selected.window="
+                                date = $event.detail.date;
+                                localStorage.setItem('selectedDate', date);
+                            "
+                            class="space-y-4">
                             @csrf
 
-                            <input type="hidden" name="date" x-model="date" required>
+                            <input type="hidden" name="date" id="selected-date" x-model="date">
 
                             <div>
                                 <label for="promo" class="block text-sm font-medium text-gray-700 mb-2">
@@ -322,4 +330,22 @@
             </div>
         </div>
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('tanggal_kedatangan');
+    const savedDate = localStorage.getItem('selectedDate');
+
+    // Kalau sebelumnya user sudah pilih tanggal, isi kembali
+    if (savedDate) {
+        input.value = savedDate;
+    }
+
+    // Update input & simpan ke localStorage kalau user pilih tanggal baru
+    window.addEventListener('date-selected', (event) => {
+        const selectedDate = event.detail.date;
+        input.value = selectedDate;
+        localStorage.setItem('selectedDate', selectedDate);
+    });
+});
+</script>
 @endsection

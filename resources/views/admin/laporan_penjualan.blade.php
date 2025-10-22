@@ -67,7 +67,7 @@
                 <tr class="text-center hover:bg-blue-50">
                     <td class="px-4 py-2 border-b-4 border-gray-100">{{ $transaction->code }}</td>
                     <td class="px-4 py-2 border-b-4 border-gray-100">
-                        {{ \Carbon\Carbon::parse($transaction->tanggal_kedatangan)->translatedFormat('d F Y') }}
+                        {{ \Carbon\Carbon::parse($transaction->tanggal_kedatangan, 'Asia/Jakarta')->translatedFormat('d F Y') }}
                     </td>
                     <td class="px-4 py-2 border-b-4 border-gray-100">{{ $transaction->customer->name ?? '-' }}</td>
                     <td class="px-4 py-2 border-b-4 border-gray-100 text-left">
