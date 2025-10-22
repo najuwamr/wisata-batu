@@ -3,7 +3,7 @@
 @section('title', '| Manajemen Tiket')
 
 @section('content')
-<div class="md:ml-64 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" x-data="{
+<div class="lg:ml-64 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" x-data="{
     showNonAktif: false,
     showDetailModal: false,
     selectedTicket: null
@@ -12,7 +12,7 @@
     <div class="sticky top-0 bg-white z-20 shadow-sm border-b border-gray-200">
         <div class="px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <!-- Kolom kiri: tanggal + sapaan -->
-            <div class="flex flex-col text-left min-w-[250px]">
+            <div class="hidden md:flex flex-col text-left min-w-[250px]">
                 <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
                     {{ now()->translatedFormat('l, d F Y') }}
                 </h1>
@@ -27,29 +27,11 @@
             </div>
 
             <!-- Kolom tengah: judul -->
-            <div class="text-center md:text-right flex-1">
+            <div class="text-right">
                 <h1 class="text-3xl font-bold bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">
                     Manajemen Tiket
                 </h1>
                 <p class="text-gray-600 mt-1 text-sm">Kelola tiket wisata Taman Selecta</p>
-            </div>
-
-            <!-- Kolom kanan: tombol -->
-            <div class="flex items-center justify-end gap-3">
-                <a href="{{ route('admin.promo.get') }}"
-                class="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                    </svg>
-                    Promo
-                </a>
-                <a href="{{route('admin.tiket.tambah')}}"
-                        class="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    Tambah Tiket
-                </a>
             </div>
         </div>
         <div class="w-full h-1 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500"></div>
@@ -57,18 +39,40 @@
 
     <!-- Main Content -->
     <div class="p-6">
-        <!-- Search Bar -->
         <div class="mb-8">
-            <div class="relative max-w-md">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <!-- Search Bar -->
+                <div class="relative w-full md:max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Cari tiket berdasarkan nama..."
+                        class="block w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                 </div>
-                <input type="text"
-                       id="searchInput"
-                       placeholder="Cari tiket berdasarkan nama..."
-                       class="block w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+
+                <!-- Button Group -->
+                <div class="flex flex-row flex-wrap justify-end gap-3 w-full md:w-auto">
+                    <a href="{{ route('admin.promo.get') }}"
+                        class="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                        </svg>
+                        Promo
+                    </a>
+
+                    <a href="{{ route('admin.tiket.tambah') }}"
+                        class="flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Tambah Tiket
+                    </a>
+                </div>
             </div>
         </div>
 
