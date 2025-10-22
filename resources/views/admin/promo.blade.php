@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', '| Promo')
+@section('title', '| Manajemen Promo')
 
 @section('content')
 <div class="md:ml-64 min-h-screen bg-gray-50">
