@@ -13,7 +13,7 @@
         <div class="px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <!-- Kolom kiri: tanggal + sapaan -->
             <div class="hidden md:flex flex-col text-left min-w-[250px]">
-                <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-red-600 to-purple-500 bg-clip-text text-transparent">
                     {{ now()->translatedFormat('l, d F Y') }}
                 </h1>
                 @php
@@ -28,7 +28,7 @@
 
             <!-- Kolom tengah: judul -->
             <div class="text-right">
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent">
                     Manajemen Tiket
                 </h1>
                 <p class="text-gray-600 mt-1 text-sm">Kelola tiket wisata Taman Selecta</p>
@@ -82,11 +82,11 @@
                 <div class="flex items-center gap-3">
                     <div class="w-1 h-8 bg-gradient-to-b from-red-500 to-blue-500 rounded-full"></div>
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-800">Tiket Aktif</h2>
-                        <p class="text-sm text-gray-500">Tiket yang sedang tersedia untuk dijual</p>
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">Tiket Aktif</h2>
+                        <p class="text-sm text-gray-500">Tiket yang tersedia untuk dijual</p>
                     </div>
                 </div>
-                <span class="bg-gradient-to-r from-red-100 to-blue-100 text-red-700 px-4 py-2 rounded-full text-sm font-semibold">
+                <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
                     {{ $tiketAktif->count() }} Tiket
                 </span>
             </div>
@@ -110,8 +110,8 @@
                             <!-- Content -->
                             <div class="p-5">
                                 <div class="mb-3">
-                                    <h3 class="text-lg font-bold text-gray-800 mb-1 line-clamp-1">{{ $tiket->name }}</h3>
-                                    <p class="text-sm text-gray-500 line-clamp-2">{{ Str::limit($tiket->description, 30) }}</p>
+                                    <h3 class="text-lg font-bold bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">{{ $tiket->name }}</h3>
+                                    <p class="text-sm text-gray-500">{{ Str::limit($tiket->description, 30) }}</p>
                                 </div>
 
                                 <div class="flex items-center justify-between mb-4">
@@ -174,32 +174,41 @@
                     @endforeach
                 </div>
                 <div x-show="showDetailModal" x-cloak
-                    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+                    class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
                     x-transition>
-                    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col">
+                    <div
+                        class="bg-white border border-blue-100 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col relative transition-all duration-300">
+
                         <!-- Header Gambar -->
                         <div class="relative flex-shrink-0">
                             <img :src="'/images/' + selectedTicket.image"
                                 alt=""
                                 class="w-full h-56 object-cover">
+                            <!-- Overlay Gradient -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                            <!-- Tombol Close -->
                             <button @click="showDetailModal = false"
-                                    class="absolute top-3 right-3 bg-white rounded-full p-2 shadow">
-                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="absolute top-3 right-3 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
                         </div>
 
-                        <!-- Konten Scrollable -->
+                        <!-- Konten -->
                         <div class="p-6 overflow-y-auto flex-1">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2" x-text="selectedTicket.name"></h2>
-                            <p class="text-sm text-gray-500 mb-4" x-text="selectedTicket.description"></p>
+                            <h2 class="text-2xl font-extrabold text-gray-900 mb-2 flex items-center gap-2">
+                                <span x-text="selectedTicket.name"></span>
+                                <span class="inline-block w-2 h-2 bg-gradient-to-r from-blue-500 to-red-500 rounded-full"></span>
+                            </h2>
+                            <p class="text-sm text-gray-600 leading-relaxed mb-5" x-text="selectedTicket.description"></p>
 
                             <!-- Fasilitas -->
                             <template x-if="selectedTicket.aset && selectedTicket.aset.length > 0">
-                                <div class="mb-4">
-                                    <p class="text-sm font-semibold text-gray-700 mb-1">Fasilitas:</p>
+                                <div class="mb-5">
+                                    <p class="text-sm font-semibold text-gray-700 mb-2">Fasilitas:</p>
                                     <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
                                         <template x-for="fasilitas in selectedTicket.aset" :key="fasilitas.id">
                                             <li x-text="fasilitas.name"></li>
@@ -208,19 +217,23 @@
                                 </div>
                             </template>
 
-                            <div class="flex justify-between items-center mb-3">
+                            <!-- Harga dan Kategori -->
+                            <div class="flex justify-between items-center mb-4">
                                 <div>
                                     <p class="text-xs text-gray-500">Harga</p>
-                                    <p class="font-bold text-lg text-blue-600"
+                                    <p class="font-bold text-lg bg-gradient-to-r from-blue-500 to-red-500 bg-clip-text text-transparent"
                                         x-text="'Rp ' + new Intl.NumberFormat('id-ID').format(selectedTicket.price)"></p>
                                 </div>
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-semibold"
+                                <span class="px-3 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200"
                                     x-text="selectedTicket.category"></span>
                             </div>
 
-                            <p class="text-xs text-gray-400"
+                            <p class="text-xs text-gray-400 italic"
                                 x-text="'Diperbarui pada: ' + new Date(selectedTicket.updated_at).toLocaleDateString('id-ID')"></p>
                         </div>
+
+                        <!-- Footer Accent -->
+                        <div class="h-1 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></div>
                     </div>
                 </div>
             @else
@@ -250,16 +263,16 @@
                     <div class="w-1 h-8 bg-gray-400 rounded-full"></div>
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">Tiket Nonaktif</h2>
-                        <p class="text-sm text-gray-500">Tiket yang dinonaktifkan sementara</p>
+                        <p class="text-sm text-gray-500">Tiket yang dihapus sementara</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold">
+                    <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm md:font-semibold">
                         {{ $tiketNonAktif->count() }} Tiket
                     </span>
                     <button @click="showNonAktif = !showNonAktif"
                             class="flex items-center gap-2 text-gray-600 hover:text-gray-800 font-medium transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-gray-100">
-                        <span x-text="showNonAktif ? 'Sembunyikan' : 'Tampilkan'"></span>
+                        <span x-text="showNonAktif ? 'Tutup' : 'Buka'"></span>
                         <svg class="w-5 h-5 transition-transform duration-300"
                              :class="{ 'rotate-180': showNonAktif }"
                              fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,35 +305,37 @@
 
                                 <!-- Content -->
                                 <div class="p-5">
-                                    <div class="mb-3">
-                                        <h3 class="text-lg font-bold text-gray-600 mb-1 line-clamp-1">{{ $tiket->name }}</h3>
-                                        <p class="text-sm text-gray-400 line-clamp-2">{{ Str::limit($tiket->description, 60) }}</p>
+                                    <div class="mb-3 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-600 mb-1">{{ $tiket->name }}</h3>
+                                        <span class="inline-block bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-semibold">
+                                            {{ ucfirst($tiket->category) }}
+                                        </span>
                                     </div>
 
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div>
-                                            <p class="text-xs text-gray-400 mb-1">Harga</p>
-                                            <p class="text-xl font-bold text-gray-500">
-                                                Rp {{ number_format($tiket->price, 0, ',', '.') }}
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="text-xs text-gray-400 mb-1">Kategori</p>
-                                            <span class="inline-block bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-semibold">
-                                                {{ ucfirst($tiket->category) }}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Restore Button -->
-                                    <form action="{{ route('admin.tiket.restore', $tiket->id) }}" method="POST">
+                                    <form action="{{ route('admin.tiket.restore', $tiket->id) }}" method="POST" class="flex-1 mb-2">
                                         @csrf
                                         <button type="submit"
-                                                class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                                            class="w-full bg-green-400 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                                             </svg>
-                                            Aktifkan Kembali
+                                            Aktifkan
+                                        </button>
+                                    </form>
+
+                                    <!-- Tombol Hapus Permanen -->
+                                    <form action="{{ route('admin.tiket.destroy', $tiket->id) }}" method="POST" class="flex-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            onclick="return confirm('Yakin ingin menghapus tiket ini secara permanen?')"
+                                            class="w-full bg-red-500 hover:bg-red-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                            Hapus
                                         </button>
                                     </form>
                                 </div>
