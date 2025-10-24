@@ -13,7 +13,7 @@ class Promo extends Model
     protected $table = 'promo';
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['name', 'code', 'discount_percent', 'qty', 'start_date', 'end_date', 'description', 'image', 'is_active', 'category'];
+    protected $fillable = ['name', 'code', 'discount_percent', 'total_qty', 'used_qty','daily_qty', 'start_date', 'end_date', 'max_disc_amount', 'image', 'is_active', 'category'];
 
     public function tickets()
     {

@@ -54,7 +54,7 @@
                             </label>
                             <input type="text" name="name" id="name"
                                 class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
-                                placeholder="Contoh: Tiket Masuk Dewasa"
+                                placeholder="Contoh: Tiket Reguler"
                                 value="{{ old('name', $ticket->name ?? '') }}" required>
                             @error('name')
                                 <p class="text-red-500 text-sm mt-2 flex items-center">

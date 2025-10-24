@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promo;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -16,26 +17,31 @@ class PromoController extends Controller
     {
         $promoAktif = Promo::where('is_active', true)->get();
         $promoNonAktif = Promo::where('is_active', false)->get();
-        $tiketAktif = collect();
-        $tiketNonAktif = collect();
-        $tab = 'promo';
 
-        return view('admin.promo', compact('promoAktif', 'promoNonAktif', 'tiketAktif', 'tiketNonAktif', 'tab'));
+        return view('admin.promo', compact('promoAktif', 'promoNonAktif'));
     }
 
     public function tambah_promo()
     {
-        return view('admin.tambah-promo');
+        $tickets = Ticket::where([
+            ['is_active', true],
+            ['category', 'tiket'],
+        ])->select('id', 'name')->get();
+
+        return view('admin.promo-form',[
+            'promo' => null,
+            'tickets' => $tickets,
+            'isEdit' => false
+        ]);
     }
 
     public function insert_promo(Request $request)
     {
         $validated = $request->validate([
             'name'              => 'required|string|max:255',
-            'description'       => 'required|string',
             'code'              => 'required|string|unique:promo,code',
             'discount_percent'  => 'required|integer|min:0|max:100',
-            'max_disc_amount'   => 'required|integer|min:0',
+            'max_disc_amount'   => 'nullable|integer|min:0',
             'category'          => 'required|in:periodik,nonperiodik',
             'total_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
             'daily_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
@@ -56,18 +62,29 @@ class PromoController extends Controller
             $validated['image'] = $filename;
         }
 
-        $validated['id'] = Str::uuid();
-        $validated['is_active'] = true;
+        $promo = Promo::create($validated);
 
-        Promo::create($validated);
+        if (!empty($request->input('ticket_ids'))) {
+            $promo->tickets()->attach($request->input('ticket_ids'));
+        }
 
         return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil ditambahkan.');
     }
 
     public function edit_promo($id)
     {
-        $promo = Promo::findOrFail($id);
-        return response()->json($promo);
+        $promo = Promo::with('tickets:id,name')->findOrFail($id);
+
+        $tickets = Ticket::where([
+            ['is_active', true],
+            ['category', 'tiket'],
+        ])->select('id', 'name')->get();
+
+        return view('admin.promo-form', [
+            'promo' => $promo,
+            'tickets' => $tickets,
+            'isEdit' => true
+        ]);
     }
 
     public function update_promo(Request $request, $id)
@@ -76,10 +93,9 @@ class PromoController extends Controller
 
         $validated = $request->validate([
             'name'              => 'required|string|max:255',
-            'description'       => 'required|string',
             'code'              => 'required|string|unique:promo,code,' . $id,
             'discount_percent'  => 'required|integer|min:0|max:100',
-            'max_disc_amount'   => 'required|integer|min:0',
+            'max_disc_amount'   => 'nullable|integer|min:0',
             'category'          => 'required|in:periodik,nonperiodik',
             'total_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
             'daily_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
@@ -108,18 +124,14 @@ class PromoController extends Controller
 
     public function delete($id)
     {
-        $promo = Promo::findOrFail($id);
-        $promo->update(['is_active' => false]);
-
-        return redirect()->route('admin.promo.get')->with('success', 'Promo dinonaktifkan sementara.');
+        Promo::where('id', $id)->update(['is_active' => false]);
+        return back()->with('success', 'Promo berhasil dinonaktifkan!');
     }
 
     public function restore($id)
     {
-        $promo = Promo::findOrFail($id);
-        $promo->update(['is_active' => true]);
-
-        return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil diaktifkan kembali.');
+        Promo::where('id', $id)->update(['is_active' => false]);
+        return back()->with('success', 'Promo berhasil diaktifkan kembali!');
     }
 
     public function destroy($id)
@@ -130,9 +142,10 @@ class PromoController extends Controller
             unlink(public_path('images/' . $promo->image));
         }
 
+        $promo->tickets()->detach();
         $promo->delete();
 
-        return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil dihapus permanen.');
+        return back()->with('success', 'Promo berhasil dihapus permanen.');
     }
 
     /** =========================
