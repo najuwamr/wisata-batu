@@ -16,11 +16,11 @@ class TiketController extends Controller
     {
         $tiketAktif = Ticket::select('id', 'name', 'description', 'price', 'category', 'image',)
             ->where('is_active', true)
-            ->with(['aset:id,name']) 
+            ->with(['aset:id,name'])
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $tiketNonAktif = Ticket::select('id', 'name', 'description', 'price', 'category', 'image',)
+        $tiketNonAktif = Ticket::select('id', 'name', 'category', 'image',)
             ->where('is_active', false)
             ->get();
 

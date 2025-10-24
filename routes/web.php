@@ -3,14 +3,11 @@
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EtiketController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PromoController;
-use App\Http\Controllers\QRController;
 use App\Http\Controllers\LandingPageController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
