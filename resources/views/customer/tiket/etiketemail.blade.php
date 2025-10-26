@@ -26,7 +26,7 @@
             <p>Pembayaran Anda belum dikonfirmasi. E-ticket akan dikirim setelah status berubah menjadi <strong>Paid</strong>.</p>
         @endif
 
-        <p>Terima kasih, <br>{{ config('app.name') }}</p>
+        <p>Terima kasih, <br>Marketing Selecta</p>
     </div>
 </body>
 </html>

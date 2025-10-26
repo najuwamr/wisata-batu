@@ -8,33 +8,38 @@
     showDetailModal: false,
     selectedTicket: null
 }">
-    <!-- Header Section -->
-    <div class="sticky top-0 bg-white z-20 shadow-sm border-b border-gray-200">
-        <div class="px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <!-- Kolom kiri: tanggal + sapaan -->
-            <div class="hidden md:flex flex-col text-left min-w-[250px]">
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-red-600 to-purple-500 bg-clip-text text-transparent">
-                    {{ now()->translatedFormat('l, d F Y') }}
-                </h1>
-                @php
-                    $hour = now()->format('H');
-                    if ($hour < 10) $greeting = 'pagi';
-                    elseif ($hour < 14) $greeting = 'siang';
-                    elseif ($hour < 17) $greeting = 'sore';
-                    else $greeting = 'malam';
-                @endphp
-                <p class="text-gray-600 mt-1">Selamat {{ $greeting }}, Admin Selecta!</p>
-            </div>
-
-            <!-- Kolom tengah: judul -->
-            <div class="text-right">
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent">
+    <div class="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-10 px-6 py-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-1">
                     Manajemen Tiket
                 </h1>
-                <p class="text-gray-600 mt-1 text-sm">Kelola tiket wisata Taman Selecta</p>
+                
+                @php
+                    $hour = now()->format('H');
+                    if ($hour < 10) {
+                        $greeting = 'pagi';
+                        $icon = '🌅';
+                    } elseif ($hour < 14) {
+                        $greeting = 'siang';
+                        $icon = '☀️';
+                    } elseif ($hour < 17) {
+                        $greeting = 'sore';
+                        $icon = '🌤️';
+                    } else {
+                        $greeting = 'malam';
+                        $icon = '🌙';
+                    }
+                @endphp
+
+                <p class="text-gray-600 flex items-center gap-2">
+                    <span>{{ $icon }}</span>
+                    <span>Selamat {{ $greeting }}, Admin Selecta!</span>
+                    <span class="hidden md:inline text-gray-400">•</span>
+                    <span class="hidden md:inline text-sm">{{ now()->translatedFormat('l, d F Y') }}</span>
+                </p>
             </div>
         </div>
-        <div class="w-full h-1 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500"></div>
     </div>
 
     <!-- Main Content -->
