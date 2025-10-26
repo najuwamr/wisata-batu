@@ -153,11 +153,16 @@ function calendar() {
         },
 
         prevMonth() {
-            const prev = new Date(this.year, this.month - 1);
-            // ❌ Jangan mundur ke bulan sebelum hari ini
-            if (prev < this.minDate) return;
-            if (this.month === 0) { this.month = 11; this.year--; }
-            else { this.month--; }
+            const lastDatePrevMonth = new Date(this.year, this.month, 0); 
+
+            if (lastDatePrevMonth < this.minDate) return;
+
+            if (this.month === 0) {
+                this.month = 11;
+                this.year--;
+            } else {
+                this.month--;
+            }
         },
 
         nextMonth() {

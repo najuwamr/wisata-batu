@@ -8,7 +8,6 @@ use App\Models\TransactionDetail;
 use App\Services\GoogleSheetsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Midtrans\CoreApi;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
@@ -52,7 +51,7 @@ class TransaksiController extends Controller
                 'phone' => $checkout['whatsapp'],
             ],
             'callbacks' => [
-                'finish' => url('/payment/finish?order_id=' . $orderId),
+                'finish' => route('checkout.finish', ['order_id' => $orderId]),
             ],
         ];
 
