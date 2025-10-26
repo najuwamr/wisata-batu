@@ -38,7 +38,10 @@
             </svg>
         </div>
 
-        <div class="flex cursor-pointer items-center bg-green-100 hover:bg-green-200 text-black px-4 py-2 rounded-md space-x-2 shadow-md">
+        <a href="https://drive.google.com/drive/folders/1sLhMLvYNDh1-m9a51QdvjIei4D7AKj9F"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex cursor-pointer items-center bg-green-100 hover:bg-green-200 text-black px-4 py-2 rounded-md space-x-2 shadow-md">
             <p>Lihat Spreadsheet</p>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor">
@@ -47,7 +50,7 @@
                     <path d="M12 11v3m0 0v3m0-3H7.5m4.5 0h4.5m-7 3h5c.943 0 1.414 0 1.707-.293s.293-.764.293-1.707v-2c0-.943 0-1.414-.293-1.707S15.443 11 14.5 11h-5c-.943 0-1.414 0-1.707.293S7.5 12.057 7.5 13v2c0 .943 0 1.414.293 1.707S8.557 17 9.5 17"/>
                 </g>
             </svg>
-        </div>
+        </a>
     </div>
 
     <div class="overflow-x-auto">

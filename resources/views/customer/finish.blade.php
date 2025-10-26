@@ -208,7 +208,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
-
+<script>
+    localStorage.removeItem('midtrans_order_id');
+</script>
 
 @endsection

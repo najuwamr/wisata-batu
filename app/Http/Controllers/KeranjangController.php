@@ -112,6 +112,7 @@ class KeranjangController extends Controller
         $promo = null;
         $promoTickets = collect();
 
+        // 🔹 1. Cek validitas promo
         if ($promoCode) {
             $promo = Promo::where('code', $promoCode)
                 ->where('is_active', true)
@@ -120,17 +121,22 @@ class KeranjangController extends Controller
                 ->with('tickets:id')
                 ->first();
 
-            if ($promo) {
-                $promoTickets = $promo->tickets->pluck('id')->toArray();
-            } else {
-                return back()->with('error', 'Kode promo tidak valid atau sudah kadaluarsa.');
+            // ❌ Promo tidak valid / kadaluarsa
+            if (!$promo) {
+                return redirect()
+                    ->route('keranjang')
+                    ->with('error', 'Kode promo tidak valid atau sudah kadaluarsa.');
             }
+
+            $promoTickets = $promo->tickets->pluck('id')->toArray();
         }
 
+        // 🔹 2. Proses keranjang
         $cartWithDiscount = [];
         $total = 0;
         $totalDiscount = 0;
-        $layanan = 3000; // biaya layanan tetap, bisa diubah sesuai kebutuhan
+        $layanan = 3000;
+        $validPromoUsed = false;
 
         foreach ($cart as $item) {
             $itemSubtotal = $item['price'] * $item['qty'];
@@ -140,6 +146,7 @@ class KeranjangController extends Controller
             if ($promo && in_array($item['ticket_id'], $promoTickets)) {
                 $discountAmount = ($promo->discount_percent / 100) * $itemSubtotal;
                 $itemSubtotal -= $discountAmount;
+                $validPromoUsed = true;
             }
 
             $cartWithDiscount[] = [
@@ -155,10 +162,16 @@ class KeranjangController extends Controller
             $totalDiscount += $discountAmount;
         }
 
-        // Total akhir termasuk biaya layanan
         $totalWithLayanan = $total + $layanan;
 
-        // SIMPAN KE SESSION
+        // ❌ Promo valid tapi tidak berlaku untuk tiket apa pun
+        if ($promoCode && $promo && !$validPromoUsed) {
+            return redirect()
+                ->route('keranjang')
+                ->with('error', 'Kode promo tidak berlaku untuk tiket mana pun di keranjang ini.');
+        }
+
+        // 🔹 3. Simpan ke session
         session([
             'checkout_data' => [
                 'date' => $date,
@@ -169,10 +182,11 @@ class KeranjangController extends Controller
                 'subtotal' => $total,
                 'layanan' => $layanan,
                 'total' => $totalWithLayanan,
-                'cart_items' => $cartWithDiscount
+                'cart_items' => $cartWithDiscount,
             ]
         ]);
 
+        // 🔹 4. Kirim ke view checkout
         return view('customer.checkout', [
             'cart' => $cartWithDiscount,
             'subtotal' => $total,

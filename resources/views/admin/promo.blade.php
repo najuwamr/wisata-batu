@@ -208,7 +208,7 @@
                                 <div>
                                     <p class="text-gray-500">Maks. Diskon:</p>
                                     <p class="font-semibold text-gray-800"
-                                        x-text="'Rp ' + new Intl.NumberFormat('id-ID').format(selectedPromo.max_disc_amount)">
+                                        x-text="selectedPromo.max_disc_amount ? 'Rp ' + new Intl.NumberFormat('id-ID').format(selectedPromo.max_disc_amount) : '-'">
                                     </p>
                                 </div>
 
@@ -239,6 +239,12 @@
                                             <p class="text-gray-500">Stok Harian:</p>
                                             <p class="font-semibold text-gray-800"
                                                 x-text="selectedPromo.daily_qty ?? '-'">
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-500">Stok Terpakai:</p>
+                                            <p class="font-semibold text-gray-800"
+                                                x-text="selectedPromo.used_qty ?? '-'">
                                             </p>
                                         </div>
                                     </div>
@@ -294,11 +300,30 @@
                                     <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-lg">
                                         {{ ucfirst($promo->category) }}
                                     </span>
-                                    <form action="{{ route('admin.promo.restore', $promo->id) }}" method="POST" class="mt-3">
+                                    <form action="{{ route('admin.promo.restore', $promo->id) }}" method="POST" class="flex-1 mb-2">
                                         @csrf
                                         <button type="submit"
-                                            class="w-full bg-green-400 hover:bg-green-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow">
+                                            class="w-full bg-green-400 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                            </svg>
                                             Aktifkan
+                                        </button>
+                                    </form>
+
+                                    <!-- Tombol Hapus Permanen -->
+                                    <form action="{{ route('admin.promo.destroy', $promo->id) }}" method="POST" class="flex-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            onclick="return confirm('Yakin ingin menghapus tiket ini secara permanen?')"
+                                            class="w-full bg-red-500 hover:bg-red-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                            Hapus
                                         </button>
                                     </form>
                                 </div>

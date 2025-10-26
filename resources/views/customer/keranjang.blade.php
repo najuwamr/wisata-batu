@@ -204,16 +204,7 @@
                                     <circle cx="20" cy="21" r="1"></circle>
                                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                 </svg>
-                                <p class="text-gray-600 mb-3 text-sm">Keranjang Anda masih kosong</p>
-                                <a href="{{ route('guest.tiket') }}"
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                                        <line x1="8" y1="12" x2="16" y2="12"></line>
-                                    </svg>
-                                    Jelajahi Tiket
-                                </a>
+                                <p class="text-gray-600 mb-3 text-sm">Keranjang Anda masih kosong <br> Tambahkan tiket untuk melanjutkan pemesanan</p>
                             </div>
                         </div>
                     @endif

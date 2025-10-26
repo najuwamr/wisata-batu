@@ -130,7 +130,7 @@ class PromoController extends Controller
 
     public function restore($id)
     {
-        Promo::where('id', $id)->update(['is_active' => false]);
+        Promo::where('id', $id)->update(['is_active' => true]);
         return back()->with('success', 'Promo berhasil diaktifkan kembali!');
     }
 

@@ -20,7 +20,7 @@
                         <a href="{{ route('guest.tiket') }}"
                             class="ml-2 text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-blue-600 hover:text-blue-700">Checkout</a>
                     </li>
-                   
+
                     <li class="flex items-center">
                         <svg class="h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
