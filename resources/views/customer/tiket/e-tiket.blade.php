@@ -1,89 +1,88 @@
-{{-- E-Ticket Responsif --}}
-<div id="etiket" class="bg-white w-full mx-auto border px-4 sm:px-6">
+{{-- E-Ticket Responsif untuk html2canvas --}}
+<div id="etiket" style="background-color: #ffffff; border: 2px solid #1f2937;" class="w-full max-w-4xl mx-auto p-4 sm:p-6">
     <!-- Header -->
-    <div class="flex flex-row justify-between items-center gap-4">
+    <div class="grid grid-cols-3 gap-2 sm:gap-4 items-center mb-4">
         <!-- Info kiri -->
-        <div class="w-full md:w-auto text-left">
-            <h1 class="text-md sm:text-xl font-extrabold">E-Ticket</h1>
-            <p class="text-xs sm:text-sm font-extralight">Taman Rekreasi Selecta</p>
+        <div class="text-left">
+            <h1 class="text-sm sm:text-lg md:text-xl font-bold">E-Ticket</h1>
+            <p class="text-xs sm:text-sm">Taman Rekreasi Selecta</p>
         </div>
 
         <!-- Logo tengah -->
-        <div class="mx-0">
+        <div class="flex justify-center">
             <img src="{{ asset('assets/customer/selecta-logo1.png') }}" alt="Logo Selecta"
-                class="h-18 my-0.5 mx-auto object-contain">
+                class="h-12 sm:h-16 md:h-20 w-auto object-contain">
         </div>
 
         <!-- Kode kanan -->
-        <div class="w-full md:w-auto text-right">
-            <p class="text-md sm:text-xl font-extrabold">
+        <div class="text-right">
+            <p class="text-sm sm:text-lg md:text-xl font-bold break-words">
                 {{ $transaction->code }}
             </p>
-            <p class="text-xs sm:text-sm font-extralight">Kode Pemesanan</p>
+            <p class="text-xs sm:text-sm">Kode Tiket</p>
         </div>
     </div>
 
-    <div class="w-full h-[1px] bg-black mb-6"></div>
+    <div class="w-full h-px mb-4" style="background-color: #1f2937; height: 1px;"></div>
 
-    <!-- Informasi Pengguna -->
-    <div class="flex flex-row gap-6 mb-8">
-        <div class="flex-1 space-y-3 text-sm sm:text-base">
-            <div class="flex flex-row sm:items-center gap-1 sm:gap-2">
-                <span class="font-semibold min-w-[100px]">Nama</span>
-                <span>: {{ $transaction->customer->name }}</span>
+    <!-- Informasi Pengguna & QR Code -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <!-- Info Pengguna (2/3 width pada desktop) -->
+        <div class="sm:col-span-2 space-y-2 text-xs sm:text-sm">
+            <div class="flex">
+                <span class="font-semibold w-32 sm:w-36 shrink-0">Nama</span>
+                <span class="flex-1">: {{ $transaction->customer->name }}</span>
             </div>
-            <div class="flex flex-row sm:items-center gap-1 sm:gap-2">
-                <span class="font-semibold min-w-[100px]">Email</span>
-                <span class="break-all">: {{ $transaction->customer->email }}</span>
+            <div class="flex">
+                <span class="font-semibold w-32 sm:w-36 shrink-0">Email</span>
+                <span class="flex-1 break-all">: {{ $transaction->customer->email }}</span>
             </div>
-            <div class="flex flex-row sm:items-center gap-1 sm:gap-2">
-                <span class="font-semibold min-w-[100px]">No. Telp</span>
-                <span>: {{ $transaction->customer->telephone ?? '-' }}</span>
+            <div class="flex">
+                <span class="font-semibold w-32 sm:w-36 shrink-0">No. Telp</span>
+                <span class="flex-1">: {{ $transaction->customer->telephone ?? '-' }}</span>
             </div>
-            <div class="flex flex-row sm:items-center gap-1 sm:gap-2">
-                <span class="font-semibold min-w-[100px]">Tanggal Kunjungan</span>
-                <span>: {{ \Carbon\Carbon::parse($transaction->tanggal_kedatangan)->translatedFormat('d F Y') }}</span>
+            <div class="flex">
+                <span class="font-semibold w-32 sm:w-36 shrink-0">Tanggal Kunjungan</span>
+                <span class="flex-1">: {{ \Carbon\Carbon::parse($transaction->tanggal_kedatangan)->translatedFormat('d F Y') }}</span>
             </div>
         </div>
 
-        <div class="flex justify-center items-center mx-auto lg:mx-0">
+        <!-- QR Code (1/3 width pada desktop, centered pada mobile) -->
+        <div class="flex justify-center items-center">
             @if ($transaction->status === 'paid')
-                <div class="bg-white p-2 rounded-md border ">
-                    {!! QrCode::size(120)->generate($qrCode) !!}
+                <div style="background-color: #ffffff; border: 2px solid #d1d5db; padding: 8px;" class="inline-block">
+                    {!! QrCode::size(100)->generate($qrCode) !!}
                 </div>
             @else
-                <div
-                    class="h-28 w-28 sm:h-32 sm:w-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
-                    <span class="text-xs font-extralight text-center">QR Code<br>Belum Tersedia</span>
+                <div style="background-color: #f9fafb; border: 2px dashed #9ca3af;" class="h-24 w-24 sm:h-28 sm:w-28 flex items-center justify-center">
+                    <span class="text-xs text-center" style="color: #4b5563;">QR Code<br>Belum Tersedia</span>
                 </div>
             @endif
         </div>
     </div>
 
     <!-- Detail Tiket -->
-    <div class="ticket-table border rounded-sm mb-6 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-xs sm:text-sm md:text-base">
-                <thead class="bg-black/5 border-b border-black">
-                    <tr>
-                        <th class="px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold whitespace-nowrap">Jenis Tiket</th>
-                        <th class="px-3 py-2 sm:px-4 sm:py-3 text-center font-semibold whitespace-nowrap">Jumlah</th>
+    <div style="border: 2px solid #1f2937; background-color: #ffffff;" class="mb-6 overflow-hidden">
+        <table class="w-full text-xs sm:text-sm">
+            <thead style="background-color: #f3f4f6; border-bottom: 2px solid #1f2937;">
+                <tr>
+                    <th class="px-3 py-2 text-left font-semibold" style="color: #000000;">Jenis Tiket</th>
+                    <th class="px-3 py-2 text-center font-semibold w-24 sm:w-32" style="color: #000000;">Jumlah</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($transaction->transactionDetail as $detail)
+                    <tr style="border-bottom: 1px solid #d1d5db;">
+                        <td class="px-3 py-2" style="color: #000000;">{{ $detail->ticket->name ?? 'Tiket' }}</td>
+                        <td class="px-3 py-2 text-center font-semibold" style="color: #000000;">{{ $detail->quantity }}</td>
                     </tr>
-                </thead>
-                <tbody class="divide-y">
-                    @foreach ($transaction->transactionDetail as $detail)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-3 py-2 sm:px-4 sm:py-3">{{ $detail->ticket->name ?? 'Tiket' }}</td>
-                            <td class="px-3 py-2 sm:px-4 sm:py-3 text-center font-medium">{{ $detail->quantity }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer -->
-    <div class="mt-6 mb-2 pt-4 border-t text-center text-[11px] sm:text-xs leading-relaxed">
+    <div class="pt-3 text-center text-xs sm:text-sm" style="border-top: 2px solid #1f2937; color: #000000;">
         <p>
             Butuh bantuan? Hubungi
             <span class="font-semibold">0341-591025</span>

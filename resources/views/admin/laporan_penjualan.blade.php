@@ -51,6 +51,7 @@
     </div>
 
     <div class="px-6 py-6">
+        <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
                 <div class="flex items-center justify-between">
@@ -98,6 +99,7 @@
             </div>
         </div>
 
+        <!-- Filter Form -->
         <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
             <form method="GET" action="{{ route('admin.laporan') }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -121,9 +123,9 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                         <select name="status" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
                             <option value="">Semua Status</option>
-                            <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Paid</option>
-                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                            <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Sukses</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Belum Selesai</option>
+                            <option value="failed" {{ request('status') == 'failed' ? 'selected' : '' }}>Gagal</option>
                             <option value="redeemed" {{ request('status') == 'redeemed' ? 'selected' : '' }}>Redeemed</option>
                         </select>
                     </div>
@@ -174,6 +176,7 @@
             </form>
         </div>
 
+        <!-- Table -->
         <div class="bg-white rounded-2xl shadow-md overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-gray-800">Daftar Transaksi</h2>
@@ -260,9 +263,9 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @php
                                     $statusConfig = [
-                                        'paid' => ['bg' => 'bg-green-100', 'text' => 'text-green-800', 'border' => 'border-green-200', 'label' => 'Paid', 'dot' => 'bg-green-500'],
-                                        'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-800', 'border' => 'border-yellow-200', 'label' => 'Pending', 'dot' => 'bg-yellow-500'],
-                                        'expired' => ['bg' => 'bg-red-100', 'text' => 'text-red-800', 'border' => 'border-red-200', 'label' => 'Expired', 'dot' => 'bg-red-500'],
+                                        'paid' => ['bg' => 'bg-green-100', 'text' => 'text-green-800', 'border' => 'border-green-200', 'label' => 'Sukses', 'dot' => 'bg-green-500'],
+                                        'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-800', 'border' => 'border-yellow-200', 'label' => 'Belum Selesai', 'dot' => 'bg-yellow-500'],
+                                        'failed' => ['bg' => 'bg-red-100', 'text' => 'text-red-800', 'border' => 'border-red-200', 'label' => 'Gagal', 'dot' => 'bg-red-500'],
                                         'redeemed' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-800', 'border' => 'border-purple-200', 'label' => 'Redeemed', 'dot' => 'bg-purple-500'],
                                     ];
                                     $status = $statusConfig[$transaction->status] ?? ['bg' => 'bg-gray-100', 'text' => 'text-gray-800', 'border' => 'border-gray-200', 'label' => ucfirst($transaction->status), 'dot' => 'bg-gray-500'];
@@ -273,14 +276,29 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <button onclick="showDetailModal({{ json_encode($transaction) }})" 
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                    Detail
-                                </button>
+                                <div class="flex flex-col gap-2">
+                                    <button onclick="showDetailModal({{ json_encode($transaction) }})" 
+                                        class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        Detail
+                                    </button>
+
+                                    @if($transaction->status === 'paid')
+                                        <form action="{{ route('loket.redeem', $transaction->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin me-redeem transaksi {{ $transaction->code }}?')">
+                                            @csrf
+                                            <button type="submit" 
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Redeem
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                         @empty
@@ -307,6 +325,7 @@
     </div>
 </div>
 
+<!-- Modal Detail -->
 <div id="detailModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div class="sticky top-0 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
@@ -324,6 +343,7 @@
 </div>
 
 <script>
+// Period filter toggle
 document.getElementById('periodFilter').addEventListener('change', function() {
     const customDateRange = document.getElementById('customDateRange');
     if (this.value === 'custom') {
@@ -333,6 +353,7 @@ document.getElementById('periodFilter').addEventListener('change', function() {
     }
 });
 
+// Show detail modal
 function showDetailModal(transaction) {
     const modal = document.getElementById('detailModal');
     const modalContent = document.getElementById('modalContent');
@@ -450,16 +471,11 @@ function showDetailModal(transaction) {
     modal.classList.add('flex');
 }
 
+// Close detail modal
 function closeDetailModal() {
     const modal = document.getElementById('detailModal');
     modal.classList.add('hidden');
     modal.classList.remove('flex');
 }
-
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeDetailModal();
-    }
-});
 </script>
 @endsection

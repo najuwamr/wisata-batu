@@ -95,13 +95,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Description Excerpt -->
-                                @if($promo->description)
-                                    <div class="text-gray-600 text-sm mb-4 line-clamp-2">
-                                        {!! Str::limit(strip_tags($promo->description), 80) !!}
-                                    </div>
-                                @endif
-
                                 <!-- CTA Button -->
                                 <div class="mt-4">
                                     <a href="{{ route('promo.show', $promo->id) }}"

@@ -48,6 +48,8 @@ class PromoController extends Controller
             'start_date'        => 'required|date',
             'end_date'          => 'required|date|after:start_date',
             'image'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tickets'           => 'nullable|array',
+            'tickets.*'         => 'exists:ticket,id',
         ], [
             'code.unique' => 'Kode promo sudah digunakan.',
             'end_date.after' => 'Tanggal berakhir harus setelah tanggal mulai.',
@@ -64,8 +66,8 @@ class PromoController extends Controller
 
         $promo = Promo::create($validated);
 
-        if (!empty($request->input('ticket_ids'))) {
-            $promo->tickets()->attach($request->input('ticket_ids'));
+        if (!empty($request->input('tickets'))) {
+            $promo->tickets()->attach($request->input('tickets'));
         }
 
         return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil ditambahkan.');
@@ -102,13 +104,16 @@ class PromoController extends Controller
             'start_date'        => 'required|date',
             'end_date'          => 'required|date|after:start_date',
             'image'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tickets'           => 'nullable|array',
+            'tickets.*'         => 'exists:ticket,id',
         ]);
 
-        // Ganti gambar jika ada upload baru
+        // 🖼️ Ganti gambar jika ada upload baru
         if ($request->hasFile('image')) {
             if ($promo->image && file_exists(public_path('images/' . $promo->image))) {
                 unlink(public_path('images/' . $promo->image));
             }
+
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images'), $filename);
@@ -117,7 +122,16 @@ class PromoController extends Controller
             $validated['image'] = $promo->image;
         }
 
+        // 💾 Update data promo utama
         $promo->update($validated);
+
+        // 🔄 Sinkronisasi tiket ke pivot (tiket_promo)
+        if (!empty($request->input('tickets'))) {
+            $promo->tickets()->sync($request->input('tickets'));
+        } else {
+            // Kalau tidak ada yang dicentang, kosongkan relasinya
+            $promo->tickets()->detach();
+        }
 
         return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil diperbarui.');
     }
