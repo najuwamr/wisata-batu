@@ -697,7 +697,7 @@
                 </p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-xl p-2 mb-8 ring-1 ring-slate-200">
+            <div class="bg-white rounded-2xl shadow-xl p-2 mb-8 ring-slate-200">
                 <div
                     class="image-container w-full h-[400px] md:h-[500px] bg-slate-100 rounded-xl overflow-hidden relative">
                     <div id="loading" class="absolute inset-0 flex items-center justify-center bg-white z-10">
@@ -984,31 +984,49 @@
             </div>
         </div>
     </section>
-    <section
-        class="bg-gray-50 py-10 md:py-20 px-4 md:px-6 overflow-hidden md:min-h-screen items-center rounded-t-[2rem] md:-mt-10">
-        <div class="container mx-auto pt-10">
-            <h2 class=" text-4xl md:text-7xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-blue-700 mb-8 md:mb-12 leading-snug"
-                data-aos="fade-left">
-                Apa kata mereka tentang <span
-                    class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-[#6ECCFF]">Selecta?</span>
+    <section class="bg-slate-50 relative overflow-hidden md:-mt-10 py-16 md:py-24">
+        <div class="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3">
+            <div class="w-72 h-72 bg-green-200 rounded-full blur-3xl opacity-50"></div>
+        </div>
+        <div class="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3">
+            <div class="w-92 h-92 bg-gradient-to-br from-cyan-100 to-blue-200 rounded-full blur-3xl opacity-60"></div>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <h2 class="text-4xl md:text-6xl font-poppins font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-blue-800 mb-12 md:mb-16 leading-tight"
+                data-aos="fade-up">
+                Apa Kata Mereka Tentang <span
+                    class="bg-clip-text bg-gradient-to-br from-green-500 to-cyan-500">Selecta?</span>
             </h2>
-            <div class="swiper mySwiperReview">
-                <div class="swiper-wrapper">
-                    @foreach ($review as $item)
-                        <div class="swiper-slide">
-                            <div
-                                class="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center text-center h-full transition-all hover:scale-105">
-                                <img src="{{ $item['image'] }}" alt="{{ $item['user'] }}"
-                                    class="w-16 h-16 rounded-full object-cover mb-4">
-                                <h3 class="font-semibold text-gray-800">{{ $item['user'] }}</h3>
-                                <p class="text-gray-600 text-sm mt-3 leading-relaxed">
-                                    "{{ $item['komen'] }}"
-                                </p>
+
+            <div class="relative max-w-7xl mx-auto">
+                <div class="swiper mySwiperReview">
+                    <div class="swiper-wrapper pb-16">
+                        @foreach ($review as $item)
+                            <div class="swiper-slide h-full">
+                                <div
+                                    class="bg-white/60 backdrop-blur-sm border border-gray-200/80 shadow-lg rounded-2xl p-8 flex flex-col text-center h-full transition-all duration-300 hover:shadow-xl hover:border-blue-300">
+                                    <img src="{{ $item['image'] }}" alt="{{ $item['user'] }}"
+                                        class="w-20 h-20 rounded-full object-cover mb-5 mx-auto ring-4 ring-white/50 shadow-md">
+
+                                    <div class="flex-grow">
+                                        <p class="text-gray-600 text-base mt-3 leading-relaxed italic">
+                                            "{{ $item['komen'] }}"
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-6">
+                                        <h3 class="font-bold text-lg text-gray-800">{{ $item['user'] }}</h3>
+                                        <p class="text-sm text-gray-400">Pengunjung Setia</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-pagination mt-6"></div>
+
+
             </div>
         </div>
     </section>
