@@ -89,11 +89,10 @@ Route::prefix('loket')->group(function () {
     // ----- SCAN QR CODE -----
     Route::get('/scan', [LaporanController::class, 'klik_scan'])->name('loket.scan');
     Route::post('/scan/decode', [LaporanController::class, 'decodeQr'])->name('loket.scan.decode');
+    // Redeem Tiket
+    Route::post('/redeem/{id}', [LaporanController::class, 'redeemTransaction'])->name('loket.redeem');
     // ----- CRUD LAPORAN -----
     Route::get('/laporan', [LaporanController::class, 'klik_laporan'])->name('loket.laporan');
-
-// Route untuk decode hasil QR
-// Route::post('/admin/laporan/decode-qr', [LaporanController::class, 'decodeQr'])->name('admin.laporan.decodeQr');
 
 });
 

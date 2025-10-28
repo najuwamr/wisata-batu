@@ -73,10 +73,10 @@ class TransaksiController extends Controller
                 break;
 
             case 'qris':
+            case 'gopay':
                 $params['payment_type'] = 'qris';
                 break;
 
-            case 'gopay':
             case 'shopeepay':
                 $params['payment_type'] = $paymentType;
                 $params[$paymentType] = [

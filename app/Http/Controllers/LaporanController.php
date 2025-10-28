@@ -11,19 +11,14 @@ use Zxing\QrReader;
 
 class LaporanController extends Controller
 {
-    /**
-     * Menampilkan daftar laporan transaksi dengan statistik dan filter
-     */
     public function klik_Laporan(Request $request)
     {
-        // Query dasar dengan eager loading
         $query = Transaction::with([
             'customer',
             'transactionDetail.ticket',
             'transactionDetail.promo'
         ]);
 
-        // Filter berdasarkan periode
         if ($request->filled('period')) {
             switch ($request->period) {
                 case 'today':
@@ -46,40 +41,33 @@ class LaporanController extends Controller
             }
         }
 
-        // Filter berdasarkan status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // Search functionality - hanya di kolom code
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where('code', 'like', "%{$search}%");
         }
 
-        // Sorting - default urutkan dari yang terbaru
         $sortBy = $request->get('sort_by', 'created_at');
         $sortOrder = $request->get('sort_order', 'desc');
         $query->orderBy($sortBy, $sortOrder);
 
-        // Pagination
         $perPage = $request->get('per_page', 10);
         $transactions = $query->paginate($perPage)->withQueryString();
 
-        // Hitung statistik untuk dashboard cards
         $stats = [
             'total' => Transaction::count(),
             'paid' => Transaction::where('status', 'paid')->count(),
             'pending' => Transaction::where('status', 'pending')->count(),
-            'expired' => Transaction::where('status', 'expired')->count(),
+            'failed' => Transaction::where('status', 'failed')->count(),
             'redeemed' => Transaction::where('status', 'redeemed')->count(),
         ];
 
-        // Jika ada filter, hitung juga stats berdasarkan filter
         if ($request->hasAny(['period', 'status', 'search', 'date_from', 'date_to'])) {
             $filteredQuery = Transaction::query();
-            
-            // Terapkan filter yang sama
+
             if ($request->filled('period')) {
                 switch ($request->period) {
                     case 'today':
@@ -110,184 +98,147 @@ class LaporanController extends Controller
         return view('admin.laporan_penjualan', compact('transactions', 'stats'));
     }
 
-    /**
-     * Halaman untuk scan QR
-     */
     public function klik_scan()
     {
         return view('admin.scan');
     }
 
-    /**
-     * Decode dan decrypt hasil QR code
-     */
     public function decodeQr(Request $request)
-    {
-        $transaction = null;
+{
+    $decodedText = null;
+    $message = null;
+    $alertType = 'info';
 
-        try {
-            $decodedText = null;
+    if ($request->filled('code')) {
+        $decodedText = $request->code;
+        Log::info("📷 QR diterima dari kamera", ['code' => $decodedText]);
+    } elseif ($request->hasFile('qr_image')) {
+        Log::info("📁 File upload diterima");
 
-            // Cek apakah QR dari kamera atau upload
-            if ($request->filled('code')) {
-                $decodedText = $request->code;
-                Log::info("QR diterima dari kamera", ['code' => $decodedText]);
-            } elseif ($request->hasFile('qr_image')) {
-                // Validasi file
-                $request->validate([
-                    'qr_image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-                ]);
+        $imagePath = $request->file('qr_image')->getPathname();
+        $qrcode = new QrReader($imagePath);
+        $decodedText = $qrcode->text();
+        Log::info("✅ QR hasil upload dibaca", ['code' => $decodedText]);
+    } else {
+        Log::warning("🚫 Tidak ada QR dikirim");
+        return back()->with('error', 'QR code tidak ditemukan.');
+    }
 
-                $imagePath = $request->file('qr_image')->getPathname();
-                
-                try {
-                    $qrcode = new QrReader($imagePath);
-                    $decodedText = $qrcode->text();
-                    Log::info("QR hasil upload dibaca", ['code' => $decodedText]);
-                } catch (\Exception $e) {
-                    Log::error("Gagal membaca QR dari gambar: " . $e->getMessage());
-                    return back()->with('error', 'Gagal membaca QR code dari gambar. Pastikan gambar jelas dan benar.');
-                }
-            } else {
-                Log::warning("Tidak ada QR dikirim dari request");
-                return back()->with('error', 'QR code tidak ditemukan. Silakan scan atau upload QR code.');
-            }
+    Log::info('➡️ Tahap dekripsi dimulai');
+    $transactionCode = $this->decryptQrCode($decodedText);
+    Log::info('🔓 Hasil dekripsi', ['decoded' => $transactionCode]);
 
-            if (!$decodedText) {
-                return back()->with('error', 'QR code kosong atau tidak valid.');
-            }
+    $transaction = Transaction::with(['customer', 'transactionDetail.ticket', 'transactionDetail.promo'])
+        ->where('code', $transactionCode)
+        ->first();
 
-            // Proses dekripsi QR code
-            $transactionCode = $this->decryptQrCode($decodedText);
+    if (!$transaction) {
+        Log::warning("🚫 Transaksi tidak ditemukan", ['code' => $transactionCode]);
+        return back()->with('error', 'Transaksi tidak ditemukan.');
+    }
 
-            if (!$transactionCode) {
-                Log::warning("Gagal dekripsi QR code", ['raw' => $decodedText]);
-                return back()->with('error', 'QR code tidak valid atau rusak.');
-            }
+    Log::info('✅ Status transaksi ditemukan', [
+        'code' => $transaction->code,
+        'status' => $transaction->status,
+        'tanggal_kedatangan' => $transaction->tanggal_kedatangan
+    ]);
 
-            // Cari transaksi berdasarkan kode
-            $transaction = Transaction::with([
-                'customer',
-                'transactionDetail.ticket',
-                'transactionDetail.promo'
-            ])
-            ->where('code', $transactionCode)
-            ->first();
+    Log::info('🔍 Sebelum parse tanggal');
+    try {
+        $tanggalKedatangan = Carbon::parse($transaction->tanggal_kedatangan);
+    } catch (\Exception $e) {
+        Log::error('💥 Gagal parse tanggal kedatangan', ['error' => $e->getMessage()]);
+        return back()->with('error', 'Tanggal kedatangan tidak valid.');
+    }
 
-            if (!$transaction) {
-                Log::warning("Transaksi tidak ditemukan", ['code' => $transactionCode]);
-                return back()->with('error', 'Transaksi tidak ditemukan. Kode: ' . $transactionCode);
-            }
+    Log::info('🕒 Setelah parse tanggal', ['tanggal' => $tanggalKedatangan]);
+    $batasAkhir = $tanggalKedatangan->copy()->addDays(7);
+    $sekarang = Carbon::now();
 
-            Log::info("Transaksi ditemukan", [
-                'id' => $transaction->id,
-                'code' => $transaction->code,
-                'status' => $transaction->status
-            ]);
+    Log::info('🧮 Hitung masa berlaku', [
+        'batasAkhir' => $batasAkhir->toDateString(),
+        'sekarang' => $sekarang->toDateString()
+    ]);
 
-            // Cek status transaksi
-            if ($transaction->status === 'expired') {
-                return view('admin.scan', compact('transaction'))
-                    ->with('error', 'Transaksi sudah expired dan tidak dapat digunakan.');
-            }
+    if ($sekarang->lt($tanggalKedatangan)) {
+        $message = 'Transaksi belum dapat digunakan.';
+        $alertType = 'error';
+        Log::info('⏳ Belum waktunya datang');
+    } elseif ($sekarang->gt($batasAkhir)) {
+        $message = 'Transaksi sudah melewati masa berlaku.';
+        $alertType = 'error';
+        Log::info('⌛ Masa berlaku lewat');
+    } else {
+        Log::info('🚦 Masuk ke switch status', ['status' => $transaction->status]);
+        switch ($transaction->status) {
+            case 'failed':
+                $message = 'Transaksi gagal.';
+                $alertType = 'error';
+                break;
 
-            if ($transaction->status === 'pending') {
-                return view('admin.scan', compact('transaction'))
-                    ->with('warning', 'Transaksi belum dibayar. Status: Pending');
-            }
+            case 'pending':
+                $message = 'Transaksi pending.';
+                $alertType = 'warning';
+                break;
 
-            if ($transaction->status === 'redeemed') {
-                return view('admin.scan', compact('transaction'))
-                    ->with('info', 'Transaksi sudah pernah digunakan (Redeemed) pada: ' . $transaction->redeemed_at);
-            }
+            case 'redeemed':
+                $message = 'Sudah digunakan.';
+                $alertType = 'info';
+                break;
 
-            // Status paid - siap digunakan
-            return view('admin.scan', compact('transaction'))
-                ->with('success', 'QR code valid! Transaksi siap digunakan.');
+            case 'paid':
+                Log::info('💰 Transaksi paid → ubah jadi redeemed');
+                $transaction->update(['status' => 'redeemed']);
+                Log::info('✅ Update status sukses', ['code' => $transaction->code]);
+                $message = 'Transaksi berhasil di-redeem!';
+                $alertType = 'success';
+                break;
 
-        } catch (\Exception $e) {
-            Log::error('Gagal decode QR: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
-            return back()->with('error', 'Terjadi kesalahan saat memproses QR code.');
+            default:
+                Log::warning('❓ Status tidak dikenali', ['status' => $transaction->status]);
+                $message = 'Status tidak dikenali.';
+                $alertType = 'warning';
+                break;
         }
     }
 
-    /**
-     * Helper function untuk dekripsi QR code
-     */
+    Log::info('📤 Siap kirim ke view', ['alertType' => $alertType, 'message' => $message]);
+    return view('admin.scan', compact('transaction'))->with($alertType, $message);
+}
+
     private function decryptQrCode($encodedText)
     {
-        try {
-            // Coba dekripsi dengan base64 decode dulu
-            $decodedBase64 = base64_decode($encodedText, true);
-            
-            if ($decodedBase64 !== false) {
-                try {
-                    $decrypted = Crypt::decrypt($decodedBase64);
-                    Log::info("QR berhasil didekripsi dengan base64", ['result' => $decrypted]);
-                    return $decrypted;
-                } catch (\Exception $e) {
-                    // Jika gagal, coba tanpa base64
-                    Log::info("Gagal dekripsi dengan base64, coba tanpa base64");
-                }
-            }
+        $decodedBase64 = base64_decode($encodedText, true);
 
-            // Coba dekripsi langsung tanpa base64
+        if ($decodedBase64 !== false) {
             try {
-                $decrypted = Crypt::decrypt($encodedText);
-                Log::info("QR berhasil didekripsi tanpa base64", ['result' => $decrypted]);
-                return $decrypted;
-            } catch (\Exception $e) {
-                Log::info("Gagal dekripsi, gunakan plain text");
-            }
-
-            // Jika semua gagal, gunakan text asli
-            Log::info("Menggunakan plain text sebagai kode transaksi", ['code' => $encodedText]);
-            return $encodedText;
-
-        } catch (\Exception $e) {
-            Log::error("Error saat dekripsi QR: " . $e->getMessage());
-            return null;
+                return Crypt::decrypt($decodedBase64);
+            } catch (\Exception $e) {}
         }
+
+        try {
+            return Crypt::decrypt($encodedText);
+        } catch (\Exception $e) {}
+
+        return $encodedText;
     }
 
-    /**
-     * Update status transaksi menjadi redeemed
-     */
-    public function redeemTransaction(Request $request, $id)
+    public function redeemTransaction($id)
     {
-        try {
-            $transaction = Transaction::findOrFail($id);
+        $transaction = Transaction::findOrFail($id);
 
-            if ($transaction->status !== 'paid') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Transaksi tidak dapat di-redeem. Status saat ini: ' . $transaction->status
-                ], 400);
-            }
-
-            $transaction->status = 'redeemed';
-            $transaction->redeemed_at = now();
-            $transaction->save();
-
-            Log::info("Transaksi berhasil di-redeem", [
-                'transaction_id' => $transaction->id,
-                'code' => $transaction->code
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Transaksi berhasil di-redeem!',
-                'transaction' => $transaction
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error("Gagal redeem transaksi: " . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal memproses transaksi'
-            ], 500);
+        if ($transaction->status !== 'paid') {
+            return redirect()->back()->with('error', 'Hanya transaksi yang sudah dibayar yang dapat di-redeem.');
         }
+
+        $transaction->update(['status' => 'redeemed']);
+
+        Log::info('Transaksi berhasil di-redeem', [
+            'transaction_id' => $transaction->id,
+            'code' => $transaction->code,
+        ]);
+
+        return redirect()->route('loket.laporan')
+            ->with('success', 'Transaksi berhasil di-redeem.');
     }
 }

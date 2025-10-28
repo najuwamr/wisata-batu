@@ -165,9 +165,6 @@
         </div>
     </section>
 
-
-
-
     <section
         class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden rounded-t-[1rem] md:rounded-t-[2rem] z-0">
 
@@ -199,25 +196,15 @@
                                                         {{ $item->discount_percent }}% OFF
                                                     </div>
                                                 </div>
-                                                <div class="absolute top-4 left-4">
-                                                    <div
-                                                        class="bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
-                                                        ⏳ {{ \Carbon\Carbon::parse($item->valid_until)->diffForHumans() }}
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="p-6 sm:p-8">
                                                 <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
                                                     {{ $item->name }}</h3>
-                                                <p><strong>Deskripsi:</strong></p>
-                                                <div id="detailDeskripsi-{{ $item->id }}">
-                                                    {!! $item->description !!}
-                                                </div>
 
                                                 <div class="flex items-center justify-between">
                                                     <div class="text-sm text-gray-500">
                                                         Berakhir:
-                                                        {{ \Carbon\Carbon::parse($item->valid_until)->translatedFormat('d F Y') }}
+                                                        {{ \Carbon\Carbon::parse($item->end_date)->translatedFormat('d F Y') }}
                                                     </div>
 
                                                     <a href="{{ route('promo.show', $item->id) }}"

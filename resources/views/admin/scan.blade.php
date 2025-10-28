@@ -1,78 +1,278 @@
 @extends('layouts.loket')
 
 @section('content')
-<div class="md:ml-64">
-    <div class="sticky top-0 bg-white">
-        <h1 class="pt-10 ml-2 text-3xl font-bold mb-2">
-            {{ now()->translatedFormat('l, d F Y') }}
-        </h1>
+<div class="md:ml-64 min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <!-- Header Section -->
+    <div class="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-10 px-6 py-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-1">
+                    Scan QR Code Tiket
+                </h1>
 
-        @php
-            $hour = now()->format('H');
-            if ($hour < 10) {
-                $greeting = 'pagi';
-            } elseif ($hour < 14) {
-                $greeting = 'siang';
-            } elseif ($hour < 17) {
-                $greeting = 'sore';
-            } else {
-                $greeting = 'malam';
-            }
-        @endphp
+                @php
+                    $hour = now()->format('H');
+                    if ($hour < 10) {
+                        $greeting = 'pagi';
+                        $icon = '🌅';
+                    } elseif ($hour < 14) {
+                        $greeting = 'siang';
+                        $icon = '☀️';
+                    } elseif ($hour < 17) {
+                        $greeting = 'sore';
+                        $icon = '🌤️';
+                    } else {
+                        $greeting = 'malam';
+                        $icon = '🌙';
+                    }
+                @endphp
 
-        <p class="underline ml-2">Selamat {{ $greeting }} admin Selecta!</p>
-        <div class="w-full h-2 rounded-lg bg-gray-200 my-4"></div>
+                <p class="text-gray-600 flex items-center gap-2">
+                    <span>{{ $icon }}</span>
+                    <span>Selamat {{ $greeting }}, Petugas Loket!</span>
+                    <span class="hidden md:inline text-gray-400">•</span>
+                    <span class="hidden md:inline text-sm">{{ now()->translatedFormat('l, d F Y') }}</span>
+                </p>
+            </div>
+        </div>
     </div>
 
-    <h1 class="text-2xl font-bold mb-4">Scan QR Code Tiket</h1>
+    <!-- Content Section -->
+    <div class="px-6 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Scanner Section -->
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1 h-8 bg-gradient-to-b from-blue-500 to-indigo-600 rounded-full"></div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">Scan dengan Kamera</h2>
+                        <p class="text-sm text-gray-600">Arahkan kamera ke QR code tiket</p>
+                    </div>
+                </div>
 
-    {{-- Bagian kamera --}}
-    <div id="reader" style="width: 400px;"></div>
+                <!-- QR Scanner -->
+                <div id="reader" class="rounded-xl overflow-hidden border-2 border-gray-200"></div>
 
-    {{-- Form upload file QR --}}
-    <form id="manual-form" method="POST" action="{{ route('loket.scan.decode') }}" enctype="multipart/form-data" class="mt-4">
-        @csrf
-        <input type="file" name="qr_image" accept="image/*" class="border p-2 rounded">
-        <button class="bg-blue-500 text-white px-4 py-2 rounded ml-2">Upload & Decode</button>
-    </form>
+                <!-- Manual Upload -->
+                <div class="mt-6">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Atau Upload Gambar QR Code</h3>
+                    <form id="uploadForm" method="POST" action="{{ route('loket.scan.decode') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="flex gap-2">
+                            <input type="file"
+                                name="qr_image"
+                                id="qr_image"
+                                accept="image/*"
+                                class="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            <button type="submit"
+                                class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
+                                Upload
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-    {{-- Tampilkan pesan error --}}
-    @if(session('error'))
-        <div class="bg-red-100 text-red-600 p-3 rounded">
-            {{ session('error') }}
+            <!-- Result Section -->
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1 h-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-full"></div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">Hasil Scan</h2>
+                        <p class="text-sm text-gray-600">Detail informasi tiket</p>
+                    </div>
+                </div>
+
+                <div id="resultContainer">
+                    @if(session('error'))
+                        <div class="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl">
+                            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                    @elseif(session('success'))
+                        <div class="flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 p-4 rounded-xl">
+                            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                    @elseif(isset($transaction))
+                        <!-- Ticket Display -->
+                        <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+                            <!-- Header -->
+                            <div class="text-center mb-6 pb-6 border-b-2 border-dashed border-gray-300">
+                                <div class="inline-block bg-white px-6 py-3 rounded-xl shadow-md mb-3">
+                                    <h3 class="text-2xl font-bold text-gray-800">{{ $transaction->code }}</h3>
+                                </div>
+
+                                @php
+                                    $statusConfig = [
+                                        'paid' => [
+                                            'bg' => 'bg-green-500',
+                                            'text' => 'Lunas - Siap Digunakan',
+                                            'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+                                        ],
+                                        'pending' => [
+                                            'bg' => 'bg-yellow-500',
+                                            'text' => 'Menunggu Pembayaran',
+                                            'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+                                        ],
+                                        'failed' => [
+                                            'bg' => 'bg-red-500',
+                                            'text' => 'Gagal / Kadaluarsa',
+                                            'icon' => 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                                        ],
+                                        'redeemed' => [
+                                            'bg' => 'bg-purple-500',
+                                            'text' => session('success')
+                                                ? 'Berhasil - Silakan Masuk'
+                                                : 'Sudah Pernah Di-redeem',
+                                            'icon' => session('success')
+                                                ? 'M5 13l4 4L19 7' // centang
+                                                : 'M6 18L18 6M6 6l12 12', // silang
+                                        ],
+                                    ];
+
+                                    $status = $statusConfig[$transaction->status]
+                                        ?? ['bg' => 'bg-gray-500', 'text' => ucfirst($transaction->status), 'icon' => 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'];
+                                @endphp
+
+                                <div class="inline-flex items-center gap-2 {{ $status['bg'] }} text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $status['icon'] }}"/>
+                                    </svg>
+                                    {{ $status['text'] }}
+                                </div>
+                            </div>
+
+                            <!-- Customer Info -->
+                            <div class="space-y-4 mb-6">
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <p class="text-xs text-gray-500 mb-1">Nama Pemesan</p>
+                                    <p class="text-lg font-bold text-gray-800">{{ $transaction->customer->name ?? '-' }}</p>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                                        <p class="text-xs text-gray-500 mb-1">Email</p>
+                                        <p class="text-sm font-semibold text-gray-800">{{ $transaction->customer->email ?? '-' }}</p>
+                                    </div>
+                                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                                        <p class="text-xs text-gray-500 mb-1">No. WA</p>
+                                        <p class="text-sm font-semibold text-gray-800">{{ $transaction->customer->no_wa ?? '-' }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <p class="text-xs text-gray-500 mb-1">Tanggal Kedatangan</p>
+                                    <p class="text-lg font-bold text-blue-600">
+                                        {{ $transaction->tanggal_kedatangan ? $transaction->tanggal_kedatangan->translatedFormat('d F Y') : '-' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tickets -->
+                            <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                                <p class="text-xs text-gray-500 mb-3">Detail Tiket</p>
+                                <div class="space-y-2">
+                                    @foreach($transaction->transactionDetail as $detail)
+                                        <div class="flex justify-between items-center bg-blue-50 p-3 rounded-lg">
+                                            <div>
+                                                <p class="font-semibold text-gray-800">{{ $detail->ticket->name ?? '-' }}</p>
+                                                <p class="text-xs text-gray-500">{{ $detail->quantity }}x tiket</p>
+                                            </div>
+                                            <p class="text-sm font-bold text-blue-600">Rp{{ number_format($detail->subtotal ?? 0, 0, ',', '.') }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Total -->
+                            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl p-4 shadow-lg mb-6">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm opacity-90">Total Pembayaran</p>
+                                        <p class="text-3xl font-bold">Rp{{ number_format($transaction->total_price ?? 0, 0, ',', '.') }}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm opacity-90">Total Tiket</p>
+                                        <p class="text-3xl font-bold">{{ $transaction->transactionDetail->sum('quantity') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Empty State -->
+                        <div class="flex flex-col items-center justify-center py-12 text-center">
+                            <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-700 mb-2">Belum Ada Scan</h3>
+                            <p class="text-gray-500">Scan QR code untuk melihat detail tiket</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
-    @endif
-
-    {{-- Hasil Scan --}}
-    @isset($transaction)
-        <div class="bg-white p-4 rounded shadow mt-6">
-            <h2 class="text-xl font-semibold mb-3">Hasil Scan</h2>
-            <p><strong>Kode Transaksi:</strong> {{ $transaction->code }}</p>
-            <p><strong>Nama:</strong> {{ $transaction->customer->name }}</p>
-            <p><strong>Email:</strong> {{ $transaction->customer->email }}</p>
-            <p><strong>Status:</strong> {{ ucfirst($transaction->status ?? '-') }}</p>
-            <p><strong>Total Tiket:</strong> {{ $transaction->transactionDetail->count() }}</p>
-        </div>
-    @endisset
+    </div>
 </div>
 
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script>
-const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
-scanner.render((decodedText) => {
-    // Kirim hasil scan langsung ke backend tanpa reload penuh
-    fetch("{{ route('loket.scan.decode') }}", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ code: decodedText })
-    })
-    .then(res => res.text())
-    .then(html => {
-        document.body.innerHTML = html; // replace page dengan hasil baru
-    });
+const html5QrCode = new Html5Qrcode("reader");
+
+async function startCamera() {
+    try {
+        const devices = await Html5Qrcode.getCameras();
+        if (devices && devices.length > 0) {
+            const cameraId = devices[0].id;
+
+            await html5QrCode.start(
+                cameraId,
+                { fps: 10, qrbox: 250 },
+                (decodedText) => {
+                    html5QrCode.stop();
+
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '{{ route("loket.scan.decode") }}';
+
+                    const csrf = document.createElement('input');
+                    csrf.type = 'hidden';
+                    csrf.name = '_token';
+                    csrf.value = '{{ csrf_token() }}';
+
+                    const code = document.createElement('input');
+                    code.type = 'hidden';
+                    code.name = 'code';
+                    code.value = decodedText;
+
+                    form.appendChild(csrf);
+                    form.appendChild(code);
+                    document.body.appendChild(form);
+                    form.submit();
+                },
+            );
+        } else {
+            document.getElementById('reader').innerHTML =
+                "<p class='text-red-500 text-center'>Tidak ada kamera yang terdeteksi.</p>";
+        }
+    } catch (err) {
+        document.getElementById('reader').innerHTML =
+            "<p class='text-red-500 text-center'>Gagal memulai kamera.</p>";
+        console.error(err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", startCamera);
+
+document.getElementById('qr_image')?.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        const fileName = e.target.files[0].name;
+        console.log('File selected:', fileName);
+    }
 });
 </script>
 @endsection
