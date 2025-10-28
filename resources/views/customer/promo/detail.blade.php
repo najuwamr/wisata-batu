@@ -57,13 +57,6 @@
                 <!-- Promo Content -->
                 <div class="p-8">
                     <div class="flex flex-col md:flex-row md:items-start justify-between mb-6">
-                        <div class="mb-4 md:mb-0 md:mr-6 flex-1">
-                            <h1 class="text-3xl font-bold text-gray-900 mb-3">{{ $promo->name }}</h1>
-                            <p><strong>Deskripsi:</strong></p>
-                            <div id="detailDeskripsi-{{ $promo->id }}">
-                                {!! $promo->description !!}
-                            </div>
-                        </div>
 
                         <!-- Promo Code Section -->
                         <div

@@ -15,16 +15,17 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('code')->unique();
+            $table->enum('category',['periodik', 'nonperiodik']);
             $table->integer('discount_percent');
-            $table->integer('max_disc_amount');
-            $table->integer('total_qty')->nullable(); // harus diisi jika nonperiodik
-            $table->integer('daily_qty')->nullable(); // harus diisi jika nonperiodik
+            $table->integer('max_disc_amount')->nullable(); // jumlah diskon maksimal
             $table->datetime('start_date'); //periode promo dari tanggal ...
             $table->datetime('end_date'); //periode promo sampai tanggal ...
-            $table->text('description');
-            $table->string('image')->nullable();
+            $table->integer('total_qty')->nullable(); // harus diisi jika nonperiodik
+            $table->integer('used_qty')->nullable(); // menghitung jumlah promo yang sudah digunakan
+            $table->integer('reserved_qty')->nullable(); // menghitung jumlah promo yang sudah digunakan
+            $table->integer('daily_qty')->nullable(); // harus diisi jika nonperiodik
             $table->boolean('is_active')->default(true);
-            $table->enum('category',['periodik', 'nonperiodik']);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

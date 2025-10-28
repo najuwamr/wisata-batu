@@ -154,11 +154,19 @@
                         </div>
 
                         {{-- Form Checkout --}}
-                        <form action="{{ route('keranjang.checkout') }}" method="POST" x-data="{ date: '', promo: '' }"
-                            @date-selected.window="date = $event.detail.date" class="space-y-4">
+                        <form action="{{ route('keranjang.checkout') }}" method="POST"
+                            x-data="{
+                                date: localStorage.getItem('selectedDate') || '',
+                                promo: ''
+                            }"
+                            @date-selected.window="
+                                date = $event.detail.date;
+                                localStorage.setItem('selectedDate', date);
+                            "
+                            class="space-y-4">
                             @csrf
 
-                            <input type="hidden" name="date" x-model="date" required>
+                            <input type="hidden" name="date" id="selected-date" x-model="date">
 
                             <div>
                                 <label for="promo" class="block text-sm font-medium text-gray-700 mb-2">
@@ -196,16 +204,7 @@
                                     <circle cx="20" cy="21" r="1"></circle>
                                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                 </svg>
-                                <p class="text-gray-600 mb-3 text-sm">Keranjang Anda masih kosong</p>
-                                <a href="{{ route('guest.tiket') }}"
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                                        <line x1="8" y1="12" x2="16" y2="12"></line>
-                                    </svg>
-                                    Jelajahi Tiket
-                                </a>
+                                <p class="text-gray-600 mb-3 text-sm">Keranjang Anda masih kosong <br> Tambahkan tiket untuk melanjutkan pemesanan</p>
                             </div>
                         </div>
                     @endif
@@ -322,4 +321,22 @@
             </div>
         </div>
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('tanggal_kedatangan');
+    const savedDate = localStorage.getItem('selectedDate');
+
+    // Kalau sebelumnya user sudah pilih tanggal, isi kembali
+    if (savedDate) {
+        input.value = savedDate;
+    }
+
+    // Update input & simpan ke localStorage kalau user pilih tanggal baru
+    window.addEventListener('date-selected', (event) => {
+        const selectedDate = event.detail.date;
+        input.value = selectedDate;
+        localStorage.setItem('selectedDate', selectedDate);
+    });
+});
+</script>
 @endsection

@@ -3,49 +3,60 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promo;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PromoController extends Controller
 {
-    public function get_Promo()
+    /** =========================
+     * ADMIN AREA
+     * ========================= */
+
+    public function get_promo()
     {
         $promoAktif = Promo::where('is_active', true)->get();
         $promoNonAktif = Promo::where('is_active', false)->get();
-        $tiketAktif = collect();
-        $tiketNonAktif = collect();
-        $tab = 'promo';
-        return view('admin.promo', compact('promoAktif', 'promoNonAktif', 'tiketAktif', 'tiketNonAktif', 'tab'));
+
+        return view('admin.promo', compact('promoAktif', 'promoNonAktif'));
     }
 
-    public function tambah_Promo()
+    public function tambah_promo()
     {
-        return view('admin.tambah-promo');
+        $tickets = Ticket::where([
+            ['is_active', true],
+            ['category', 'tiket'],
+        ])->select('id', 'name')->get();
+
+        return view('admin.promo-form',[
+            'promo' => null,
+            'tickets' => $tickets,
+            'isEdit' => false
+        ]);
     }
 
-    public function insert_Promo(Request $request)
+    public function insert_promo(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'code' => 'required|string|unique:promo,code',
-            'discount_percent' => 'required|integer|min:0|max:100',
-            'qty' => 'required|integer|min:1',
-            'valid_until' => 'required|date|after:today',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'name'              => 'required|string|max:255',
+            'code'              => 'required|string|unique:promo,code',
+            'discount_percent'  => 'required|integer|min:0|max:100',
+            'max_disc_amount'   => 'nullable|integer|min:0',
+            'category'          => 'required|in:periodik,nonperiodik',
+            'total_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
+            'daily_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after:start_date',
+            'image'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tickets'           => 'nullable|array',
+            'tickets.*'         => 'exists:ticket,id',
         ], [
-            'name.required' => 'Nama tiket wajib diisi.',
-            'description.required' => 'Deskripsi tiket wajib diisi.',
-            'code.required' => 'Kode tiket wajib diisi.',
-            'code.unique' => 'Kode tiket sudah digunakan.',
-            'discount_percent' => 'Besar diskon harus antara 0 hingga 100.',
-            'qty' => 'Jumlah kuota harus minimal 1.',
-            'valid_until' => 'Periode promo harus berupa tanggal setelah hari ini.',
-            'image.required' => 'Gambar tiket wajib diunggah.',
-            'image.image' => 'File harus berupa gambar.',
+            'code.unique' => 'Kode promo sudah digunakan.',
+            'end_date.after' => 'Tanggal berakhir harus setelah tanggal mulai.',
             'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
-            'image.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
 
+        // Upload gambar jika ada
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
@@ -53,42 +64,51 @@ class PromoController extends Controller
             $validated['image'] = $filename;
         }
 
-        Promo::create($validated);
+        $promo = Promo::create($validated);
 
-        return redirect()->route('admin.get.promo')->with('success', 'Promo berhasil ditambahkan.');
+        if (!empty($request->input('tickets'))) {
+            $promo->tickets()->attach($request->input('tickets'));
+        }
+
+        return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil ditambahkan.');
     }
 
-    public function edit_Promo($id)
+    public function edit_promo($id)
     {
-        $data = Promo::findOrFail($id);
-        return response()->json($data);
+        $promo = Promo::with('tickets:id,name')->findOrFail($id);
+
+        $tickets = Ticket::where([
+            ['is_active', true],
+            ['category', 'tiket'],
+        ])->select('id', 'name')->get();
+
+        return view('admin.promo-form', [
+            'promo' => $promo,
+            'tickets' => $tickets,
+            'isEdit' => true
+        ]);
     }
 
-    public function update_Promo(Request $request, $id)
+    public function update_promo(Request $request, $id)
     {
+        $promo = Promo::findOrFail($id);
+
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'code' => 'required|string|unique:promo,code,' . $id,
-            'discount_percent' => 'required|integer|min:0|max:100',
-            'qty' => 'required|integer|min:1',
-            'valid_until' => 'required|date|after:today',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ], [
-            'name.required' => 'Nama tiket wajib diisi.',
-            'description.required' => 'Deskripsi tiket wajib diisi.',
-            'code.required' => 'Kode tiket wajib diisi.',
-            'discount_percent' => 'Besar diskon harus antara 0 hingga 100.',
-            'qty' => 'Jumlah kuota harus minimal 1.',
-            'valid_until' => 'Periode promo harus berupa tanggal setelah hari ini.',
-            'code.unique' => 'Kode tiket sudah digunakan.',
-            'image.image' => 'File harus berupa gambar.',
-            'image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
-            'image.max' => 'Ukuran gambar maksimal 2MB.',
+            'name'              => 'required|string|max:255',
+            'code'              => 'required|string|unique:promo,code,' . $id,
+            'discount_percent'  => 'required|integer|min:0|max:100',
+            'max_disc_amount'   => 'nullable|integer|min:0',
+            'category'          => 'required|in:periodik,nonperiodik',
+            'total_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
+            'daily_qty'         => 'nullable|integer|min:1|required_if:category,nonperiodik',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after:start_date',
+            'image'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tickets'           => 'nullable|array',
+            'tickets.*'         => 'exists:ticket,id',
         ]);
 
-
-        $promo = Promo::findOrFail($id);
+        // 🖼️ Ganti gambar jika ada upload baru
         if ($request->hasFile('image')) {
             if ($promo->image && file_exists(public_path('images/' . $promo->image))) {
                 unlink(public_path('images/' . $promo->image));
@@ -97,60 +117,71 @@ class PromoController extends Controller
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images'), $filename);
-
             $validated['image'] = $filename;
         } else {
             $validated['image'] = $promo->image;
         }
 
-        $promo->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'code' => $validated['code'],
-            'discount_percent' => $validated['discount_percent'],
-            'qty' => $validated['qty'],
-            'valid_until' => $validated['valid_until'],
-            'image' => $validated['image'],
-        ]);
+        // 💾 Update data promo utama
+        $promo->update($validated);
 
-        return back()->with('success', 'Tiket berhasil diperbarui.');
+        // 🔄 Sinkronisasi tiket ke pivot (tiket_promo)
+        if (!empty($request->input('tickets'))) {
+            $promo->tickets()->sync($request->input('tickets'));
+        } else {
+            // Kalau tidak ada yang dicentang, kosongkan relasinya
+            $promo->tickets()->detach();
+        }
+
+        return redirect()->route('admin.promo.get')->with('success', 'Promo berhasil diperbarui.');
     }
 
     public function delete($id)
     {
-        $promo = Promo::findOrFail($id);
-        $promo->is_active = false;
-        $promo->save();
-
-        return redirect()->route('admin.get.promo')->with('success', 'Promo berhasil dihapus, Anda dapat mengaktifkannya kembali.');
+        Promo::where('id', $id)->update(['is_active' => false]);
+        return back()->with('success', 'Promo berhasil dinonaktifkan!');
     }
 
     public function restore($id)
     {
-        $promo = Promo::findOrFail($id);
-        $promo->is_active = true;
-        $promo->save();
-
-        return redirect()->route('admin.get.promo')->with('success', 'Promo berhasil diaktifkan kembali.');
+        Promo::where('id', $id)->update(['is_active' => true]);
+        return back()->with('success', 'Promo berhasil diaktifkan kembali!');
     }
 
-   public function index()
+    public function destroy($id)
     {
-        $promoAktif = Promo::where('is_active', true, now())
-                          ->orderBy('created_at', 'desc')
-                          ->get();
+        $promo = Promo::findOrFail($id);
+
+        if ($promo->image && file_exists(public_path('images/' . $promo->image))) {
+            unlink(public_path('images/' . $promo->image));
+        }
+
+        $promo->tickets()->detach();
+        $promo->delete();
+
+        return back()->with('success', 'Promo berhasil dihapus permanen.');
+    }
+
+    /** =========================
+     * CUSTOMER AREA
+     * ========================= */
+
+    public function index()
+    {
+        $promoAktif = Promo::where('is_active', true)
+            ->where('end_date', '>=', now())
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('customer.promo.promo', compact('promoAktif'));
     }
 
     public function show($id)
     {
-        // Cari promo berdasarkan ID
         $promo = Promo::find($id);
 
-        // Jika promo tidak ditemukan
         if (!$promo) {
-            return view('promo.show')->with('error', 'Promo tidak ditemukan');
+            return redirect()->route('customer.promo')->with('error', 'Promo tidak ditemukan.');
         }
 
         return view('customer.promo.detail', compact('promo'));

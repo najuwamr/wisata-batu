@@ -43,7 +43,7 @@
         </template>
     </div>
 
-    {{-- Output tanggal terpilih --}} 
+    {{-- Output tanggal terpilih --}}
     <div class="mt-3 text-xs" x-show="selectedDate">
         <span class="font-semibold">Tanggal Kedatangan: </span>
         <span x-text="selectedDate ? selectedDate.toLocaleDateString('id-ID', {
@@ -61,20 +61,45 @@ function calendar() {
         selectedDate: null,
         startDay: 'sunday',
 
+        init() {
+            const savedDate = localStorage.getItem('selectedDate');
+            if (savedDate) {
+                this.formattedDate = savedDate; // biar dikirim ke backend
+                const [year, month, day] = savedDate.split('-').map(Number);
+                this.year = year;
+                this.month = month - 1;
+                this.selectedDate = new Date(year, month - 1, day);
+            }
+        },
+
         // 🔒 Batas tanggal: mulai hari ini sampai 30 hari ke depan
         minDate: new Date(),
         maxDate: new Date(new Date().setDate(new Date().getDate() + 30)),
 
+        formattedDate: '',
+
         selectDate(day) {
             const date = new Date(this.year, this.month, day);
-
-            if (date < this.minDate || date > this.maxDate) return; // stop jika di luar rentang
+            if (date < this.minDate || date > this.maxDate) return;
 
             this.selectedDate = date;
 
-            const iso = date.toISOString().slice(0, 10);
+            // Format ke yyyy-mm-dd
+            const iso = [
+                date.getFullYear(),
+                String(date.getMonth() + 1).padStart(2, '0'),
+                String(date.getDate()).padStart(2, '0')
+            ].join('-');
+
+            // simpan ke hidden input
+            this.formattedDate = iso;
+
+            // Simpan ke localStorage juga
+            localStorage.setItem('selectedDate', iso);
+
             this.$dispatch('date-selected', { date: iso });
         },
+
 
         get days() {
             return this.startDay === 'monday'
@@ -128,11 +153,16 @@ function calendar() {
         },
 
         prevMonth() {
-            const prev = new Date(this.year, this.month - 1);
-            // ❌ Jangan mundur ke bulan sebelum hari ini
-            if (prev < this.minDate) return;
-            if (this.month === 0) { this.month = 11; this.year--; }
-            else { this.month--; }
+            const lastDatePrevMonth = new Date(this.year, this.month, 0); 
+
+            if (lastDatePrevMonth < this.minDate) return;
+
+            if (this.month === 0) {
+                this.month = 11;
+                this.year--;
+            } else {
+                this.month--;
+            }
         },
 
         nextMonth() {

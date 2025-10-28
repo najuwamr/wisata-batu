@@ -8,13 +8,12 @@ use App\Models\TransactionDetail;
 use App\Services\GoogleSheetsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Midtrans\CoreApi;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Spatie\LaravelPdf\Facades\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf as DomPDF;
 use App\Mail\EticketMail;
 use Midtrans\Notification;
 
@@ -52,7 +51,7 @@ class TransaksiController extends Controller
                 'phone' => $checkout['whatsapp'],
             ],
             'callbacks' => [
-                'finish' => url('/payment/finish?order_id=' . $orderId),
+                'finish' => route('checkout.finish', ['order_id' => $orderId]),
             ],
         ];
 
@@ -74,10 +73,10 @@ class TransaksiController extends Controller
                 break;
 
             case 'qris':
+            case 'gopay':
                 $params['payment_type'] = 'qris';
                 break;
 
-            case 'gopay':
             case 'shopeepay':
                 $params['payment_type'] = $paymentType;
                 $params[$paymentType] = [
@@ -149,7 +148,7 @@ class TransaksiController extends Controller
                 'total_price' => $grossAmount,
                 'status' => 'pending',
                 'customer_id' => $customer->id,
-                'payment_methode_id' => $checkout['payment_methode_id'] ?? 1,
+                'payment_methode_id' => $checkout['payment_type'] ?? 1,
             ]);
 
             // 3️⃣ Simpan detail transaksi
@@ -290,32 +289,30 @@ class TransaksiController extends Controller
                     $qrCode = base64_encode($encrypted);
                     $tempPath = storage_path('app/temp/etiket-' . $transaction->code . '.pdf');
 
-                    // Path ke CSS (kalau kamu pakai vite atau laravel mix)
-                    $manifestPath = public_path('build/manifest.json');
-                    $manifest = file_exists($manifestPath) ? json_decode(file_get_contents($manifestPath), true) : null;
-                    $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
-                    $cssPath = $cssFile ? public_path('build/' . $cssFile) : null;
-
-                    Pdf::view('customer.your-e-tiket', [
+                    $pdf = DomPDF::loadView('customer.your-e-tiket', [
                         'transaction' => $transaction,
-                        'qrCode' => $qrCode,
-                    ])
-                        ->format('A4')
-                        ->withBrowsershot(function ($browsershot) use ($cssPath) {
-                            if ($cssPath && file_exists($cssPath)) {
-                                $browsershot->setOption('userStyleSheet', $cssPath);
-                            }
-                        })
-                        ->save($tempPath);
+                        'qrCode'      => $qrCode,
+                    ])->setPaper('a4', 'portrait')
+                    ->setOptions([
+                        'isHtml5ParserEnabled' => true,
+                        'isRemoteEnabled'      => true,
+                        'defaultFont'          => 'sans-serif',
+                    ]);
+
+                    $pdf->save($tempPath);
 
                     Mail::to($transaction->customer->email)
                         ->send(new EticketMail($transaction, $tempPath));
 
-                    if (file_exists($tempPath)) unlink($tempPath);
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
 
                     Log::info("📧 E-ticket {$transaction->code} dikirim ke {$transaction->customer->email}");
                 } catch (\Throwable $e) {
-                    Log::error("❌ Gagal mengirim e-ticket {$transaction->code}: {$e->getMessage()}");
+                    Log::error("❌ Gagal membuat/mengirim e-ticket {$transaction->code}: {$e->getMessage()}", [
+                        'trace' => $e->getTraceAsString(),
+                    ]);
                 }
             } elseif (in_array($newStatus, ['failed', 'cancel', 'expire'])) {
                 session()->forget(['checkout_data']);
