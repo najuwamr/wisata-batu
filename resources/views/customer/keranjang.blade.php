@@ -52,7 +52,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {{-- Kolom Kiri: Kalender dan Keranjang --}}
-            <div class="lg:col-span-1 space-y-6">
+            <div class="lg:col-span-1 flex flex-col space-y-6 order-1 lg:order-1">
                 {{-- Kalender --}}
                 <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-6 shadow-lg">
                     <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
@@ -70,8 +70,6 @@
                 {{-- Keranjang --}}
                 <div class="bg-white rounded-2xl shadow-lg p-6 relative">
                     <!-- Decorative Icon -->
-
-
                     <h2 class="font-bold text-xl md:text-2xl text-blue-900 mb-6 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="9" cy="21" r="1"></circle>
@@ -85,7 +83,7 @@
                             </span>
                         @endif
                     </h2>
-
+    
                     @if (count($cart) > 0)
                         {{-- Daftar item dalam keranjang --}}
                         <div class="space-y-3 mb-6 max-h-80 overflow-y-auto pr-2">
@@ -110,7 +108,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+    
                                         <div class="flex items-center gap-2">
                                             <span class="text-blue-600 font-medium text-sm whitespace-nowrap">
                                                 Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}
@@ -132,7 +130,7 @@
                                 </div>
                             @endforeach
                         </div>
-
+    
                         {{-- Total Belanja --}}
                         <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 mb-6">
                             <div class="space-y-2">
@@ -152,7 +150,7 @@
                                 </div>
                             </div>
                         </div>
-
+    
                         {{-- Form Checkout --}}
                         <form action="{{ route('keranjang.checkout') }}" method="POST"
                             x-data="{
@@ -165,9 +163,9 @@
                             "
                             class="space-y-4">
                             @csrf
-
+    
                             <input type="hidden" name="date" id="selected-date" x-model="date">
-
+    
                             <div>
                                 <label for="promo" class="block text-sm font-medium text-gray-700 mb-2">
                                     <div class="flex items-center gap-2">
@@ -183,7 +181,7 @@
                                     placeholder="Masukkan kode promo"
                                     class="w-full rounded-xl border-2 border-green-200 bg-green-50 text-green-800 placeholder-green-600 px-3 py-2 text-sm focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-200 transition-all" />
                             </div>
-
+    
                             <button type="submit"
                                 class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
@@ -212,7 +210,7 @@
             </div>
 
             {{-- Kolom Kanan: Daftar Tiket --}}
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 order-2 lg:order-3">
                 {{-- Daftar Tiket --}}
                 <div class="bg-white rounded-2xl shadow-lg p-6">
                     <div class="flex items-center justify-between mb-6">

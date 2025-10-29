@@ -416,8 +416,8 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-gray-700">Nomor VA:</span>
-                            <div class="flex items-center gap-2">
-                                <span class="font-mono text-2xl font-bold text-blue-600" x-text="result.va_number"></span>
+                            <div class="flex items-end justify-end gap-2">
+                                <span class="font-mono break-all text-2xl text-right font-bold text-blue-600" x-text="result.va_number"></span>
                                 <button @click="navigator.clipboard.writeText(result.va_number); alert('Nomor VA berhasil disalin!')"
                                     class="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors" title="Salin Nomor VA">
                                     <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -434,7 +434,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-4 border-t border-green-200 flex gap-2">
+                    <div class="mt-4 pt-4 border-t border-green-200 flex flex-col md:flex-row gap-2">
                         <button @click="checkStatus()"
                             class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
