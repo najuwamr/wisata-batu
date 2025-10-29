@@ -125,7 +125,7 @@ class GoogleSheetsService
         }
 
         try {
-            $transaction->load(['transactionDetail.ticket', 'transactionDetail.promo', 'customer']);
+            $transaction->load(['transactionDetail.ticket', 'transactionDetail.tiket_promo.promo', 'customer']);
 
             $paidDate = $transaction->status === 'paid'
                 ? ($transaction->updated_at ?? now())

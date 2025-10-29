@@ -187,10 +187,7 @@ class LaporanController extends Controller
                 break;
 
             case 'paid':
-                Log::info('💰 Transaksi paid → ubah jadi redeemed');
-                $transaction->update(['status' => 'redeemed']);
-                Log::info('✅ Update status sukses', ['code' => $transaction->code]);
-                $message = 'Transaksi berhasil di-redeem!';
+                $message = 'Transaksi sudah dibayar. Silakan redeem.';
                 $alertType = 'success';
                 break;
 
@@ -202,7 +199,6 @@ class LaporanController extends Controller
         }
     }
 
-    Log::info('📤 Siap kirim ke view', ['alertType' => $alertType, 'message' => $message]);
     return view('admin.scan', compact('transaction'))->with($alertType, $message);
 }
 
