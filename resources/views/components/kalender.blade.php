@@ -64,7 +64,7 @@ function calendar() {
         init() {
             const savedDate = localStorage.getItem('selectedDate');
             if (savedDate) {
-                this.formattedDate = savedDate; // biar dikirim ke backend
+                this.formattedDate = savedDate;
                 const [year, month, day] = savedDate.split('-').map(Number);
                 this.year = year;
                 this.month = month - 1;
@@ -72,8 +72,8 @@ function calendar() {
             }
         },
 
-        // 🔒 Batas tanggal: mulai hari ini sampai 30 hari ke depan
-        minDate: new Date(),
+        // 🔒 Batas tanggal: mulai hari ini (jam 00:00) sampai 30 hari ke depan
+        minDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
         maxDate: new Date(new Date().setDate(new Date().getDate() + 30)),
 
         formattedDate: '',
@@ -91,15 +91,14 @@ function calendar() {
                 String(date.getDate()).padStart(2, '0')
             ].join('-');
 
-            // simpan ke hidden input
             this.formattedDate = iso;
 
-            // Simpan ke localStorage juga
+            // Simpan ke localStorage
             localStorage.setItem('selectedDate', iso);
 
+            // Kirim event ke parent
             this.$dispatch('date-selected', { date: iso });
         },
-
 
         get days() {
             return this.startDay === 'monday'
@@ -143,7 +142,7 @@ function calendar() {
         // 🚫 Batas bawah (tanggal sebelum hari ini)
         isPast(day) {
             const check = new Date(this.year, this.month, day);
-            return check < new Date(this.minDate.getFullYear(), this.minDate.getMonth(), this.minDate.getDate());
+            return check < this.minDate;
         },
 
         // 🚫 Batas atas (lebih dari 30 hari ke depan)
@@ -153,8 +152,7 @@ function calendar() {
         },
 
         prevMonth() {
-            const lastDatePrevMonth = new Date(this.year, this.month, 0); 
-
+            const lastDatePrevMonth = new Date(this.year, this.month, 0);
             if (lastDatePrevMonth < this.minDate) return;
 
             if (this.month === 0) {
@@ -167,12 +165,15 @@ function calendar() {
 
         nextMonth() {
             const next = new Date(this.year, this.month + 1, 1);
-            // ❌ Jangan maju kalau semua tanggal di bulan itu > maxDate
             if (next > this.maxDate) return;
-            if (this.month === 11) { this.month = 0; this.year++; }
-            else { this.month++; }
+
+            if (this.month === 11) {
+                this.month = 0;
+                this.year++;
+            } else {
+                this.month++;
+            }
         }
     }
 }
 </script>
-

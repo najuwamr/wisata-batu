@@ -32,7 +32,7 @@ class TransactionDetail extends Model
 
     public function promo()
     {
-        return $this->belongsTo(Promo::class, 'promo_id');
+        return $this->belongsTo(Promo::class, 'tiket_promo_id');
     }
 
     public function transaction()
